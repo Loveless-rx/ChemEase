@@ -25,7 +25,7 @@ test("lookup posts encoded SMILES and propagates cancellation signal", async () 
     assert.equal(options?.signal, controller.signal);
     return new Response("example\nM  END\n$$$$");
   };
-  try { assert.match(await fetchConformer("C#N", controller.signal), /M  END/); }
+  try { assert.match(await fetchConformer("C#N", controller.signal), /M {2}END/); }
   finally { globalThis.fetch = original; }
 });
 test("lookup reports missing records, rate limits and malformed data", async () => {

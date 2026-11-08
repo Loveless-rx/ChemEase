@@ -39,6 +39,23 @@ A normal build writes `dist/index.html` and its assets, plus `dist/ChemEase.html
 
 The archive contains the Vite-built standalone. Rebuild with `npm run build` to regenerate the full hosting output.
 
+### GitHub Pages
+
+The deployment branch is `main`. Pushing to this branch runs
+`.github/workflows/deploy.yml`, which installs the locked dependencies with
+Node.js 24, runs the tests and lint checks, builds the project, and deploys the
+entire `dist` folder to GitHub Pages. The build includes TypeScript checking.
+Vite's relative asset paths support the `/ChemEase/` project URL and preserve the
+standalone HTML export.
+
+In the repository's **Settings → Pages**, set **Build and deployment → Source**
+to **GitHub Actions**. If the `github-pages` environment restricts deployment
+branches, allow `main` in **Settings → Environments → github-pages**.
+The expected site URL is https://loveless-rx.github.io/ChemEase/.
+
+To publish subsequent changes, push commits to `main`. You can
+also run the deployment manually from the Actions tab by selecting this branch.
+
 ### If installation/build fails
 - Confirm `node -v` and `npm -v`; use a current Node 24 LTS release.
 - Run commands in the folder containing `package.json`, not in `src` or `dist`.
