@@ -10,7 +10,7 @@ import { EditorPage } from "./pages/EditorPage";
 import { useUIStore } from "./store/chemUIStore";
 import { useMoleculeStore, fingerprint } from "./store/moleculeStore";
 import { useHistoryStore } from "./store/historyStore";
-import { readPreference, writePreference, loadMolecule } from "./utils/storage";
+import { loadMolecule } from "./utils/storage";
 import "./App.css";
 class ErrorBoundary extends Component<
   { children: ReactNode },
@@ -45,11 +45,7 @@ class ErrorBoundary extends Component<
   }
 }
 export default function App() {
-  const [editor, setEditor] = useState(
-    () =>
-      readPreference("chemease.visited", "false") === "true" &&
-      readPreference("chemease.skipIntro", "true") === "true",
-  );
+  const [editor, setEditor] = useState(false);
   const theme = useUIStore((s) => s.theme),
     toast = useUIStore((s) => s.toast);
   useEffect(() => {
@@ -70,7 +66,6 @@ export default function App() {
     }
   }, []);
   const enter = () => {
-    writePreference("chemease.visited", "true");
     setEditor(true);
     window.scrollTo(0, 0);
   };

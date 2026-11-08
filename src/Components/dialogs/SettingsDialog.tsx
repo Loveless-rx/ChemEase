@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Modal } from "../common/Modal";
 import { useMoleculeStore, fingerprint } from "../../store/moleculeStore";
 import { useUIStore } from "../../store/chemUIStore";
-import { readPreference, writePreference } from "../../utils/storage";
 export function SettingsDialog({
   onClose,
   onIntro,
@@ -14,10 +13,7 @@ export function SettingsDialog({
     carbons = useUIStore((s) => s.showCarbons),
     hydrogens = useUIStore((s) => s.showHydrogens),
     grid = useUIStore((s) => s.showGrid);
-  const [name, setName] = useState(m.metadata.name),
-    [skip, setSkip] = useState(
-      readPreference("chemease.skipIntro", "true") === "true",
-    );
+  const [name, setName] = useState(m.metadata.name);
   return (
     <Modal title="Workspace settings" onClose={onClose}>
       <div className="dialog-body">
@@ -52,17 +48,6 @@ export function SettingsDialog({
             />
           </label>
         ))}
-        <label className="setting-row">
-          Skip intro on future visits
-          <input
-            type="checkbox"
-            checked={skip}
-            onChange={(e) => {
-              setSkip(e.target.checked);
-              writePreference("chemease.skipIntro", String(e.target.checked));
-            }}
-          />
-        </label>
         <hr />
         <div className="setting-row">
           <span>Saved structure</span>

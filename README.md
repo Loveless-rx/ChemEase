@@ -73,7 +73,7 @@ See **`docs/MIGRATION.md`** for the exact replacement strategy and **`docs/FILE_
 ## What's implemented
 
 - Genuine native-WebGL introduction: procedural sphere/cylinder meshes, shader lighting, depth testing, a scroll-driven camera, reversible disassembly/reassembly, four pinned chapters, mobile framing, reduced-motion views and a GPU-loss fallback. This is illustrative geometry, not a computed molecular conformer.
-- Warm cream/purple editor, charcoal theme, persisted theme preference and replay/skip-intro settings.
+- Warm cream/purple editor, charcoal theme, persisted theme preference and an intro page shown on every visit, with a replay button in settings.
 - Collapsible chemistry toolbar; C, H, N, O, P, S; halogens; twelve extended elements; R groups.
 - SVG atom placement and replacement, atom/bond selection, single-atom and multi-atom dragging.
 - Single, double, triple and aromatic bonds; click existing bonds to change their type.
