@@ -1,0 +1,152 @@
+.navbar {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  padding: 0 18px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.brand-button {
+  padding: 6px 12px 6px 0;
+  margin-right: 10px;
+}
+.navbar .logo {
+  font-size: 19px;
+}
+.navbar .beta {
+  font-size: 7px;
+}
+.nav-divider {
+  height: 22px;
+  width: 1px;
+  background: var(--border);
+  margin: 0 9px;
+  flex-shrink: 0;
+}
+.nav-tools,
+.nav-files {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.nav-tool {
+  height: 34px;
+  border-radius: 5px;
+  padding: 0 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 11px;
+  white-space: nowrap;
+}
+.nav-tool:hover {
+  background: var(--bg);
+}
+.nav-spacer {
+  flex: 1;
+  min-width: 5px;
+}
+.export-button {
+  border: 1px solid var(--border);
+  margin-left: 4px;
+  padding: 0 11px;
+}
+.local-status {
+  font-size: 9px;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-muted);
+}
+.local-status i {
+  width: 4px;
+  height: 4px;
+  background: var(--success);
+  border-radius: 50%;
+}
+.unsaved-dot {
+  width: 4px;
+  height: 4px;
+  background: var(--accent);
+  border-radius: 50%;
+}
+@media (max-width: 1280px) {
+  .navbar {
+    padding: 0 12px;
+  }
+  .nav-divider {
+    margin: 0 6px;
+  }
+  .nav-tool {
+    padding: 0 7px;
+  }
+  .local-status {
+    display: none;
+  }
+  .brand-button {
+    margin-right: 0;
+  }
+}
+@media (max-width: 1080px) {
+  .nav-tools .nav-tool span {
+    display: none;
+  }
+  .navbar .beta {
+    display: none;
+  }
+  .nav-divider {
+    margin: 0 5px;
+  }
+  .nav-tool {
+    padding: 0 7px;
+  }
+}
+@media (max-width: 700px) {
+  .navbar {
+    height: 56px;
+    padding: 0 10px;
+    gap: 2px;
+  }
+  .navbar .logo {
+    font-size: 15px;
+  }
+  .navbar .logo svg {
+    width: 20px;
+  }
+  .navbar .brand-button {
+    margin-right: auto;
+    padding-right: 5px;
+  }
+  .nav-tools,
+  .nav-divider,
+  .nav-files .nav-tool span,
+  .navbar .local-status {
+    display: none;
+  }
+  .nav-files {
+    gap: 0;
+  }
+  .nav-tool,
+  .navbar .icon-button {
+    width: 29px;
+    height: 36px;
+    padding: 0;
+  }
+  .navbar .icon-button[aria-label="Help and keyboard shortcuts"] {
+    display: none;
+  }
+  .navbar .export-button {
+    border: 0;
+    margin: 0;
+  }
+  .nav-spacer {
+    display: none;
+  }
+  .navbar .icon-button[aria-label="Redo (Ctrl/⌘ Shift Z)"] {
+    display: none;
+  }
+}

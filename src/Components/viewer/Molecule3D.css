@@ -1,0 +1,8 @@
+.molecule-3d > p { margin-bottom: 12px; }
+.molecule-viewport { position: relative; height: min(390px, 45vh); min-height: 230px; background: #111827; border-radius: 10px; overflow: hidden; }
+.viewer-controls { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; margin: 16px 0; }
+.viewer-controls label { display: flex; gap: 6px; align-items: center; font-size: 12px; }
+.viewer-controls select { max-width: 150px; padding: 7px; border: 1px solid var(--border); border-radius: 5px; background: var(--surface); color: var(--text); }
+.viewer-controls button { padding: 9px 12px; border: 1px solid var(--border); border-radius: 6px; }
+.viewer-controls button:disabled { opacity: .5; cursor: not-allowed; }
+.viewer-caption { font-size: 12px; color: var(--text-muted); margin-top: 10px; }

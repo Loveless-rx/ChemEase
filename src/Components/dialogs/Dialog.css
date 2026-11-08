@@ -1,0 +1,116 @@
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: #17121e60;
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+.modal {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  width: 500px;
+  max-width: 100%;
+  max-height: 90vh;
+  overflow: auto;
+  box-shadow: 0 24px 90px #0003;
+  animation: appear 0.2s ease-out;
+}
+.modal.wide {
+  width: 740px;
+}
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 28px;
+  border-bottom: 1px solid var(--border);
+}
+.modal-header h2 {
+  font-size: 21px;
+  letter-spacing: -0.6px;
+  margin-top: 6px;
+}
+.dialog-body {
+  padding: 24px 28px;
+  line-height: 1.7;
+}
+.dialog-actions {
+  padding: 20px 28px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  border-top: 1px solid var(--border);
+}
+.export-options {
+  display: grid;
+  gap: 10px;
+}
+.export-option {
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  text-align: left;
+  border-radius: 8px;
+  min-height: 68px;
+}
+.export-option:hover {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+.export-option strong {
+  display: block;
+}
+.export-option small {
+  color: var(--text-muted);
+}
+.setting-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 12px 0;
+}
+.setting-row input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--accent);
+}
+.shortcut-list {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 14px;
+  align-items: center;
+}
+.notice {
+  font-size: 12px;
+  background: var(--accent-soft);
+  padding: 12px;
+  border-radius: 6px;
+  line-height: 1.6;
+  margin-top: 16px;
+}
+.danger-button {
+  background: var(--danger);
+  color: white;
+  border-radius: 6px;
+  padding: 12px 16px;
+}
+@media (max-width: 600px) {
+  .modal-backdrop {
+    padding: 12px;
+  }
+  .modal-header,
+  .dialog-body {
+    padding: 20px;
+  }
+  .modal {
+    max-height: 94dvh;
+  }
+}

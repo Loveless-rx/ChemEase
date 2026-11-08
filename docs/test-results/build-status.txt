@@ -1,0 +1,4 @@
+Standalone postprocessor: PASS against a real external-JS/CSS fixture.
+Native Vite build: NOT COMPLETED — Windows-only uploaded native dependency on a Linux sandbox; npm registry unavailable.
+Bundled standalone: esbuild, official React 19.2.7 / React DOM 19.2.7 / Zustand 5.0.14.
+Original package-lock.json: unchanged.

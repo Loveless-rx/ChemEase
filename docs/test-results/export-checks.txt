@@ -1,0 +1,8 @@
+PASS actual PNG download: aspirin.png 79368 bytes
+PASS actual SVG download: aspirin.svg 4700 bytes
+PASS actual JSON download: aspirin.json 5460 bytes
+PASS dialog focus trap and Escape
+PASS 1920×1080 layout
+PASS 2560×1440 layout
+PASS responsive auto-fit keeps every atom in viewport
+Export and responsive checks complete.

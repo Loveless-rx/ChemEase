@@ -1,0 +1,207 @@
+{
+  "version": 1,
+  "atoms": [
+    {
+      "id": "ccea20f1-a33e-4156-aab3-b321155ebcee",
+      "element": "C",
+      "x": 3.918869757271531e-15,
+      "y": -64.00000000000001,
+      "charge": 0,
+      "aromatic": true,
+      "lonePairs": 0
+    },
+    {
+      "id": "b57b0c34-aafc-4f60-832a-2bba06ad3af2",
+      "element": "C",
+      "x": 55.425625842204084,
+      "y": -32.00000000000001,
+      "charge": 0,
+      "aromatic": true,
+      "lonePairs": 0
+    },
+    {
+      "id": "88538b96-75b1-4324-84ee-be7358641bd1",
+      "element": "C",
+      "x": 55.42562584220409,
+      "y": 31.999999999999996,
+      "charge": 0,
+      "aromatic": true,
+      "lonePairs": 0
+    },
+    {
+      "id": "d570e76a-43dd-4cff-970a-2ffeab000f83",
+      "element": "C",
+      "x": 3.918869757271531e-15,
+      "y": 64.00000000000001,
+      "charge": 0,
+      "aromatic": true,
+      "lonePairs": 0
+    },
+    {
+      "id": "8a0abf41-95c9-4054-89fb-adba14b055fc",
+      "element": "C",
+      "x": -55.42562584220408,
+      "y": 32.00000000000003,
+      "charge": 0,
+      "aromatic": true,
+      "lonePairs": 0
+    },
+    {
+      "id": "d5bc3e9b-2421-4737-bda1-869a4ded5954",
+      "element": "C",
+      "x": -55.425625842204084,
+      "y": -32.000000000000014,
+      "charge": 0,
+      "aromatic": true,
+      "lonePairs": 0
+    },
+    {
+      "id": "44da3b42-1dc6-4adf-a3d1-63645bdd7647",
+      "element": "C",
+      "x": 119.42562584220408,
+      "y": -64,
+      "charge": 0,
+      "aromatic": false,
+      "lonePairs": 0
+    },
+    {
+      "id": "c8fa43fb-3c9b-45da-a88f-429d6bce1a38",
+      "element": "O",
+      "x": 119.42562584220408,
+      "y": -128,
+      "charge": 0,
+      "aromatic": false,
+      "lonePairs": 0
+    },
+    {
+      "id": "11b8c36a-abe7-47de-8186-df337d773b8d",
+      "element": "O",
+      "x": 175.42562584220408,
+      "y": -32.00000000000001,
+      "charge": 0,
+      "aromatic": false,
+      "lonePairs": 0
+    },
+    {
+      "id": "a11a2e4d-b664-4bc7-95f7-48fb3f985aa0",
+      "element": "O",
+      "x": 111.42562584220408,
+      "y": 64,
+      "charge": 0,
+      "aromatic": false,
+      "lonePairs": 0
+    },
+    {
+      "id": "f5be3d81-f4ae-48f2-9f3b-14e35df0c7c0",
+      "element": "C",
+      "x": 167.42562584220408,
+      "y": 96,
+      "charge": 0,
+      "aromatic": false,
+      "lonePairs": 0
+    },
+    {
+      "id": "1d88357a-301d-4ce1-b21d-287fcfefe5c5",
+      "element": "O",
+      "x": 167.42562584220408,
+      "y": 160,
+      "charge": 0,
+      "aromatic": false,
+      "lonePairs": 0
+    },
+    {
+      "id": "935de75a-3669-4a26-82dc-6ea1aee252fd",
+      "element": "C",
+      "x": 223.42562584220408,
+      "y": 64,
+      "charge": 0,
+      "aromatic": false,
+      "lonePairs": 0
+    }
+  ],
+  "bonds": [
+    {
+      "id": "a7fb0084-49d0-47bc-8bf3-f1aeeaa6018e",
+      "atomA": "ccea20f1-a33e-4156-aab3-b321155ebcee",
+      "atomB": "b57b0c34-aafc-4f60-832a-2bba06ad3af2",
+      "type": "aromatic"
+    },
+    {
+      "id": "c850c923-871a-4a35-b9d3-808ce70c5529",
+      "atomA": "b57b0c34-aafc-4f60-832a-2bba06ad3af2",
+      "atomB": "88538b96-75b1-4324-84ee-be7358641bd1",
+      "type": "aromatic"
+    },
+    {
+      "id": "e5b8f1dc-d33f-40c0-adb2-b1bc8d714573",
+      "atomA": "88538b96-75b1-4324-84ee-be7358641bd1",
+      "atomB": "d570e76a-43dd-4cff-970a-2ffeab000f83",
+      "type": "aromatic"
+    },
+    {
+      "id": "653b6631-9f99-49f1-8c99-3de45be5c445",
+      "atomA": "d570e76a-43dd-4cff-970a-2ffeab000f83",
+      "atomB": "8a0abf41-95c9-4054-89fb-adba14b055fc",
+      "type": "aromatic"
+    },
+    {
+      "id": "a06107e3-a1fa-41b0-8818-bccf535362b6",
+      "atomA": "8a0abf41-95c9-4054-89fb-adba14b055fc",
+      "atomB": "d5bc3e9b-2421-4737-bda1-869a4ded5954",
+      "type": "aromatic"
+    },
+    {
+      "id": "4e8a56ef-4ef1-4057-a26f-b2879f0727b5",
+      "atomA": "d5bc3e9b-2421-4737-bda1-869a4ded5954",
+      "atomB": "ccea20f1-a33e-4156-aab3-b321155ebcee",
+      "type": "aromatic"
+    },
+    {
+      "id": "13686976-ea88-4d62-9fcb-1387c9a0497d",
+      "atomA": "b57b0c34-aafc-4f60-832a-2bba06ad3af2",
+      "atomB": "44da3b42-1dc6-4adf-a3d1-63645bdd7647",
+      "type": "single"
+    },
+    {
+      "id": "090e927e-5d21-4fe7-98aa-856b608ee5de",
+      "atomA": "44da3b42-1dc6-4adf-a3d1-63645bdd7647",
+      "atomB": "c8fa43fb-3c9b-45da-a88f-429d6bce1a38",
+      "type": "double"
+    },
+    {
+      "id": "c1da6a77-196d-4719-b81f-cc313b3427ef",
+      "atomA": "44da3b42-1dc6-4adf-a3d1-63645bdd7647",
+      "atomB": "11b8c36a-abe7-47de-8186-df337d773b8d",
+      "type": "single"
+    },
+    {
+      "id": "9615dde9-96ff-4b59-98a6-52ec7a98d7e3",
+      "atomA": "88538b96-75b1-4324-84ee-be7358641bd1",
+      "atomB": "a11a2e4d-b664-4bc7-95f7-48fb3f985aa0",
+      "type": "single"
+    },
+    {
+      "id": "5c89f16d-fb65-41dd-89e3-16dd3d4ce70b",
+      "atomA": "a11a2e4d-b664-4bc7-95f7-48fb3f985aa0",
+      "atomB": "f5be3d81-f4ae-48f2-9f3b-14e35df0c7c0",
+      "type": "single"
+    },
+    {
+      "id": "6d1d4ced-ed25-4e14-98bd-110248d4ca96",
+      "atomA": "f5be3d81-f4ae-48f2-9f3b-14e35df0c7c0",
+      "atomB": "1d88357a-301d-4ce1-b21d-287fcfefe5c5",
+      "type": "double"
+    },
+    {
+      "id": "ef0b2e87-2d92-4e17-9126-eca6ef3d49e9",
+      "atomA": "f5be3d81-f4ae-48f2-9f3b-14e35df0c7c0",
+      "atomB": "935de75a-3669-4a26-82dc-6ea1aee252fd",
+      "type": "single"
+    }
+  ],
+  "metadata": {
+    "name": "Aspirin",
+    "createdAt": "2026-09-08T15:56:00.543Z",
+    "updatedAt": "2026-09-08T15:56:00.544Z"
+  }
+}

@@ -1,0 +1,65 @@
+
+> chemease@0.0.0 test
+> node tools/test.mjs
+
+✔ methane (2.228075ms)
+✔ ethane (0.454863ms)
+✔ ethene (0.244346ms)
+✔ ethyne (1.142273ms)
+✔ water (0.162108ms)
+✔ methanol (0.210493ms)
+✔ ethanol (0.18746ms)
+✔ carbon dioxide (0.169454ms)
+✔ bond orders are chemistry values (0.83266ms)
+✔ explicit H is not counted twice (0.277731ms)
+✔ explicit water (0.200637ms)
+✔ ammonium charge affects H and SMILES (0.180236ms)
+✔ hydroxide (0.121584ms)
+✔ pentavalent carbon is allowed but warned (0.372821ms)
+✔ branched isobutane SMILES (0.154796ms)
+✔ disconnected fragments use dot (0.097919ms)
+✔ benzene (2.97588ms)
+✔ cyclopentane and cyclohexane are actual graphs (0.747642ms)
+✔ pyridine aromatic nitrogen does not receive an H (0.356896ms)
+✔ pyrrole supports explicit hydrogen override (0.366318ms)
+✔ broken aromatic ring warns and refuses ambiguous SMILES (0.295449ms)
+✔ two independent rings (0.219658ms)
+✔ aspirin graph chemistry and descriptors (1.525341ms)
+✔ ethanol graph descriptors (0.955652ms)
+✔ amide nitrogen is not an acceptor (1.163608ms)
+✔ unknown element has no mass rather than false zero (0.143118ms)
+✔ R group is wildcard and mass unspecified (0.255957ms)
+✔ metal ions have no inferred H and descriptors are not evaluated (0.204732ms)
+✔ empty graph is safe (0.109296ms)
+✔ invalid bond references do not crash analysis (0.171129ms)
+✔ isotope mass and bracket SMILES (0.118908ms)
+✔ unsupported isotope mass is null (0.073881ms)
+✔ round-trip ChemEase JSON (1.360498ms)
+✔ malformed JSON rejected safely (0.45493ms)
+✔ duplicate atoms and bonds rejected (0.245401ms)
+✔ SVG uses the actual graph, no editor decorations (0.833719ms)
+✔ SVG escapes user metadata (0.151801ms)
+✔ scroll progress drives real camera motion and molecular disassembly (1.637041ms)
+✔ scroll animation is deterministic and reversible (0.265244ms)
+✔ progress is clamped safely (0.245774ms)
+✔ reduced motion disables camera orbit and disassembly (0.168832ms)
+✔ chapter transitions do not show two interactive text panels (3.194093ms)
+✔ 3D matrices contain finite values (0.372916ms)
+✔ legacy numeric-ID molecule imports without changing chemistry (2.622599ms)
+✔ legacy dangling edges are rejected by normal validation (0.408724ms)
+✔ atom and bond edits, undo and redo (4.269902ms)
+✔ deleting atom removes connected bonds, undo restores both (1.977304ms)
+✔ continuous drag creates exactly one history entry (1.341426ms)
+✔ canceling a drag does not modify history (0.267387ms)
+✔ new edit invalidates redo branch (0.2811ms)
+✔ ring insertion and removal are atomic (0.62952ms)
+✔ repeated bond tool edits rather than duplicate bonds (0.699647ms)
+✔ charge changes are undoable (0.475527ms)
+ℹ tests 53
+ℹ suites 0
+ℹ pass 53
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 246.357699

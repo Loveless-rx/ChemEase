@@ -1,0 +1,26 @@
+{
+  "passed": 21,
+  "checks": [
+    "Real WebGL context and shader-rendered scene active",
+    "Scene contains rendered nontransparent pixels",
+    "Scrolling dollies and orbits the camera",
+    "Atoms separate and bonds dissolve with scroll",
+    "Full-screen stage stays pinned while document scrolls",
+    "Only the active chapter can receive keyboard focus",
+    "Analysis stage reassembles the molecule",
+    "Intro analysis is graph-derived benzene",
+    "Reverse scrolling restores the same 3D camera",
+    "Final chapter exposes the editor CTA",
+    "Chapter navigation rewinds the scroll story",
+    "Native mouse-wheel scrolling drives the scene",
+    "Reduced motion disables disassembly",
+    "Reduced motion keeps the camera stationary",
+    "Mobile intro has no horizontal overflow",
+    "1280\u00d7720 story fits horizontally",
+    "GPU context loss has an accessible fallback",
+    "WebGL context restoration recovers the scene",
+    "Intro-to-editor transition does not reload the page",
+    "WebGL buffers are disposed on entering editor",
+    "Editor replaces rather than hides the 3D scene"
+  ]
+}

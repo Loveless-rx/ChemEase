@@ -1,0 +1,591 @@
+{
+  "project": "ChemEase integrated scroll-WebGL edition",
+  "textSourceFileCount": 114,
+  "files": [
+    {
+      "path": ".gitignore",
+      "bytes": 82,
+      "sha256": "961514985340a526e17c8430ad56d0cd03e88759808b28be30c68833b79b41e6"
+    },
+    {
+      "path": "LICENSE",
+      "bytes": 1078,
+      "sha256": "a39f1eec4074d623eb8eac1d286442cdcbf605275445db50e67e306a0a8177f4"
+    },
+    {
+      "path": "README.md",
+      "bytes": 12629,
+      "sha256": "811b678a6c6e9734dc6795188a207d3cca75324a45ab744191e01da79e74a1a8"
+    },
+    {
+      "path": "THIRD_PARTY_NOTICES.md",
+      "bytes": 9160,
+      "sha256": "394a91263bfa899c02372de48f6bd9e9ea0ffe1642ddf4583feae6c73a5969ad"
+    },
+    {
+      "path": "docs/ARCHITECTURE.md",
+      "bytes": 7770,
+      "sha256": "fc6eae535383f26d653afaf0ff0089dd4c806b036005a67a1b21da8e7ab7284a"
+    },
+    {
+      "path": "docs/DEVELOPMENT_ROADMAP.md",
+      "bytes": 7479,
+      "sha256": "67d43250413b89f107156b9b74793fa36887881e2425d5db8da40ae895734577"
+    },
+    {
+      "path": "docs/FILE_MAP.md",
+      "bytes": 3996,
+      "sha256": "5f268679a46f1360ef0230180ea011647ce409ec020487a3a4dd23a7e91a2191"
+    },
+    {
+      "path": "docs/MIGRATION.md",
+      "bytes": 4831,
+      "sha256": "827f0b629bae61e4e5183da572d0fed752854bc1efd3b9ae3b1f33bb69a75d3d"
+    },
+    {
+      "path": "docs/VERIFICATION.md",
+      "bytes": 3483,
+      "sha256": "99eeb89837d6b191c5e7dc1d5d6e95c6290db77457cc2a62fb5707132be6a622"
+    },
+    {
+      "path": "docs/test-results/build-status.txt",
+      "bytes": 321,
+      "sha256": "0f251e5541ceefcb09616211e5f73b69b99af920634c9aa080794c6e28fda12d"
+    },
+    {
+      "path": "docs/test-results/editor-checks.json",
+      "bytes": 1331,
+      "sha256": "40112699d3c865054578604dcd4853ddccc04a60198de103dbcb5d35230a5a37"
+    },
+    {
+      "path": "docs/test-results/export-checks.txt",
+      "bytes": 323,
+      "sha256": "48e17b4b6341a59ddf38bad195fd28b94818b8bc230c20584c66632cb3b2f53e"
+    },
+    {
+      "path": "docs/test-results/intro-accessibility.json",
+      "bytes": 3363,
+      "sha256": "65c8b423b91d52b72528415148f7e3649dcf7337a9f85c6157c4a62f60156f08"
+    },
+    {
+      "path": "docs/test-results/lint.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/test-results/story-checks.json",
+      "bytes": 1116,
+      "sha256": "319a8e0c8391fd155e2b2c1df35b4a72f9e7d403f72845f64b046ff9ce7ada11"
+    },
+    {
+      "path": "docs/test-results/typecheck.txt",
+      "bytes": 24,
+      "sha256": "338d6e26cf647bdf952d83397a750619eaed477e14160d380b52be9ddfc8aaa0"
+    },
+    {
+      "path": "docs/test-results/unit-tests.txt",
+      "bytes": 2873,
+      "sha256": "91923a04c0b1ac40fe94f1a81cc2c7b7e9ae57ed53628d66feb33b967786a186"
+    },
+    {
+      "path": "eslint.config.js",
+      "bytes": 591,
+      "sha256": "cf80a7510234dcd5ae594b30b44682b8b45ba13c0fcb5bf8928bea143802aa1c"
+    },
+    {
+      "path": "examples/aspirin.chemease.json",
+      "bytes": 5460,
+      "sha256": "6dae816ed3cd899424caabc369235e2abbd105d2ea9d2800a02fe601449319e4"
+    },
+    {
+      "path": "index.html",
+      "bytes": 681,
+      "sha256": "c07934c1196297fc4a146436661bd572c05a77eb8e9709c21ed74266f8020465"
+    },
+    {
+      "path": "package-lock.json",
+      "bytes": 108533,
+      "sha256": "2930aa4e9b4edd94a747b75b6a543d696bc38c72b98a183239fe8134a0071bb5"
+    },
+    {
+      "path": "package.json",
+      "bytes": 980,
+      "sha256": "3aa07037402d91ffc22a0f6bd4a906130c2653195cecc4a5e35278dcfefeb152"
+    },
+    {
+      "path": "public/favicon.svg",
+      "bytes": 9522,
+      "sha256": "61bc9a161de58248288e6905425d7180f0624c2865007b97d763fdac12043a66"
+    },
+    {
+      "path": "public/icons.svg",
+      "bytes": 5031,
+      "sha256": "b45fa506195cfcdef406ba9f0c77b36ddc1a7c224040926ec70abc2fdea7b93a"
+    },
+    {
+      "path": "src/App.css",
+      "bytes": 863,
+      "sha256": "9088f110b18262bd6e432ae1bb9f16fb3951d9a04fb9f0550f8d015a38411c3b"
+    },
+    {
+      "path": "src/App.tsx",
+      "bytes": 2722,
+      "sha256": "174d0249c64d34f1b3c380c621884f15515c34f8858e93459f1e1dffd6e78713"
+    },
+    {
+      "path": "src/Components/canvas/AtomShape.tsx",
+      "bytes": 2920,
+      "sha256": "aa824a71b6228dbe992d8398981b07a338bddcec1a9883b0c4d56f5e7d65218d"
+    },
+    {
+      "path": "src/Components/canvas/BondShape.tsx",
+      "bytes": 1353,
+      "sha256": "ff5ffdb0c6da7f6b9a0188f38a1ec09d386bb70bb432a22c600b07013c23bba5"
+    },
+    {
+      "path": "src/Components/canvas/Canvas.css",
+      "bytes": 5178,
+      "sha256": "f375e3b8978c8209401d36aa4570a9d7054b2b1595c7da332a862fd8427e48ff"
+    },
+    {
+      "path": "src/Components/canvas/Canvas.tsx",
+      "bytes": 8488,
+      "sha256": "87ba6c8f78fc2b065bbfc2abec8dda5c451d50914f9a2be9dc9b058ff6aa12dc"
+    },
+    {
+      "path": "src/Components/canvas/RingShape.tsx",
+      "bytes": 688,
+      "sha256": "9ac7a8096d93b8a120fbc4a0c3aa6b080312bd746cb329fdfc23e91b40df8d4c"
+    },
+    {
+      "path": "src/Components/canvas/canvasInteractions.ts",
+      "bytes": 522,
+      "sha256": "4593c2c512e18e6d3999a6e004932bb41cee9e8d9b199238128df6ac7bd9e489"
+    },
+    {
+      "path": "src/Components/common/Button.tsx",
+      "bytes": 291,
+      "sha256": "47e23bebca49d20b89a63fbb3b89a3a84394e1a622d7d7383219527b781c6114"
+    },
+    {
+      "path": "src/Components/common/Formula.tsx",
+      "bytes": 340,
+      "sha256": "eb7f902c459038ca4c3c2ec1a730bcbb536e7d85624a2f6687f9e64756b57f8d"
+    },
+    {
+      "path": "src/Components/common/Icon.tsx",
+      "bytes": 2342,
+      "sha256": "18ee08bac5ba9ae5282a3404c6f1ffbc58c559830b51b41e43182e192a113079"
+    },
+    {
+      "path": "src/Components/common/IconButton.tsx",
+      "bytes": 415,
+      "sha256": "bfd4944eb14712f93e5b33c7be0195b9ce4b66e7a00ce94f3ca3adac4d2c73fd"
+    },
+    {
+      "path": "src/Components/common/Modal.tsx",
+      "bytes": 2074,
+      "sha256": "ceb1e329001e4ba83abcc0fb2410ee13e3d1d00790872861b960aa67c03b1eb2"
+    },
+    {
+      "path": "src/Components/common/Tooltip.tsx",
+      "bytes": 184,
+      "sha256": "324293e04967f5dd3a2c92f20363ab3cab562e781b88110704a43a77b54678c9"
+    },
+    {
+      "path": "src/Components/dialogs/Dialog.css",
+      "bytes": 2093,
+      "sha256": "0e1ab0be682daa6650253c28e4fdaf80afc72c6c347ef271f0840165de29e3df"
+    },
+    {
+      "path": "src/Components/dialogs/ExportDialog.tsx",
+      "bytes": 2473,
+      "sha256": "5ce518fec3a1ca3592d9e4aa3450c61801c848cd0907adcf4ed5d5db25fb97ce"
+    },
+    {
+      "path": "src/Components/dialogs/HelpDialog.tsx",
+      "bytes": 1760,
+      "sha256": "387d15b4aecf9465581917c9ac51f8b36477e157cd95a1048425bb21b75917f4"
+    },
+    {
+      "path": "src/Components/dialogs/NewMoleculeDialog.tsx",
+      "bytes": 963,
+      "sha256": "0f63e44f0884ee759062db8ca8683b07bf7522fb65dbb093cc813037294e98ce"
+    },
+    {
+      "path": "src/Components/dialogs/SettingsDialog.tsx",
+      "bytes": 3201,
+      "sha256": "40deefdb2cc4f1ccc14df3f13add288051d5b3eb6cf9330523666a6f21d9bcd9"
+    },
+    {
+      "path": "src/Components/editor/Editor.css",
+      "bytes": 1380,
+      "sha256": "8798fa475302f830d2e55106ce20e90e251d266500bb771eaa2df81892325add"
+    },
+    {
+      "path": "src/Components/editor/Editor.tsx",
+      "bytes": 2966,
+      "sha256": "3098cdfd4cfd48fcf6dba0dbf2f8bb73be58772b41273ad8361e83a00d86d6e7"
+    },
+    {
+      "path": "src/Components/intro/Intro.css",
+      "bytes": 20542,
+      "sha256": "4392f72ebac1bda0abd97a698036097ffaa817b124638b8e1bb29976749c194c"
+    },
+    {
+      "path": "src/Components/intro/Intro.tsx",
+      "bytes": 15311,
+      "sha256": "477b179ea501845c88b69a07cba37639c95bd6a22866fac20e3ce196653d266a"
+    },
+    {
+      "path": "src/Components/intro/MoleculeScene.ts",
+      "bytes": 12796,
+      "sha256": "20ccbb31614fea939788cda9e26b418fde164680150b1fdfe08e658028c2e8fa"
+    },
+    {
+      "path": "src/Components/intro/sceneMath.ts",
+      "bytes": 5726,
+      "sha256": "3cfcaf265549d2f1f9a3e700b3ac24bd93e11269496918c9d5d3eba18931fa99"
+    },
+    {
+      "path": "src/Components/navbar/Navbar.css",
+      "bytes": 2434,
+      "sha256": "334bc702a03d29ddcad16007a0ae47f4c70a8131655899eda033450c53c4653e"
+    },
+    {
+      "path": "src/Components/navbar/Navbar.tsx",
+      "bytes": 4989,
+      "sha256": "400d53f0c94ee17661c5ea2baa91b19f8f1d2f2f60f91928acb35407169712e1"
+    },
+    {
+      "path": "src/Components/sidebar/AnalysisPanel.css",
+      "bytes": 4513,
+      "sha256": "4625dc8a15bd6bfbb92d0cbf23bd6d58d46f19f73f065de8e3d6e758044f02aa"
+    },
+    {
+      "path": "src/Components/sidebar/AnalysisPanel.tsx",
+      "bytes": 5646,
+      "sha256": "5bd9d5e8fef94a8831b2dbf98e86bb96ff8b9ef96f54f0ff8643783e4b217cf5"
+    },
+    {
+      "path": "src/Components/sidebar/InfoPanel.css",
+      "bytes": 5692,
+      "sha256": "97e552d7816992af4fb484f8fd5dfa1bd23e76bef3637fbfba2e361005d6820a"
+    },
+    {
+      "path": "src/Components/sidebar/InfoPanel.tsx",
+      "bytes": 10352,
+      "sha256": "1e03beb404859e73c0535b9b0e54ecc71dd273d252ddec5a1f2ff04ca36ba0fc"
+    },
+    {
+      "path": "src/Components/statusbar/StatusBar.css",
+      "bytes": 1426,
+      "sha256": "6ff029d7e63d8ca78de4e942c3ccd3f624ac6003a0085fc4d86dccd26b368bcc"
+    },
+    {
+      "path": "src/Components/statusbar/StatusBar.tsx",
+      "bytes": 1979,
+      "sha256": "90088c8affbb9660bdba9f5910dc05769c5db9dbf7802e0d68d209839712fe24"
+    },
+    {
+      "path": "src/Components/toolbar/Toolbar.css",
+      "bytes": 5217,
+      "sha256": "448ee21df3eca136657457bc192b39333a9d423123dbd71948d871b28a5f1895"
+    },
+    {
+      "path": "src/Components/toolbar/Toolbar.tsx",
+      "bytes": 8925,
+      "sha256": "3df1f32e1e1c8e1be95184987a690575f21cbf8052e58ca2aa0f1420f117aa57"
+    },
+    {
+      "path": "src/Components/viewer/Molecule3D.css",
+      "bytes": 794,
+      "sha256": "0d49ba58a9021fceb34057a0cc0c9cf3c7f5ff88f0567a1d74ffe11d53df9ba7"
+    },
+    {
+      "path": "src/Components/viewer/Molecule3DDialog.tsx",
+      "bytes": 5231,
+      "sha256": "f50a7e0588be6814b6d202680b5e2f4d88134ed2d110949796c011dc76fc473d"
+    },
+    {
+      "path": "src/engine/analysis.ts",
+      "bytes": 3417,
+      "sha256": "5865548c9d96c8ba0da61936c6d15ad3b81adaddcee762142d4bdb1a56056ad9"
+    },
+    {
+      "path": "src/engine/chemistry.ts",
+      "bytes": 1081,
+      "sha256": "397ffef406b1b783fc9b6ab924dc8d13a984badaf10aa5b46c46c67ab4326416"
+    },
+    {
+      "path": "src/engine/conformer.ts",
+      "bytes": 2187,
+      "sha256": "2870581049b01e1c0df26d274549f565d87ee4bbae7bf0228c08db3082fcf72d"
+    },
+    {
+      "path": "src/engine/export.ts",
+      "bytes": 5357,
+      "sha256": "aeecc3b9426e36f2631632d1362ad8cf5e6222016123729bfb0eb23a44697638"
+    },
+    {
+      "path": "src/engine/formula.ts",
+      "bytes": 809,
+      "sha256": "e258299737797d4f2a02cf9e17369675b188852b070026adf45359e897658eb2"
+    },
+    {
+      "path": "src/engine/geometry.ts",
+      "bytes": 1158,
+      "sha256": "e4d1672aad329c731ca5adc45e217d9f45300ec26b7ed4f703784ed1385ac544"
+    },
+    {
+      "path": "src/engine/molecularWeight.ts",
+      "bytes": 536,
+      "sha256": "cabc0a92bb2f55eb4a8c97cd37f3be50bbed38d5a499ff10d1b238193c3e8398"
+    },
+    {
+      "path": "src/engine/rendering.ts",
+      "bytes": 1213,
+      "sha256": "ebe8ac066bef437aac1bcd8ca25eaab9869ec2cf8cdf2fb8866a08f07b34e5be"
+    },
+    {
+      "path": "src/engine/rings.ts",
+      "bytes": 2288,
+      "sha256": "6a86fe4a6e39fd31a642d76706189dd665660ad344ccc8d6f6e192cadef2405f"
+    },
+    {
+      "path": "src/engine/smiles.ts",
+      "bytes": 4167,
+      "sha256": "a19a8a4750d96a560b51b2b0cfcc50fea0923efd13a8d0732dfcd531bb8b83ed"
+    },
+    {
+      "path": "src/engine/templates.ts",
+      "bytes": 1574,
+      "sha256": "a4d6763d2e46ae03495b089df5398f5237dd702821268b08624fac0fec3f62c1"
+    },
+    {
+      "path": "src/engine/valence.ts",
+      "bytes": 2490,
+      "sha256": "2662fd166a32b69a9ba8805c499b04526204ecb1e994d823a8d59fc4b9d4c518"
+    },
+    {
+      "path": "src/engine/validation.ts",
+      "bytes": 3099,
+      "sha256": "7d8af644e816a033bf333c2fe012bde4b4bcdbd7656921aa2f20642af8bf7882"
+    },
+    {
+      "path": "src/hooks/useCanvasInteraction.ts",
+      "bytes": 9993,
+      "sha256": "7803898c2b9ebe966616ec570133bed75026e3196086e5026630b1e7405e4630"
+    },
+    {
+      "path": "src/hooks/useKeyboardShortcuts.ts",
+      "bytes": 1790,
+      "sha256": "b8caa17feb8ef872b6503969442c9ec6ca6ede2f778c926647ef3815f2537bcc"
+    },
+    {
+      "path": "src/hooks/useMoleculeAnalysis.ts",
+      "bytes": 795,
+      "sha256": "efcabf2446c8713e6aff4dbfa6f2db4816a445395ab73ef2410560a7492cea74"
+    },
+    {
+      "path": "src/main.tsx",
+      "bytes": 229,
+      "sha256": "2d966cd7c48e9a725695a8066882a51296f530117881b1c2c23ba60d708c500a"
+    },
+    {
+      "path": "src/models/Atom.ts",
+      "bytes": 217,
+      "sha256": "f6639184576d616b834b7f03fac479d4f6279bc6dfa4f75528e683259bc8fa8a"
+    },
+    {
+      "path": "src/models/Bond.ts",
+      "bytes": 186,
+      "sha256": "3c294c1359740b673223540ca650b8ba63c82493d55d143b012445ea57d7f317"
+    },
+    {
+      "path": "src/models/History.ts",
+      "bytes": 117,
+      "sha256": "d5dbee2839da0a0f64953610d6eea06d19e5bf3ed2a3120d6b92b71891a63c60"
+    },
+    {
+      "path": "src/models/Molecule.ts",
+      "bytes": 442,
+      "sha256": "c41c71acd64337cfea0badade8e7cb91498fa0566a6b812de8362a435fc8f6ec"
+    },
+    {
+      "path": "src/pages/EditorPage.tsx",
+      "bytes": 68,
+      "sha256": "478cc64ed2a8eff8316dcf120a1ead57e00158f2a366eda4e8fb9b9909289055"
+    },
+    {
+      "path": "src/pages/LandingPage.tsx",
+      "bytes": 66,
+      "sha256": "c7d525e530e9d4ee389cd5973fb204627b5e535e1ba2ab7fc987b093d8403676"
+    },
+    {
+      "path": "src/store/chemUIStore.ts",
+      "bytes": 1679,
+      "sha256": "06cfba806376a319ad3ee17fb58411f393d9a123b0039d9784da01ca0dbae355"
+    },
+    {
+      "path": "src/store/historyStore.ts",
+      "bytes": 1413,
+      "sha256": "bffc87e8bb816756e36bee80e7bfbe13b620fe3fae5465ac5006241f1cf7108c"
+    },
+    {
+      "path": "src/store/moleculeStore.ts",
+      "bytes": 6735,
+      "sha256": "59f9b531fd173d411da016cd1b6a3c99c569c4426a85f8251edd684495044601"
+    },
+    {
+      "path": "src/styles/animations.css",
+      "bytes": 534,
+      "sha256": "4dd0c4ad5a0a7225baae91227e9b5317bd5b2c2bc0ec82c8b16a3de11199b141"
+    },
+    {
+      "path": "src/styles/globals.css",
+      "bytes": 2853,
+      "sha256": "e2510d591ed8ad91fd79298a7753cdc697b5c4057040004c0b181972286866c5"
+    },
+    {
+      "path": "src/styles/tokens.css",
+      "bytes": 858,
+      "sha256": "86450cb736b8ceb4ee50d32c0a2194c5ad38f3d55614eb04617512cc11780661"
+    },
+    {
+      "path": "src/types/analysis.ts",
+      "bytes": 546,
+      "sha256": "599dd015fcb51ba34372060bf5b92792776207d6f5e2b2bdfc451afd24d696fe"
+    },
+    {
+      "path": "src/types/chem.ts",
+      "bytes": 150,
+      "sha256": "006e9fdd8d261368e10c40c02db96bc43014fc48563684ad0960fe5d652dc790"
+    },
+    {
+      "path": "src/types/editor.ts",
+      "bytes": 293,
+      "sha256": "0c045975cdc98a5052228b6de60849a9c267669f4bf51cf53984d1e2fe3435a5"
+    },
+    {
+      "path": "src/utils/canvasConfig.ts",
+      "bytes": 121,
+      "sha256": "c33ee4a356ddc3e90055d6747a9f4adabf4b44a1f7d3b262d33d413c44c43a79"
+    },
+    {
+      "path": "src/utils/elementColor.ts",
+      "bytes": 480,
+      "sha256": "9b0a5b679b37dc782c1bf3d9d81f8cc6014514a27dee7444cca67d002877ddd0"
+    },
+    {
+      "path": "src/utils/elementData.ts",
+      "bytes": 1941,
+      "sha256": "1c27c2691d1039cc6681600dffa0be2885e25a54f7c0bedccd70a3a6e5ea0396"
+    },
+    {
+      "path": "src/utils/format.ts",
+      "bytes": 283,
+      "sha256": "53b59842aa75661a1f726af12eac51ac355184049fecc7bd9a85a49ff61c59cf"
+    },
+    {
+      "path": "src/utils/geometry.ts",
+      "bytes": 68,
+      "sha256": "8fd840aa50ca6e7de0178b97733e8cf2a4ccd87423cd5fe835c3cd09249a54e2"
+    },
+    {
+      "path": "src/utils/legacyImport.ts",
+      "bytes": 1537,
+      "sha256": "b78c10d5f708ec83baf7f2c86bb5e356411f8b32a511e67f05cce8475358c51d"
+    },
+    {
+      "path": "src/utils/storage.ts",
+      "bytes": 3914,
+      "sha256": "b56851fb8a290daec5261ddb2ff2e5da080c0cad3f16a527e27f9533c0af601c"
+    },
+    {
+      "path": "tests/browser-smoke.py",
+      "bytes": 7572,
+      "sha256": "5311f8a99ca93497020f8e9192c3e7bb70048da2050f01321860c17152aadaf5"
+    },
+    {
+      "path": "tests/chemistry.test.ts",
+      "bytes": 9522,
+      "sha256": "d4851c747c34ef97d8a9302bce70e59bf70b0a8bf314194142ee2e9ebb5b2a8b"
+    },
+    {
+      "path": "tests/conformer.test.ts",
+      "bytes": 2136,
+      "sha256": "90a4ee1a53074a48da9c159b41efaebdb352733bbfa8491d14e5ab43534add26"
+    },
+    {
+      "path": "tests/export-browser.py",
+      "bytes": 3691,
+      "sha256": "745aed04c7dab8cadea696d5a82679ecc84611c06a2618df18002b4366546d14"
+    },
+    {
+      "path": "tests/intro.test.ts",
+      "bytes": 2450,
+      "sha256": "90460e4f7a9d0752007874e1b9c66e7c96d2b59191d999b1ed69869e496f2233"
+    },
+    {
+      "path": "tests/store.test.ts",
+      "bytes": 4001,
+      "sha256": "75c57cf42c48faa3957452497dd12115c3633e41f78c6892b256f24ce519f2a2"
+    },
+    {
+      "path": "tests/story-browser.py",
+      "bytes": 6431,
+      "sha256": "bff1dd3078b32410e7f912b60dac56c64df1f133d2d80d292a04e1c51e037af5"
+    },
+    {
+      "path": "tools/make-standalone.mjs",
+      "bytes": 1015,
+      "sha256": "f54ac6c7099914ea6b40338277d2df0dfa8bc0bb061650b30ae8afdaf77d198e"
+    },
+    {
+      "path": "tools/package.py",
+      "bytes": 2965,
+      "sha256": "1c44da08ad2a9f61bf653223fd620f8fa5b3d333ca35117bbc022794141d508c"
+    },
+    {
+      "path": "tools/test.mjs",
+      "bytes": 1472,
+      "sha256": "56fe751e1e709327082c022a89202ddf53c559dc2853da4dfb4d5bf47af857e2"
+    },
+    {
+      "path": "tsconfig.app.json",
+      "bytes": 626,
+      "sha256": "d50751d7b56a7924ae1af2c1401835b3dbc514e36be16be300c14cec324fe371"
+    },
+    {
+      "path": "tsconfig.json",
+      "bytes": 119,
+      "sha256": "770b4140bbb581e2dfd9ea9946ffc9c75a1d86ba7d2db5f77c83e37cbdf9d808"
+    },
+    {
+      "path": "tsconfig.node.json",
+      "bytes": 580,
+      "sha256": "c63b02a3687e7f35b709cb24ad5a5521239e12223994748b5eaaccc52888720d"
+    },
+    {
+      "path": "vite.config.ts",
+      "bytes": 180,
+      "sha256": "5bd532f647116673bf524b78921ce89bba454f94fbb4bba1f8a54798bc8d8938"
+    },
+    {
+      "path": "COMPLETE_SOURCE.md",
+      "bytes": 469219,
+      "sha256": "6a78997807d6a48a582e6edcdda7959e4fbb94df4c9dc15c25d98d15d2fdb8f2"
+    },
+    {
+      "path": "dist/ChemEase.html",
+      "bytes": 903113,
+      "sha256": "538cc7a6b7ff30d70d136516235f6ff881ad1a20ba4f4b650a578213167a4bd4"
+    },
+    {
+      "path": "backup/original-source.zip",
+      "bytes": 72914,
+      "sha256": "804757d928d2f0dff6aa460172d18e299a1ce70d1cd46c04855c210c12c8fcb1"
+    }
+  ]
+}
