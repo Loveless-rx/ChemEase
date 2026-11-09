@@ -268,7 +268,14 @@
 .mobile-basic-tools {
   display: none;
 }
-@media (max-width: 700px) {
+@media (max-width: 960px) {
+  .chem-toolbar .element-button,
+  .chem-toolbar .tool-row,
+  .chem-toolbar .ring-tools > button,
+  .chem-toolbar .icon-button,
+  .chem-toolbar .section-toggle {
+    min-height: 44px;
+  }
   .toolbar-scroll .mobile-basic-tools {
     display: block;
   }

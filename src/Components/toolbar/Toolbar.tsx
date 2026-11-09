@@ -55,7 +55,7 @@ export function Toolbar() {
         <section className="mobile-basic-tools">
           <h2>Edit</h2>
           <div>
-            {(["select", "erase", "lasso"] as const).map((t) => (
+            {(["select", "erase", "lasso", "pan"] as const).map((t) => (
               <button
                 key={t}
                 className={tool === t ? "active" : ""}

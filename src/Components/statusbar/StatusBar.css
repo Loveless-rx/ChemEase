@@ -10,6 +10,31 @@
   font-size: 9px;
   flex-shrink: 0;
 }
+@media (max-width: 960px) {
+  .statusbar {
+    height: auto;
+    min-height: 48px;
+    padding: 0 8px env(safe-area-inset-bottom, 0px);
+  }
+  .status-left {
+    gap: 8px;
+  }
+  .status-tool {
+    min-width: 0;
+    white-space: nowrap;
+  }
+  .status-left > span:last-child,
+  .pan-help,
+  .cursor-coordinates {
+    display: none;
+  }
+  .zoom-controls .icon-button,
+  .zoom-percent,
+  .fit-button {
+    min-width: 44px;
+    min-height: 44px;
+  }
+}
 .status-left {
   display: flex;
   align-items: center;

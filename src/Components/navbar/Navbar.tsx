@@ -65,6 +65,7 @@ export function Navbar() {
       <div className="nav-files">
         <button
           className="nav-tool"
+          aria-label="New molecule"
           onClick={() => set({ dialog: "new" })}
           title="New molecule (Ctrl/⌘ N)"
         >
@@ -81,6 +82,7 @@ export function Navbar() {
         </button>
         <button
           className="nav-tool"
+          aria-label="Save molecule locally"
           onClick={() => useMoleculeStore.getState().save()}
           title="Save locally (Ctrl/⌘ S)"
         >
@@ -90,6 +92,7 @@ export function Navbar() {
         </button>
         <button
           className="nav-tool export-button"
+          aria-label="Export molecule"
           onClick={() => set({ dialog: "export" })}
         >
           <Icon name="export" size={16} />

@@ -56,6 +56,19 @@ The expected site URL is https://loveless-rx.github.io/ChemEase/.
 To publish subsequent changes, push commits to `main`. You can
 also run the deployment manually from the Actions tab by selecting this branch.
 
+### Phone, tablet and desktop layouts
+
+The same site adapts to the screen size. On screens up to 960px wide, use
+**Tools** to choose elements, bonds, rings, selection, erase, lasso or pan, and
+**Info** for structure details and analysis. Tap the active panel button again
+or the shaded canvas area to close it. Zoom and Fit stay available along the
+bottom. Desktop screens show the tools and information beside the canvas.
+
+Responsive browser checks covered 320×568 and 390×844 phone sizes,
+844×390 landscape, 768×1024 tablet, and 1366×900 desktop. These are browser
+viewport checks; physical iOS and Android device testing remains a release
+check.
+
 ### If installation/build fails
 - Confirm `node -v` and `npm -v`; use a current Node 24 LTS release.
 - Run commands in the folder containing `package.json`, not in `src` or `dist`.

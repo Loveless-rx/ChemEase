@@ -47,6 +47,9 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+.document-heading {
+  min-width: 0;
+}
 .document-heading .eyebrow {
   font-size: 8px;
   letter-spacing: 1.8px;
@@ -65,24 +68,59 @@
   border-radius: 50%;
 }
 .template-select {
+  position: relative;
+  flex-shrink: 0;
   pointer-events: auto;
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 8px;
   background: var(--surface);
   border: 1px solid var(--border);
-  padding: 0 9px;
-  border-radius: 6px;
-  box-shadow: var(--shadow);
+  padding: 0 12px;
+  border-radius: 9px;
+  min-height: 38px;
+  box-shadow: 0 2px 8px #00000006;
   color: var(--text-muted);
+  transition: border-color 0.15s, background 0.15s, box-shadow 0.15s;
+}
+.template-select:hover {
+  border-color: color-mix(in srgb, var(--accent) 55%, var(--border));
+  background: var(--accent-soft);
+}
+.template-select:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent);
+}
+.template-select::after {
+  content: "";
+  position: absolute;
+  right: 13px;
+  width: 6px;
+  height: 6px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: translateY(-2px) rotate(45deg);
+  pointer-events: none;
 }
 .template-select select {
+  appearance: none;
+  -webkit-appearance: none;
   border: 0;
   background: none;
-  font-size: 10px;
-  padding: 9px 0;
+  color: var(--text);
+  font-size: 11px;
+  font-weight: 500;
+  padding: 10px 20px 10px 0;
+  border-radius: 0;
   max-width: 105px;
   cursor: pointer;
+}
+.template-select select:focus-visible {
+  outline: none;
+}
+.template-select option {
+  background: var(--surface);
+  color: var(--text);
 }
 .empty-canvas {
   position: absolute;
@@ -278,9 +316,49 @@
     max-width: 300px;
   }
   .template-select {
-    max-width: 110px;
+    max-width: none;
+    min-height: 44px;
+    padding-inline: 10px;
+  }
+  .template-select select {
+    min-height: 44px;
+    font-size: 12px;
+    padding-right: 18px;
+  }
+  .document-heading h1 {
+    max-width: 100%;
+  }
+  .document-meta {
+    flex-wrap: wrap;
+    gap: 5px;
   }
   .document-heading .eyebrow {
     font-size: 7px;
+  }
+  .empty-canvas {
+    top: 58%;
+    width: calc(100% - 32px);
+    max-width: 280px;
+  }
+  .empty-hex {
+    display: none;
+  }
+  .empty-canvas h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+  .empty-canvas p {
+    line-height: 1.6;
+  }
+  .empty-canvas > div:last-child {
+    margin-top: 12px;
+  }
+}
+@media (max-height: 500px) and (max-width: 960px) {
+  .empty-canvas {
+    display: none;
+  }
+  .canvas-top {
+    top: 12px;
   }
 }

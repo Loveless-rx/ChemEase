@@ -105,10 +105,13 @@
     padding: 0 7px;
   }
 }
-@media (max-width: 700px) {
+@media (max-width: 960px) {
   .navbar {
-    height: 56px;
-    padding: 0 10px;
+    height: auto;
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    grid-template-rows: 44px 44px;
+    padding: 4px 8px;
     gap: 2px;
   }
   .navbar .logo {
@@ -118,7 +121,10 @@
     width: 20px;
   }
   .navbar .brand-button {
-    margin-right: auto;
+    grid-column: 1 / 4;
+    grid-row: 1;
+    justify-self: start;
+    margin: 0;
     padding-right: 5px;
   }
   .nav-tools,
@@ -128,16 +134,29 @@
     display: none;
   }
   .nav-files {
-    gap: 0;
+    grid-column: 3 / -1;
+    grid-row: 2;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 2px;
   }
   .nav-tool,
   .navbar .icon-button {
-    width: 29px;
-    height: 36px;
+    width: 100%;
+    height: 44px;
     padding: 0;
   }
+  .navbar > .icon-button {
+    grid-row: 1;
+  }
+  .navbar > .icon-button[aria-label*="theme"] {
+    grid-column: 4;
+  }
+  .navbar > .icon-button[aria-label="Settings"] {
+    grid-column: 5;
+  }
   .navbar .icon-button[aria-label="Help and keyboard shortcuts"] {
-    display: none;
+    grid-column: 6;
   }
   .navbar .export-button {
     border: 0;
@@ -147,6 +166,29 @@
     display: none;
   }
   .navbar .icon-button[aria-label="Redo (Ctrl/⌘ Shift Z)"] {
-    display: none;
+    grid-row: 2;
+    grid-column: 2;
+  }
+  .navbar .icon-button[aria-label="Undo (Ctrl/⌘ Z)"] {
+    grid-row: 2;
+    grid-column: 1;
+  }
+}
+@media (min-width: 600px) and (max-width: 960px) and (max-height: 500px) {
+  .navbar {
+    display: flex;
+    height: 56px;
+  }
+  .navbar .brand-button {
+    margin-right: auto;
+  }
+  .navbar .nav-files {
+    display: flex;
+    gap: 4px;
+  }
+  .navbar .nav-tool,
+  .navbar .icon-button {
+    width: 44px;
+    flex-shrink: 0;
   }
 }

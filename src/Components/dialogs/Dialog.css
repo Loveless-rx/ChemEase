@@ -113,4 +113,18 @@
   .modal {
     max-height: 94dvh;
   }
+  .modal-header .icon-button,
+  .dialog-body button,
+  .dialog-actions button {
+    min-height: 44px;
+  }
+  .setting-row {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .setting-row input:not([type="checkbox"]) {
+    max-width: 100%;
+    min-height: 44px;
+    font-size: 16px;
+  }
 }

@@ -17,8 +17,15 @@ import "./Editor.css";
 import { Molecule3DDialog } from "../viewer/Molecule3DDialog";
 export function Editor({ onIntro }: { onIntro: () => void }) {
   const dialog = useUIStore((s) => s.dialog);
-  const [mobilePanel, setMobilePanel] = useState(false),
-    [mobileTools, setMobileTools] = useState(false);
+  const [mobileDrawer, setMobileDrawer] = useState<"tools" | "info" | null>(null);
+  useEffect(() => {
+    if (!mobileDrawer) return;
+    const dismiss = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setMobileDrawer(null);
+    };
+    window.addEventListener("keydown", dismiss);
+    return () => window.removeEventListener("keydown", dismiss);
+  }, [mobileDrawer]);
   useKeyboardShortcuts();
   const close = useCallback(
     () => useUIStore.getState().set({ dialog: null }),
@@ -39,24 +46,39 @@ export function Editor({ onIntro }: { onIntro: () => void }) {
     <main className="editor">
       <Navbar />
       <div className="mobile-notice">
-        <span>Desktop recommended · compact editing mode</span>
-        <button onClick={() => setMobileTools(!mobileTools)}>
+        <span>Your molecular workspace</span>
+        <button
+          aria-expanded={mobileDrawer === "tools"}
+          aria-controls="chemistry-tools-panel"
+          onClick={() => setMobileDrawer(mobileDrawer === "tools" ? null : "tools")}
+        >
           <Icon name="atom" size={14} />
-          Tools
+          {mobileDrawer === "tools" ? "Close tools" : "Tools"}
         </button>
-        <button onClick={() => setMobilePanel(!mobilePanel)}>
+        <button
+          aria-expanded={mobileDrawer === "info"}
+          aria-controls="structure-info-panel"
+          onClick={() => setMobileDrawer(mobileDrawer === "info" ? null : "info")}
+        >
           <Icon name="info" size={14} />
-          Info
+          {mobileDrawer === "info" ? "Close info" : "Info"}
         </button>
       </div>
       <div
-        className={`editor-body ${mobilePanel ? "mobile-info-open" : ""} ${mobileTools ? "mobile-tools-open" : ""}`}
+        className={`editor-body ${mobileDrawer === "info" ? "mobile-info-open" : ""} ${mobileDrawer === "tools" ? "mobile-tools-open" : ""}`}
       >
-        <div className="toolbar-container">
+        {mobileDrawer && (
+          <button
+            className="drawer-backdrop"
+            aria-label="Close workspace panel"
+            onClick={() => setMobileDrawer(null)}
+          />
+        )}
+        <div className="toolbar-container" id="chemistry-tools-panel">
           <Toolbar />
         </div>
         <Canvas />
-        <div className="info-container">
+        <div className="info-container" id="structure-info-panel">
           <InfoPanel />
         </div>
       </div>
