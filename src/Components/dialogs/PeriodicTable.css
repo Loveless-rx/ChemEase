@@ -1,0 +1,38 @@
+.modal.periodic-modal { width: 1180px; }
+.periodic-body { padding: 20px 24px 24px; }
+.periodic-search { display: flex; align-items: flex-end; gap: 16px; justify-content: space-between; }
+.periodic-search label { display: grid; gap: 8px; flex: 1; max-width: 480px; font-size: 12px; color: var(--text-muted); }
+.periodic-search input { width: 100%; min-height: 44px; }
+.periodic-selection { display: flex; align-items: center; gap: 10px; font-size: 11px; color: var(--text-muted); }
+.periodic-selection b { display: grid; place-items: center; border: 1px solid var(--border); border-radius: 8px; background: var(--accent-soft); color: var(--accent); min-width: 44px; height: 44px; font-size: 20px; }
+.periodic-instruction, .periodic-note { font-size: 11px; line-height: 1.7; color: var(--text-muted); margin: 14px 0; }
+.periodic-scroll { overflow-x: auto; padding: 4px 4px 12px; scrollbar-color: var(--accent) var(--bg); }
+.periodic-grid { display: grid; grid-template-columns: repeat(18, minmax(44px,1fr)); grid-template-rows: 20px repeat(7,62px) 12px repeat(2,62px); gap: 5px; min-width: 900px; }
+.periodic-element { position: relative; min-width: 0; min-height: 54px; border: 1px solid var(--border); border-top: 3px solid var(--element-family); border-radius: 7px; background: color-mix(in srgb,var(--element-family) 10%,var(--surface)); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 13px 3px 5px; }
+.periodic-element:hover, .periodic-element:focus-visible { border-color: var(--accent); background: var(--accent-soft); }
+.periodic-element.is-current { box-shadow: inset 0 0 0 1px var(--accent); background: var(--accent-soft); }
+.periodic-element strong { font-size: 18px; line-height: 1.25; font-weight: 550; }
+.periodic-number { position: absolute; left: 5px; top: 3px; font: 8px var(--mono); color: var(--text-muted); }
+.periodic-name { display: block; max-width: 100%; font-size: 6.5px; color: var(--text-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-top: 3px; }
+.periodic-element > svg { position: absolute; top: 4px; right: 4px; color: var(--accent); }
+.periodic-group, .periodic-gap-label, .periodic-series-label { display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 9px; }
+.periodic-gap-label { border: 1px dashed var(--border); border-radius: 7px; text-align: center; font-size: 6px; line-height: 1.7; }
+.periodic-series-label { font-size: 10px; }
+.periodic-legend { display: flex; flex-wrap: wrap; gap: 10px 16px; margin-top: 14px; }
+.periodic-legend > span { display: flex; align-items: center; gap: 6px; font-size: 9px; color: var(--text-muted); }
+.periodic-legend i { width: 7px; height: 7px; border-radius: 2px; }
+.periodic-results { display: grid; grid-template-columns: repeat(auto-fill,minmax(92px,1fr)); gap: 8px; }
+.periodic-results .periodic-element { min-height: 82px; }
+.periodic-results .periodic-name { font-size: 10px; }
+.periodic-result-count { margin-block: 14px; font-size: 11px; color: var(--text-muted); }
+.periodic-swipe { display: none; }
+@media (max-width: 700px) {
+  .periodic-body { padding: 16px 12px; }
+  .periodic-search { gap: 10px; align-items: flex-end; }
+  .periodic-search input { font-size: 16px; }
+  .periodic-selection { flex-direction: column; gap: 4px; font-size: 9px; }
+  .periodic-swipe { display: block; font-size: 10px; color: var(--accent); margin-bottom: 10px; }
+  .periodic-grid { min-width: 970px; grid-template-columns: repeat(18,minmax(48px,1fr)); }
+  .periodic-legend { gap: 9px 12px; }
+  .periodic-modal .modal-header { padding: 18px; }
+}

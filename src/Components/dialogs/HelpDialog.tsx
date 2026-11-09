@@ -30,6 +30,11 @@ export function HelpDialog({ onClose }: { onClose: () => void }) {
           atom properties to set implicit H (for example, aromatic [nH]).
         </div>
         <p style={{ fontSize: 12, marginTop: 16 }}>
+          Open the periodic table from Extended elements to select by position,
+          name, symbol or atomic number. The Carbon labels and Hydrogens controls
+          on the canvas switch between labelled and skeletal drawings.
+        </p>
+        <p style={{ fontSize: 12, marginTop: 16 }}>
           Use the SMILES button above the canvas to paste a string or open a
           single-molecule .smi file, validate it, and load an editable structure.
           Analyze Structure shows RDKit descriptors and a pH/pKa LogD estimator.

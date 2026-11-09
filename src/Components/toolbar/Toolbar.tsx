@@ -1,11 +1,10 @@
-import { useState } from "react";
 import { useUIStore } from "../../store/chemUIStore";
 import { Icon } from "../common/Icon";
 import { IconButton } from "../common/IconButton";
 import type { BondType } from "../../types/chem";
 import { ELEMENTS } from "../../utils/elementData";
 import "./Toolbar.css";
-export function Toolbar() {
+export function Toolbar({onOpenPeriodic}: {onOpenPeriodic: () => void}) {
   const tool = useUIStore((s) => s.tool),
     atom = useUIStore((s) => s.atom),
     bond = useUIStore((s) => s.bond),
@@ -13,7 +12,6 @@ export function Toolbar() {
     ring = useUIStore((s) => s.ring),
     benzene = useUIStore((s) => s.benzene),
     delta = useUIStore((s) => s.chargeDelta);
-  const [extended, setExtended] = useState(false);
   const set = useUIStore.getState().set;
   const chooseAtom = (a: string) =>
     set({ tool: "draw", atom: a, pendingAtom: null });
@@ -79,33 +77,14 @@ export function Toolbar() {
           <h2>Halogens</h2>
           {elements(["F", "Cl", "Br", "I"])}
         </section>
-        {expanded && (
-          <section className="extended-section">
-            <button
-              className="section-toggle"
-              aria-expanded={extended}
-              onClick={() => setExtended(!extended)}
-            >
-              <span>Extended elements</span>
-              <Icon name={extended ? "minus" : "plus"} size={13} />
-            </button>
-            {extended &&
-              elements([
-                "Li",
-                "Na",
-                "K",
-                "Mg",
-                "Ca",
-                "B",
-                "Si",
-                "Al",
-                "Zn",
-                "Fe",
-                "Cu",
-                "Ag",
-              ])}
-          </section>
-        )}
+        <section className="extended-section">
+          <button className="periodic-open" onClick={onOpenPeriodic} aria-label="Open periodic table" title="Periodic table · all 118 elements">
+            <Icon name="grid" size={16}/>
+            {expanded && <span><strong>Extended elements</strong><small>Open periodic table</small></span>}
+            {expanded && <Icon name="chevron" size={12}/>}
+          </button>
+          {expanded && tool === "draw" && ELEMENTS[atom] && !["C","H","N","O","P","S","F","Cl","Br","I"].includes(atom) && <div className="periodic-selected-atom"><b>{atom}</b><span>{ELEMENTS[atom].name} selected</span></div>}
+        </section>
         <section>
           <h2>Bonds</h2>
           <div className="bond-tools">

@@ -106,6 +106,27 @@
   color: var(--text-muted);
   margin-bottom: 12px;
 }
+.periodic-open {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  min-height: 52px;
+  padding: 10px;
+  color: var(--accent);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--accent-soft);
+  text-align: left;
+}
+.periodic-open > span { display: grid; gap: 4px; flex: 1; }
+.periodic-open strong { font-size: 10px; font-weight: 550; color: var(--text); }
+.periodic-open small { font-size: 8px; color: var(--text-muted); }
+.periodic-open:hover { border-color: var(--accent); }
+.collapsed .extended-section { padding-inline: 7px; }
+.collapsed .periodic-open { justify-content: center; padding: 8px 0; min-height: 40px; }
+.periodic-selected-atom { display: flex; align-items: center; gap: 8px; padding-top: 10px; font-size: 9px; color: var(--text-muted); }
+.periodic-selected-atom b { color: var(--accent); font-size: 17px; }
 .tool-row {
   width: 100%;
   height: 34px;

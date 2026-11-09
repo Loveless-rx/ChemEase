@@ -87,7 +87,8 @@ See **`docs/MIGRATION.md`** for the exact replacement strategy and **`docs/FILE_
 
 - Genuine native-WebGL introduction: procedural sphere/cylinder meshes, shader lighting, depth testing, a scroll-driven camera, reversible disassembly/reassembly, four pinned chapters, mobile framing, reduced-motion views and a GPU-loss fallback. This is illustrative geometry, not a computed molecular conformer.
 - Warm cream/purple editor, charcoal theme, persisted theme preference and an intro page shown on every visit, with a replay button in settings.
-- Collapsible chemistry toolbar; C, H, N, O, P, S; halogens; twelve extended elements; R groups.
+- Collapsible chemistry toolbar; common atoms and halogens; a searchable 118-element periodic-table picker under Extended elements; R groups.
+- On-canvas carbon-label and implicit-hydrogen switches, synced with Settings and image exports, with saved display preferences. Heteroatom, charged-carbon and isotope labels remain visible in skeletal mode.
 - SVG atom placement and replacement, atom/bond selection, single-atom and multi-atom dragging.
 - Single, double, triple and aromatic bonds; click existing bonds to change their type.
 - Click-to-connect bonds and angle-snapped chain extension from a pending atom.
@@ -106,6 +107,24 @@ See **`docs/MIGRATION.md`** for the exact replacement strategy and **`docs/FILE_
 There are no analytics, accounts, AI services or external images. RDKit assets are served with the site and embedded in the standalone. Only the explicit PubChem 3D lookup sends molecular data to an external service.
 
 ## Drawing guide
+
+**Extended elements → Open periodic table** opens the full table. Search by
+name, symbol or atomic number, or select a tile. Arrow keys navigate the table;
+Enter selects. On phones, swipe the table sideways or use search. Selecting an
+element returns to the canvas with its drawing tool active.
+
+Use **Carbon labels** at the bottom of the canvas to show the C atoms in rings
+and chains, and **Hydrogens** to show or hide implicit-H labels. These controls
+are also available in Settings and apply to PNG/SVG exports without changing
+the molecular graph, SMILES or descriptors.
+
+Element names, numbers, families and additional standard weights use a bundled
+[PubChem periodic-table snapshot](https://pubchem.ncbi.nlm.nih.gov/periodic-table)
+from 9 November 2026. Existing common-element chemistry settings are retained.
+Less common elements can be placed, but automatic valence and implicit-H
+inference are conservative; use explicit hydrogens and charges where needed.
+Elements without a standard atomic weight do not receive an invented average
+mass in the local fallback engine.
 
 1. Select **C** and click the canvas twice to place two carbons.
 2. Select **O** and click again to place oxygen.

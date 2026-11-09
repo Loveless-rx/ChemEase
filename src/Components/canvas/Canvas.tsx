@@ -236,12 +236,22 @@ export function Canvas() {
         </div>
       )}
       <div className="canvas-bottom">
+        <div className="canvas-bottom-left">
+          <div className="canvas-label-controls" role="group" aria-label="Atom label display">
+            <button aria-label="Show carbon labels" aria-pressed={showCarbons} title="Show C labels in rings and chains. Other element symbols remain visible." onClick={() => useUIStore.getState().set({showCarbons: !showCarbons})}>
+              <b>C</b><span>Carbon labels</span><small>{showCarbons ? "On" : "Off"}</small>
+            </button>
+            <button aria-label="Show implicit hydrogen labels" aria-pressed={showHydrogens} title="Show implicit hydrogen counts next to visible atom symbols" onClick={() => useUIStore.getState().set({showHydrogens: !showHydrogens})}>
+              <b>H</b><span>Hydrogens</span><small>{showHydrogens ? "On" : "Off"}</small>
+            </button>
+          </div>
         <span className="canvas-hint">
           <Icon name={pending ? "bond" : "info"} size={13} />
           {pending
             ? "Select another atom to connect · Esc to cancel"
             : hints[tool]}
         </span>
+        </div>
         <span className="canvas-watermark">CHEMEASE / STUDIO</span>
       </div>
     </section>

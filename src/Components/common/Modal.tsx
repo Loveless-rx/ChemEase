@@ -6,11 +6,13 @@ export function Modal({
   children,
   onClose,
   wide = false,
+  className = "",
 }: {
   title: string;
   children: ReactNode;
   onClose: () => void;
   wide?: boolean;
+  className?: string;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const id = useId();
@@ -28,7 +30,7 @@ export function Modal({
           ...node.querySelectorAll<HTMLElement>(
             'button:not(:disabled),input,select,textarea,[tabindex="0"]',
           ),
-        ];
+        ].filter(item => item.tabIndex >= 0 && !item.hidden && item.getClientRects().length > 0);
         const first = items[0],
           last = items.at(-1);
         if (
@@ -60,7 +62,7 @@ export function Modal({
         role="dialog"
         aria-modal="true"
         aria-labelledby={id}
-        className={`modal ${wide ? "wide" : ""}`}
+        className={`modal ${wide ? "wide" : ""} ${className}`}
         tabIndex={-1}
         ref={ref}
       >

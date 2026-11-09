@@ -8,8 +8,8 @@ export function molecularWeight(m: Molecule): number | null {
     const weight = a.isotope
       ? ISOTOPE_MASSES[`${a.element}:${a.isotope}`]
       : ELEMENTS[a.element]?.weight;
-    if (weight === undefined) return null;
-    total += weight + v.get(a.id)!.implicitH * ELEMENTS.H.weight;
+    if (weight == null || !Number.isFinite(weight)) return null;
+    total += weight + v.get(a.id)!.implicitH * (ELEMENTS.H.weight ?? 1.008);
   }
   return total;
 }

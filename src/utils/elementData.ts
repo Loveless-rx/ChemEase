@@ -1,8 +1,9 @@
+import { PERIODIC_ELEMENTS } from "./periodicTable";
 export interface ElementData {
   symbol: string;
   name: string;
   number: number;
-  weight: number;
+  weight: number | null;
   valences: number[];
   implicit: boolean;
   color: string;
@@ -32,10 +33,10 @@ const rows: [string, string, number, number, number[], boolean, string][] = [
   ["Ag", "Silver", 47, 107.8682, [1], false, "#86868a"],
 ];
 export const ELEMENTS: Record<string, ElementData> = Object.fromEntries(
-  rows.map(([symbol, name, number, weight, valences, implicit, color]) => [
+  [...PERIODIC_ELEMENTS.map(e => [e.symbol, {symbol: e.symbol, name: e.name, number: e.number, weight: e.standardWeight, valences: [], implicit: false, color: "#887399"}]), ...rows.map(([symbol, name, number, weight, valences, implicit, color]) => [
     symbol,
     { symbol, name, number, weight, valences, implicit, color },
-  ]),
+  ])],
 );
 export const ISOTOPE_MASSES: Record<string, number> = {
   "H:1": 1.007825032,

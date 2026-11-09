@@ -16,6 +16,7 @@ import { Icon } from "../common/Icon";
 import "./Editor.css";
 import { Molecule3DDialog } from "../viewer/Molecule3DDialog";
 import { SmilesDialog } from "../dialogs/SmilesDialog";
+import { PeriodicTableDialog } from "../dialogs/PeriodicTableDialog";
 export function Editor({ onIntro }: { onIntro: () => void }) {
   const dialog = useUIStore((s) => s.dialog);
   const [mobileDrawer, setMobileDrawer] = useState<"tools" | "info" | null>(null);
@@ -76,7 +77,10 @@ export function Editor({ onIntro }: { onIntro: () => void }) {
           />
         )}
         <div className="toolbar-container" id="chemistry-tools-panel">
-          <Toolbar />
+          <Toolbar onOpenPeriodic={() => {
+            setMobileDrawer(null);
+            useUIStore.getState().set({dialog: "periodic"});
+          }}/>
         </div>
         <Canvas />
         <div className="info-container" id="structure-info-panel">
@@ -98,6 +102,7 @@ export function Editor({ onIntro }: { onIntro: () => void }) {
       )}{" "}
       {dialog === "3d" && <Molecule3DDialog onClose={close} />}
       {dialog === "smiles" && <SmilesDialog onClose={close} />}
+      {dialog === "periodic" && <PeriodicTableDialog onClose={close} />}
       {dialog === "help" && <HelpDialog onClose={close} />}
     </main>
   );

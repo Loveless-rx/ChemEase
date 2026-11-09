@@ -47,14 +47,18 @@ export const useUIStore = create<UIState>((set) => ({
       ? "dark"
       : "light",
   expanded: true,
-  showCarbons: false,
-  showHydrogens: true,
+  showCarbons: readPreference("chemease.showCarbons", "false") === "true",
+  showHydrogens: readPreference("chemease.showHydrogens", "true") === "true",
   showGrid: true,
   dialog: null,
   pendingAtom: null,
   fitVersion: 0,
   toast: "",
-  set: (patch) => set(patch),
+  set: (patch) => {
+    if (patch.showCarbons !== undefined) writePreference("chemease.showCarbons", String(patch.showCarbons));
+    if (patch.showHydrogens !== undefined) writePreference("chemease.showHydrogens", String(patch.showHydrogens));
+    set(patch);
+  },
   notify: (message) => {
     clearTimeout(timer);
     set({ toast: message });

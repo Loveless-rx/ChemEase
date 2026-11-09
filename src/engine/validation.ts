@@ -46,7 +46,9 @@ export function validateMolecule(m: Molecule): Warning[] {
       !ELEMENTS[a.element].implicit &&
       a.element !== "H"
     )
-      add(`${label}: metal bonding is not modeled; implicit H is disabled.`);
+      add(`${label}: automatic valence / implicit H is not modeled; set hydrogens and charges explicitly.`);
+    if (!a.isotope && ELEMENTS[a.element]?.weight === null)
+      add("No standard atomic weight is available for this element; mass requires isotope-specific or toolkit evaluation.");
     const es = adj.get(a.id) || [];
     if (a.aromatic) {
       const aromatic = es.filter((e) => e.bond.type === "aromatic");
