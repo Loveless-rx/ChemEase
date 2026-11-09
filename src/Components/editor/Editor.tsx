@@ -15,6 +15,7 @@ import { useKeyboardShortcuts } from "../../hooks/useKeyboardShortcuts";
 import { Icon } from "../common/Icon";
 import "./Editor.css";
 import { Molecule3DDialog } from "../viewer/Molecule3DDialog";
+import { SmilesDialog } from "../dialogs/SmilesDialog";
 export function Editor({ onIntro }: { onIntro: () => void }) {
   const dialog = useUIStore((s) => s.dialog);
   const [mobileDrawer, setMobileDrawer] = useState<"tools" | "info" | null>(null);
@@ -96,6 +97,7 @@ export function Editor({ onIntro }: { onIntro: () => void }) {
         />
       )}{" "}
       {dialog === "3d" && <Molecule3DDialog onClose={close} />}
+      {dialog === "smiles" && <SmilesDialog onClose={close} />}
       {dialog === "help" && <HelpDialog onClose={close} />}
     </main>
   );

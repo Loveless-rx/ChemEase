@@ -229,7 +229,8 @@ export function InfoPanel() {
               </span>
             )}
           </div>
-          <p>Graph-derived · non-canonical</p>
+          <p>{analysis.toolkit ? "Canonical · RDKit" : "Graph-derived · non-canonical"}</p>
+          <button className="secondary" onClick={() => u.set({dialog: "smiles"})}>SMILES to structure</button>
         </section>
         <section
           className={`validation-summary ${analysis.warnings.length ? "has-warnings" : ""}`}

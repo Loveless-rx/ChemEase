@@ -30,10 +30,11 @@ export function HelpDialog({ onClose }: { onClose: () => void }) {
           atom properties to set implicit H (for example, aromatic [nH]).
         </div>
         <p style={{ fontSize: 12, marginTop: 16 }}>
-          ChemEase uses a local graph engine for common valence states. SMILES
-          is non-canonical. Aromaticity is user-assigned, not perceived; lone
-          pairs are annotations. Structures are not evaluated for chemical
-          stability, hazards or synthetic feasibility.
+          Use the SMILES button above the canvas to paste a string or open a
+          single-molecule .smi file, validate it, and load an editable structure.
+          Analyze Structure shows RDKit descriptors and a pH/pKa LogD estimator.
+          Export downloads images, JSON, SMILES, MOL, SDF or properties CSV.
+          Structures are not evaluated for stability, hazards or synthetic feasibility.
         </p>
       </div>
     </Modal>

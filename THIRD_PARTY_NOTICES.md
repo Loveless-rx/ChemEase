@@ -1,5 +1,12 @@
 # Third-party notices
 
+## RDKit WebAssembly
+
+The site and standalone include the pinned `@rdkit/rdkit` MinimalLib JavaScript
+and WebAssembly distribution, licensed under BSD-3-Clause. The full notice is
+in `docs/RDKIT_LICENSE.txt` and is copied to `dist/rdkit/LICENSE.txt` by the build.
+The standalone also embeds this notice. Source: https://github.com/rdkit/rdkit.
+
 The bundled standalone includes official React, React DOM, Scheduler and Zustand from the uploaded dependencies. The normal toolchain includes Vite, TypeScript and ESLint; Vite produces the current bundle. No third-party 3D models or animation libraries are embedded. Original assets retain their original licensing.
 
 ## react

@@ -111,6 +111,10 @@ export function Canvas() {
               : "A blank canvas for your next idea"}
           </span>
         </div>
+        <div className="canvas-imports">
+        <button className="secondary smiles-import-button" onClick={() => useUIStore.getState().set({dialog: "smiles"})}>
+          <Icon name="plus" size={14} /> SMILES
+        </button>
         <label className="template-select">
           <Icon name="folder" size={15} />
           <select
@@ -129,6 +133,7 @@ export function Canvas() {
             <option value="aspirin">Aspirin</option>
           </select>
         </label>
+        </div>
       </div>
       <svg
         ref={ref}

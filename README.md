@@ -4,7 +4,7 @@
 This integrates your uploaded React/Vite project with the working ChemEase editor and replaces the earlier introduction with real scroll-driven WebGL. The molecular graph remains the editor's source of truth.
 
 ## 1. Try it without installing anything
-Open **`dist/ChemEase.html`** in Chrome, Edge or another current browser. Scroll through the introduction, or choose **Start Creating / Skip intro**. The standalone bundles React, Zustand and 3Dmol.js. Core editing stays local; the optional 3D lookup sends SMILES to PubChem only after an explicit click.
+Open **`dist/ChemEase.html`** in Chrome, Edge or another current browser. Scroll through the introduction, or choose **Start Creating / Skip intro**. The standalone bundles React, Zustand, 3Dmol.js and RDKit WebAssembly. Core editing, SMILES conversion and descriptors stay local; the optional 3D lookup sends SMILES to PubChem only after an explicit click.
 
 For reliable clipboard and local-save behavior, run from localhost or HTTPS. File-URL storage permissions vary by browser. JSON export is the portable backup; Save is one browser-local document, not cloud storage.
 
@@ -28,7 +28,7 @@ Open the local URL printed by Vite. Stop the dev server with Ctrl+C. No Three.js
 
 ## 3. Verify and build
 ```bash
-npm test              # 56 chemistry, history, 3D-math and lookup tests
+npm test              # Chemistry, RDKit, import/export, history and 3D tests
 npm run typecheck     # Strict application TypeScript check
 npm run lint          # ESLint / React hooks checks
 npm run build         # TypeScript + Vite, then a standalone HTML export
@@ -77,7 +77,7 @@ check.
 - Share the exact terminal error rather than mixing the old and new source folders.
 
 ### Honest build status
-This update passed all 56 automated tests and the strict TypeScript/Vite production build. Browser preview was unavailable in this session, so the new WebGL viewer and live PubChem lookup still require browser verification. The older browser evidence in this archive applies to the supplied version only.
+The RDKit feature update adds reference descriptor checks, chemistry-preserving SMILES/JSON/MOL/SDF round-trips, invalid-input checks, edit/undo checks and LogD equation checks. Browser verification covers SMILES import, copying, descriptor calculation, CSV download and responsive layouts. The optional live PubChem service and physical-device behavior remain separate release checks. See `docs/CHEMISTRY_FEATURES.md` for the new functionality and model boundaries.
 
 See **`docs/DEVELOPMENT_ROADMAP.md`** for the review, prioritized next steps, feature limits and manual release checklist. Vite reports advisory warnings about bundle size and an eval path inside 3Dmol.js.
 
@@ -95,14 +95,15 @@ See **`docs/MIGRATION.md`** for the exact replacement strategy and **`docs/FILE_
 - Atom/bond deletion, rectangle-lasso selection, pan, cursor-centered wheel zoom, fit and responsive auto-fit.
 - Atom charge editing, explicit hydrogen attachment, implicit-H overrides and lone-pair annotations.
 - Live formula, average molecular weight, explicit/implicit H accounting, graph counts and soft valence warnings.
-- Graph-generated, non-canonical SMILES with branches, disconnected components, ring closures, charges and supported aromatic atoms.
+- Editable SMILES import with generated 2D coordinates, single-entry SMILES file import, canonical RDKit SMILES copying, and SMILES/MOL/SDF downloads. A non-canonical graph serializer remains as a labelled fallback.
+- RDKit LogP, TPSA, HBD, HBA, rotatable bonds, molar refractivity, formal charge, ring count and heavy atom count; properties CSV export; pH/pKa-based monoprotic LogD estimates.
 - Contextual atom/bond inspector and analysis dialog with composition and clearly qualified simple descriptors.
 - Bounded undo/redo history; continuous drag is a single history action; cancelled drag restores its starting state.
 - One local save, startup recovery, JSON import/export, SVG export and actual PNG raster export.
 - Keyboard shortcuts, labelled controls, visible focus, modal focus management and compact mobile drawers.
 - Defensive import validation, unsupported-state warnings and an application error boundary.
 
-There are no server calls, analytics, accounts, AI services, external images or fake data-backed editor controls.
+There are no analytics, accounts, AI services or external images. RDKit assets are served with the site and embedded in the standalone. Only the explicit PubChem 3D lookup sends molecular data to an external service.
 
 ## Drawing guide
 
@@ -142,11 +143,11 @@ This is a functional drawing-and-basic-analysis release, **not a validated chemi
 - Explicit H atoms consume bond valence, so they are not counted twice. Isotope-labelled elements share the base element's formula symbol; a small isotope mass table is supported. Unknown isotope mass returns unavailable, not an invented value.
 - Common neutral main-group valences and selected charged C/N/O/B/halogen/H states are modeled. Metal atoms can be drawn but implicit H and metal-bonding chemistry are not inferred.
 - **Aromaticity is user-assigned**, not automatically perceived. A benzene ring is fully modeled. Neutral aromatic N defaults to pyridine-like N; explicit `[nH]` uses the H override. Broken aromatic systems and unsupported aromatic charge states are warned and do not receive a misleading SMILES string.
-- SMILES is deterministic for the stored graph order, **not canonical**. It is a limited serializer, not a SMILES parser or general-purpose sanitization toolkit. Invalid valence/aromaticity/stereo cases return an explicit error. Reordering atom IDs can change the string without changing the molecule.
+- Once RDKit loads, SMILES is canonicalized locally. During loading or unsupported states, the editor's limited non-canonical serializer is labelled separately. SMILES import validates chemistry and checks canonical identity after conversion to the editable graph. Unsupported stereo-specific, radical and wildcard inputs are rejected explicitly.
 - Ring counts are independent graph cycles (`E − V + components`). Aromatic cycle counts apply that definition to aromatic edges. They are not SSSR, aromaticity perception or a count of every possible cycle.
-- H-bond donor/acceptor sites and rotatable bonds are **simple graph-rule estimates**, limited to common C/H/N/O/halogen structures. Amide N and acid hydroxyl O exclusions are included. Other atom families and warning-bearing unsupported chemistry yield “Not evaluated.” These values are not asserted to match every RDKit, PubChem or medicinal-chemistry convention.
+- The descriptor panel uses RDKit's NumHBD, NumHBA and strict NumRotatableBonds definitions. These are model-dependent counts. The original graph-rule counts remain in the pure local analysis fallback; the displayed RDKit descriptor cards do not present fallback estimates as toolkit values.
 - Lone pairs are visual annotations only. Electron counting, radicals, conjugation and chemical stability are not validated.
-- Stereo metadata has extension points but is not interpreted or emitted. Reaction editing, general MOL/SDF interchange, local conformer generation, logP, TPSA, fingerprints and advanced descriptors remain future work. Optional PubChem 3D lookup and conformer SDF download are now available.
+- Stereo metadata has extension points but is not interpreted or emitted. SMILES-to-structure, 2D MOL/SDF exports, LogP, TPSA and molar refractivity are implemented with RDKit. LogD is a user-parameterized monoprotic estimate, not automatic pKa prediction. General MOL/SDF import, stereochemical editing, reaction editing, local 3D conformer generation and fingerprints remain future work.
 - A nonempty formula/mass for a warning-bearing graph is provisional, not evidence that the structure is meaningful or chemically stable.
 - Limits: 1,500 drawn atoms, 6,000 bonds, 120 history snapshots, 99 SMILES ring closures and 2 MB JSON imports. PNG export is capped at 4,096 pixels per dimension.
 
@@ -175,6 +176,6 @@ FILES.json             File sizes and SHA-256 checksums
 - Add real-device Safari/Firefox/mobile testing and broader accessibility checks.
 - Validate advanced chemistry against a trusted toolkit; RDKit/WASM can sit behind the existing engine interfaces.
 - Add authentication, backend/cloud saves or database integration only if your product needs them. None is required to use this local editor.
-- SMILES parsing, general MOL/SDF interchange, stereochemical interpretation, arbitrary conformer generation, reaction editing, logP and TPSA remain future work.
+- General MOL/SDF import, stereochemical interpretation, arbitrary conformer generation, reaction editing and automatic pKa prediction remain future work.
 
 Authored project code is MIT; see `LICENSE` and `THIRD_PARTY_NOTICES.md`. Your original source backup and assets retain their original licensing.

@@ -4,6 +4,7 @@ import { Icon } from "../common/Icon";
 import { useMoleculeStore } from "../../store/moleculeStore";
 import { useUIStore } from "../../store/chemUIStore";
 import { exportMolecule } from "../../engine/export";
+import { exportChemistry } from "../../engine/chemicalExport";
 export function ExportDialog({ onClose }: { onClose: () => void }) {
   const [busy, setBusy] = useState(false),
     [dark, setDark] = useState(false);
@@ -17,6 +18,10 @@ export function ExportDialog({ onClose }: { onClose: () => void }) {
               ["png", "PNG image", "High-resolution image · up to 3× scale"],
               ["svg", "SVG vector", "Resolution-independent · editable vector"],
               ["json", "Molecule JSON", "Complete graph · re-open in ChemEase"],
+              ["smi", "SMILES file", "Canonical SMILES · .smi text file"],
+              ["mol", "MOL structure", "2D coordinates, charges and isotopes · V3000"],
+              ["sdf", "SDF structure", "2D structure with name and canonical SMILES"],
+              ["csv", "Properties CSV", "RDKit descriptors · spreadsheet-ready"],
             ] as const
           ).map(([format, title, description]) => (
             <button
@@ -27,7 +32,8 @@ export function ExportDialog({ onClose }: { onClose: () => void }) {
                 setBusy(true);
                 try {
                   const u = useUIStore.getState();
-                  await exportMolecule(m, format, {
+                  if (format === "smi" || format === "mol" || format === "sdf" || format === "csv") await exportChemistry(m, format);
+                  else await exportMolecule(m, format, {
                     dark,
                     showCarbons: u.showCarbons,
                     showHydrogens: u.showHydrogens,

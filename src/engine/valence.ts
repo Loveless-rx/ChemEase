@@ -44,7 +44,7 @@ export function atomValence(
   }
   if (a.hydrogenOverride !== undefined) implicitH = a.hydrogenOverride;
   const specialAromatic =
-    a.aromatic && arom >= 2 && ["N", "O", "S", "P"].includes(a.element);
+    a.aromatic && arom >= 2 && ["C", "N", "O", "S", "P", "B"].includes(a.element);
   const effective = specialAromatic
     ? es.reduce(
         (n, e) => n + (e.bond.type === "aromatic" ? 1 : bondOrder(e.bond.type)),

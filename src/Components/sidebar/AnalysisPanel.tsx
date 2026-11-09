@@ -8,9 +8,13 @@ import { copyText } from "../../engine/export";
 import { ELEMENTS } from "../../utils/elementData";
 import { formatNumber } from "../../utils/format";
 import "./AnalysisPanel.css";
+import { Descriptors } from "./Descriptors";
+import { chemistryKey } from "../../engine/toolkit";
+import { exportChemistry } from "../../engine/chemicalExport";
 export function AnalysisPanel({ onClose }: { onClose: () => void }) {
   const a = useMoleculeAnalysis();
-  const name = useMoleculeStore((s) => s.molecule.metadata.name);
+  const molecule = useMoleculeStore((s) => s.molecule);
+  const name = molecule.metadata.name;
   const stat = (label: string, value: number | null) => (
     <div className="analysis-stat" key={label}>
       <span>{label}</span>
@@ -35,6 +39,7 @@ export function AnalysisPanel({ onClose }: { onClose: () => void }) {
             <span>g/mol · average atomic weights</span>
           </div>
         </div>
+        <Descriptors key={chemistryKey(molecule)} analysis={a}/>
         <div className="analysis-composition">
           <div className="info-section-title">
             <h3>Elemental composition</h3>
@@ -66,15 +71,12 @@ export function AnalysisPanel({ onClose }: { onClose: () => void }) {
             ].map(([label, value]) => stat(label as string, value as number))}
           </section>
           <section>
-            <h3>Chemical properties</h3>
+            <h3>Structure model</h3>
             {stat("Formal charge", a.charge)}
-            {stat("H-bond donor sites", a.donors)}
-            {stat("H-bond acceptor sites", a.acceptors)}
-            {stat("Rotatable bonds", a.rotatable)}
             <p className="descriptor-note">
-              Donor / acceptor and rotatable-bond counts use simple organic
-              graph rules, not a validated descriptor toolkit. Unsupported
-              chemistry is not evaluated.
+              The drawing is the source of truth. RDKit descriptors below use
+              the current bonds, charges, isotopes and hydrogen counts. Independent
+              graph cycles and RDKit perceived rings may differ for complex ring systems.
             </p>
           </section>
         </div>
@@ -118,7 +120,7 @@ export function AnalysisPanel({ onClose }: { onClose: () => void }) {
         <section className="analysis-smiles">
           <div className="info-section-title">
             <h3>
-              SMILES <small>Non-canonical</small>
+              SMILES <small>{a.toolkit ? "Canonical · RDKit" : "Non-canonical · editor"}</small>
             </h3>
             <button
               className="secondary"
@@ -137,12 +139,16 @@ export function AnalysisPanel({ onClose }: { onClose: () => void }) {
             </button>
           </div>
           <code>{a.smiles || a.smilesError || "Empty structure"}</code>
+          <button className="secondary" disabled={!a.toolkit} onClick={async () => {
+            try { await exportChemistry(molecule, "smi"); useUIStore.getState().notify("SMILES file downloaded."); }
+            catch (e) { useUIStore.getState().notify((e as Error).message); }
+          }}><Icon name="download" size={14}/>Download SMILES</button>
         </section>
         <p className="analysis-disclaimer">
           Formula and mass use the displayed implicit-hydrogen model. Ring
-          counts are graph cycle rank (E − V + components), not perceived
-          chemical ring sets. No logP, TPSA, conformer or stability prediction
-          is performed.
+          counts in Structural properties are graph cycle rank (E − V + components).
+          RDKit descriptors are computed estimates, not experimental measurements
+          or a prediction of chemical stability.
         </p>
       </div>
     </Modal>

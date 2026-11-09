@@ -24,5 +24,9 @@ for (const match of [
   const css = await readFile(assetPath(match[1]), "utf8");
   html = html.replace(match[0], () => `<style>${css}</style>`);
 }
+const rdkitJs = await readFile(resolve(root, "rdkit/RDKit_minimal.js"), "utf8");
+const rdkitWasm = await readFile(resolve(root, "rdkit/RDKit_minimal.wasm"));
+const rdkitLicense = await readFile(resolve(root, "rdkit/LICENSE.txt"), "utf8");
+html = html.replace("<head>", () => `<head><!-- RDKit license\n${rdkitLicense.replace(/--/g, "- -")}\n--><script>${rdkitJs.replace(/<\/script/gi, "<\\/script")}</script><script id="rdkit-wasm" type="application/octet-stream">${rdkitWasm.toString("base64")}</script>`);
 await writeFile(resolve(root, "ChemEase.html"), html);
 console.log("Standalone app written to dist/ChemEase.html");

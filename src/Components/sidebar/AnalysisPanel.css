@@ -210,6 +210,47 @@
   line-height: 1.8;
   margin-top: 17px;
 }
+.descriptor-section {
+  padding-block: 24px;
+  border-top: 1px solid var(--border);
+}
+.descriptor-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-block: 18px;
+}
+.descriptor-card {
+  padding: 16px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  min-width: 0;
+}
+.descriptor-card > span { color: var(--text-muted); font-size: 11px; }
+.descriptor-card strong { display: block; margin-block: 10px; font: 23px var(--mono); color: var(--accent); }
+.descriptor-card strong small { font: 10px var(--font); color: var(--text-muted); }
+.descriptor-card p { font-size: 10px; color: var(--text-muted); line-height: 1.6; }
+.logd-panel { padding: 18px; border: 1px solid var(--border); border-radius: 10px; margin-block: 18px; }
+.logd-panel > p { font-size: 12px; line-height: 1.7; margin-top: 12px; }
+.estimate-tag { font-size: 10px; color: var(--accent); padding: 4px 8px; background: var(--accent-soft); border-radius: 5px; margin-left: 8px; }
+.logd-inputs { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 12px; margin-block: 16px; }
+.logd-inputs label { display: grid; gap: 7px; color: var(--text-muted); font-size: 11px; min-width: 0; }
+.logd-inputs input, .logd-inputs select { width: 100%; min-height: 44px; }
+.logd-panel output { display: block; color: var(--accent); font: 20px var(--mono); }
+.descriptor-section > .descriptor-note { margin-top: 14px; }
+.analysis-smiles > .secondary { margin-top: 12px; }
+@media (max-width: 600px) {
+  .descriptor-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .descriptor-card { padding: 12px; }
+  .descriptor-card strong { font-size: 20px; }
+  .logd-inputs { grid-template-columns: 1fr 1fr; }
+  .logd-inputs label:first-child { grid-column: 1 / -1; }
+  .logd-inputs input, .logd-inputs select { font-size: 16px; }
+  .descriptor-section .info-section-title { flex-wrap: wrap; gap: 8px; }
+  .smiles-import textarea { font-size: 16px; }
+  .dialog-actions { flex-wrap: wrap; padding: 16px 20px; }
+}
 @media (max-width: 600px) {
   .analysis-content {
     padding: 18px;
