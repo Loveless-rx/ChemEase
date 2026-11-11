@@ -1,0 +1,4 @@
+.skin-source {display:flex;flex-direction:column;gap:8px;min-width:0;margin:16px 0;}
+.skin-page .ws-card {overflow-wrap:anywhere;}
+.skin-page input,.skin-page select {width:100%;min-width:0;}
+.skin-page .solubility-values strong {font-size:clamp(1.3rem,2.6vw,2rem);}

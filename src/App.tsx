@@ -6,11 +6,8 @@ import {
   type ReactNode,
 } from "react";
 import { LandingPage } from "./pages/LandingPage";
-import { EditorPage } from "./pages/EditorPage";
+import { WorkspaceShell } from "./features/workspace/WorkspaceShell";
 import { useUIStore } from "./store/chemUIStore";
-import { useMoleculeStore, fingerprint } from "./store/moleculeStore";
-import { useHistoryStore } from "./store/historyStore";
-import { loadMolecule } from "./utils/storage";
 import "./App.css";
 class ErrorBoundary extends Component<
   { children: ReactNode },
@@ -51,20 +48,6 @@ export default function App() {
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
   }, [theme]);
-  useEffect(() => {
-    try {
-      const m = loadMolecule();
-      if (m) {
-        useMoleculeStore.getState().replace(m);
-        useMoleculeStore.setState({ savedFingerprint: fingerprint(m) });
-        useHistoryStore.getState().clear();
-      }
-    } catch (e) {
-      useUIStore
-        .getState()
-        .notify(`Saved file not loaded: ${(e as Error).message}`);
-    }
-  }, []);
   const enter = () => {
     setEditor(true);
     window.scrollTo(0, 0);
@@ -73,7 +56,7 @@ export default function App() {
     <ErrorBoundary>
       <div className="app">
         {editor ? (
-          <EditorPage
+          <WorkspaceShell
             onIntro={() => {
               setEditor(false);
               window.scrollTo(0, 0);

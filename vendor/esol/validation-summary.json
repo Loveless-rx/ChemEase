@@ -1,0 +1,23 @@
+{
+  "engine": "RDKit 2026.09.2",
+  "implementationCommit": "d1536c58afe5e0e7ac4c96e2ffef496d5b98664b",
+  "metrics": {
+    "count": 56,
+    "rmse": 1.0295186294607326,
+    "mae": 0.8219761655050376,
+    "bias": -0.018255540594854545,
+    "overlap": 0,
+    "roundedReferenceMaxDifference": 0.004971432921154761,
+    "trainingCount": 1144
+  },
+  "hashes": {
+    "delaney.csv": "c12da8daa5b6867794c925b7df64d4c883f3f9bc1799a5ae9113bc3f586b3899",
+    "dls_100_unique.csv": "7f6ba392c6208c716adb5083b095d431890eb8b805d95ed88ec0f7b0b9a67fb9",
+    "solubility_comparison.csv": "b5418daf2e750664827c53e3e8a2c8e745fb9911a5478d242e5fc67c660f9942"
+  },
+  "sources": {
+    "implementation": "https://github.com/PatWalters/solubility/tree/d1536c58afe5e0e7ac4c96e2ffef496d5b98664b",
+    "data": "https://doi.org/10.17630/3a3a5abc-8458-4924-8e6c-b804347605e8"
+  },
+  "limitations": "Small external benchmark. No per-molecule uncertainty or established chemical similarity domain. Dataset files are used for verification only and are not distributed with the app."
+}

@@ -1,0 +1,129 @@
+{
+  "source": "https://ftp.cdc.gov/pub/niosh/skin/SkinPerm.jar",
+  "jarSha256": "f3d91f30a2fa59148f2fbd42a59187f2953625ed9dea4aa6e42610116e13c5d8",
+  "classSha256": "e4fb88440b72644c91cdcc8c3f2b6a5a4b5bb564ec10f8ec49da9331c6170b98",
+  "method": "skinperm.PGMethod(double MW, double LogKow)",
+  "verification": "Allowlisted constructor bytecode interpretation; numeric parity, not predictive validation",
+  "cases": [
+    {
+      "weight": 18.0,
+      "logKow": -3.0,
+      "logKpCmHour": -4.9798,
+      "kpCmHour": 1.0476108796203616e-05
+    },
+    {
+      "weight": 18.0,
+      "logKow": 0.0,
+      "logKpCmHour": -2.8498,
+      "kpCmHour": 0.0014131881920070603
+    },
+    {
+      "weight": 18.0,
+      "logKow": 2.13,
+      "logKpCmHour": -1.3375000000000004,
+      "kpCmHour": 0.045972698853087184
+    },
+    {
+      "weight": 18.0,
+      "logKow": 6.0,
+      "logKpCmHour": 1.4101999999999997,
+      "kpCmHour": 25.71579766372737
+    },
+    {
+      "weight": 78.11,
+      "logKow": -3.0,
+      "logKpCmHour": -5.346471,
+      "kpCmHour": 4.503280509251817e-06
+    },
+    {
+      "weight": 78.11,
+      "logKow": 0.0,
+      "logKpCmHour": -3.2164710000000003,
+      "kpCmHour": 0.0006074758256879139
+    },
+    {
+      "weight": 78.11,
+      "logKow": 2.13,
+      "logKpCmHour": -1.7041710000000005,
+      "kpCmHour": 0.019761913772586504
+    },
+    {
+      "weight": 78.11,
+      "logKow": 6.0,
+      "logKpCmHour": 1.0435289999999995,
+      "kpCmHour": 11.05424281589105
+    },
+    {
+      "weight": 122.12,
+      "logKow": -3.0,
+      "logKpCmHour": -5.6149320000000005,
+      "kpCmHour": 2.4269900732130624e-06
+    },
+    {
+      "weight": 122.12,
+      "logKow": 0.0,
+      "logKpCmHour": -3.484932,
+      "kpCmHour": 0.0003273919525182823
+    },
+    {
+      "weight": 122.12,
+      "logKow": 2.13,
+      "logKpCmHour": -1.9726320000000004,
+      "kpCmHour": 0.010650451033468594
+    },
+    {
+      "weight": 122.12,
+      "logKow": 6.0,
+      "logKpCmHour": 0.7750679999999995,
+      "kpCmHour": 5.957554170995168
+    },
+    {
+      "weight": 180.16,
+      "logKow": -3.0,
+      "logKpCmHour": -5.968976,
+      "kpCmHour": 1.0740487648294618e-06
+    },
+    {
+      "weight": 180.16,
+      "logKow": 0.0,
+      "logKpCmHour": -3.838976,
+      "kpCmHour": 0.00014488519178483541
+    },
+    {
+      "weight": 180.16,
+      "logKow": 2.13,
+      "logKpCmHour": -2.3266760000000004,
+      "kpCmHour": 0.00471328824276133
+    },
+    {
+      "weight": 180.16,
+      "logKow": 6.0,
+      "logKpCmHour": 0.4210239999999996,
+      "kpCmHour": 2.6364770789073697
+    },
+    {
+      "weight": 750.0,
+      "logKow": -3.0,
+      "logKpCmHour": -9.445,
+      "kpCmHour": 3.5892193464500497e-10
+    },
+    {
+      "weight": 750.0,
+      "logKow": 0.0,
+      "logKpCmHour": -7.315,
+      "kpCmHour": 4.8417236758409894e-08
+    },
+    {
+      "weight": 750.0,
+      "logKow": 2.13,
+      "logKpCmHour": -5.802700000000001,
+      "kpCmHour": 1.5750705089261601e-06
+    },
+    {
+      "weight": 750.0,
+      "logKow": 6.0,
+      "logKpCmHour": -3.0550000000000006,
+      "kpCmHour": 0.0008810488730080128
+    }
+  ]
+}

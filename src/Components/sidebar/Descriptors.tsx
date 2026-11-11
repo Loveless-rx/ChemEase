@@ -32,7 +32,7 @@ export function Descriptors({analysis: a}: {analysis: ReturnType<typeof useMolec
     <div className="info-section-title"><h3>Molecular descriptors</h3><span>{d?.engine || "Local chemistry engine"}</span></div>
     {a.toolkitLoading && <p role="status" className="notice">Calculating descriptors… The chemistry engine may take a moment to load the first time.</p>}
     {a.toolkitError && <div className="chemistry-error" role="alert"><p>{a.toolkitError}</p><button className="secondary" onClick={a.retryToolkit}>Retry calculation</button></div>}
-    <div className="descriptor-grid">{stats.map(([label,value,unit,help]) => <div className="descriptor-card" key={label} title={help}><span>{label}</span><strong>{value === undefined ? "—" : Number.isInteger(value) ? value : value.toFixed(2)} <small>{value === undefined ? "" : unit}</small></strong><p>{help}</p></div>)}</div>
+    <div className="descriptor-grid">{stats.map(([label,value,unit,help]) => <div className="descriptor-card" key={label} title={help}><span>{label}</span><strong>{value === undefined ? "—" : Number.isInteger(value) ? value : value.toFixed(label==="LogP"?3:2)} <small>{value === undefined ? "" : unit}</small></strong><p>{help}</p></div>)}</div>
     <div className="logd-panel">
       <h3>LogD at your pH <span className="estimate-tag">Estimate</span></h3>
       <p className="muted">For a neutral molecule with one ionizable site. Enter its pKa; the app does not predict pKa.</p>

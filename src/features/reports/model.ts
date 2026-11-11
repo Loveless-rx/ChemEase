@@ -1,0 +1,73 @@
+import type { WorkspaceData } from "../workspace/types";
+import { comparisonColumns, comparisonProperties, descriptorValue, ruleText, alertText, comparisonPlot, type ComparisonColumn, type ComparisonProperty } from "../comparison/model";
+import { allRuleMethods } from "../drugLikeness/extendedRules";
+import { plotProperties, type PlotProperty } from "../visualizations/model";
+import { alertPatterns } from "../medicinalChemistry/catalog";
+import { esolSources, esolValidation, solubilityLimitations } from "../solubility/model";
+import { skinSources, skinLimitations } from "../skin/model";
+export interface ReportRef {versionId:string;descriptorId:string|null;screeningId:string|null;alertId:string|null;solubilityId?:string|null;skinId?:string|null}
+export interface SavedReport {id:string;method:"research-report-v1"|"research-report-v2"|"research-report-v3";title:string;notes:string;createdAt:string;refs:ReportRef[];sections:{properties:boolean;rules:boolean;alerts:boolean;chart:boolean;solubility?:boolean;skin?:boolean};x:PlotProperty;y:PlotProperty}
+export function createReport(data:WorkspaceData,versionIds:string[],title:string,notes:string,sections:SavedReport["sections"],x:PlotProperty,y:PlotProperty,id=crypto.randomUUID(),now=new Date().toISOString()):SavedReport {
+  const columns=comparisonColumns(data,versionIds.map(versionId=>({versionId})));
+  const report:SavedReport={id,method:"research-report-v3",title:title.trim(),notes,createdAt:now,refs:columns.map(c=>({versionId:c.version.id,descriptorId:c.source?.id??null,screeningId:c.screening?.id??null,alertId:c.alerts?.id??null,solubilityId:c.solubility?.id??null,skinId:c.skin?.id??null})),sections:{...sections,solubility:sections.solubility??false,skin:sections.skin??false},x,y};
+  validateReport(data,report);return report;
+}
+export function reportColumns(data:WorkspaceData,report:SavedReport):ComparisonColumn[] {
+  return report.refs.map(ref=>{
+    const version=data.versions.find(v=>v.id===ref.versionId);if(!version)throw new Error("Report structure version is missing.");
+    const record=data.molecules.find(m=>m.id===version.moleculeId);
+    const source=ref.descriptorId===null?undefined:data.results.find(r=>r.id===ref.descriptorId);
+    const screening=ref.screeningId===null?undefined:data.results.find(r=>r.id===ref.screeningId);
+    const alerts=ref.alertId===null?undefined:data.results.find(r=>r.id===ref.alertId);
+    const solubility=ref.solubilityId==null?undefined:data.results.find(r=>r.id===ref.solubilityId);
+    const skin=ref.skinId==null?undefined:data.results.find(r=>r.id===ref.skinId);
+    if(ref.descriptorId!==null&&(!source||source.method!=="rdkit-descriptors-v1"||source.versionId!==version.id||source.structureKey!==version.structureKey))throw new Error("Report descriptor source does not match its version.");
+    if(ref.screeningId!==null&&(!screening||(screening.method!=="drug-likeness-v1"&&screening.method!=="drug-likeness-v2")||screening.versionId!==version.id||screening.structureKey!==version.structureKey||screening.descriptorResultId!==source?.id||screening.engine!==source?.engine))throw new Error("Report screening does not match its exact descriptor source.");
+    if(ref.alertId!==null&&(!alerts||alerts.method!=="structural-alerts-v1"||alerts.versionId!==version.id||alerts.structureKey!==version.structureKey))throw new Error("Report alert source does not match its version.");
+    if(ref.solubilityId!=null&&(!solubility||solubility.method!=="esol-rdkit-v1"||solubility.descriptorResultId!==source?.id||solubility.versionId!==version.id||solubility.structureKey!==version.structureKey||solubility.engine!==source?.engine))throw new Error("Report solubility does not match its exact descriptor source.");
+    if(ref.skinId!=null&&(!skin||skin.method!=="skin-pg-cdc-v1"||skin.descriptorResultId!==source?.id||skin.versionId!==version.id||skin.structureKey!==version.structureKey||skin.engine!==source?.engine))throw new Error("Report skin prediction does not match its exact descriptor source.");
+    return {version,project:data.projects.find(p=>p.id===record?.projectId)?.name??"Saved project",sources:[],source:source?.method==="rdkit-descriptors-v1"?source:undefined,screening:screening&&(screening.method==="drug-likeness-v1"||screening.method==="drug-likeness-v2")?screening:undefined,alerts:alerts?.method==="structural-alerts-v1"?alerts:undefined,solubility:solubility?.method==="esol-rdkit-v1"?solubility:undefined,skin:skin?.method==="skin-pg-cdc-v1"?skin:undefined};
+  });
+}
+export function validateReport(data:WorkspaceData,report:SavedReport) {
+  if(!report||!["research-report-v1","research-report-v2","research-report-v3"].includes(report.method)||typeof report.id!=="string"||!/^[a-zA-Z0-9_-]{1,100}$/.test(report.id)||typeof report.title!=="string"||!report.title.trim()||report.title.length>120||typeof report.notes!=="string"||report.notes.length>3000||typeof report.createdAt!=="string"||report.createdAt.length>60||!Number.isFinite(Date.parse(report.createdAt)))throw new Error("Invalid saved research report.");
+  if(!Array.isArray(report.refs)||!report.refs.length||report.refs.length>6||report.refs.some(r=>!r||typeof r.versionId!=="string"||![r.descriptorId,r.screeningId,r.alertId].every(v=>v===null||typeof v==="string"))||new Set(report.refs.map(r=>r.versionId)).size!==report.refs.length)throw new Error("Report needs 1 to 6 distinct saved versions with explicit source references.");
+  if(!report.sections||!["properties","rules","alerts","chart"].every(k=>typeof report.sections[k as keyof SavedReport["sections"]]==="boolean")||!Object.hasOwn(plotProperties,report.x)||!Object.hasOwn(plotProperties,report.y))throw new Error("Invalid report section or chart settings.");
+  if(report.method==="research-report-v1"&&(report.sections.solubility!==undefined||report.refs.some(r=>r.solubilityId!==undefined)))throw new Error("Legacy report settings cannot acquire a prediction reference.");
+  if(report.method!=="research-report-v1"&&(typeof report.sections.solubility!=="boolean"||report.refs.some(r=>r.solubilityId!==null&&typeof r.solubilityId!=="string")))throw new Error("Report prediction references must be explicit.");
+  if(report.method!=="research-report-v3"&&(report.sections.skin!==undefined||report.refs.some(r=>r.skinId!==undefined)))throw new Error("Legacy report settings cannot acquire a skin prediction reference.");
+  if(report.method==="research-report-v3"&&(typeof report.sections.skin!=="boolean"||report.refs.some(r=>r.skinId!==null&&typeof r.skinId!=="string")))throw new Error("Report skin prediction references must be explicit.");
+  reportColumns(data,report);
+}
+export function storeReport(data:WorkspaceData,report:SavedReport) {
+  validateReport(data,report);if((data.reports?.length??0)>=100)throw new Error("The workspace supports up to 100 saved reports. Export a backup before continuing.");
+  if(data.reports?.some(r=>r.id===report.id))throw new Error("This report is already saved.");
+  const next=structuredClone(data);next.reports=[...(next.reports??[]),structuredClone(report)];return next;
+}
+export interface ReportSection {heading:string;rows:[string,string][];column?:ComparisonColumn}
+export function reportSections(data:WorkspaceData,report:SavedReport):ReportSection[] {
+  validateReport(data,report);return reportColumns(data,report).map((c,i)=>{
+    const rows:[string,string][]=[["Project",c.project],["Version ID",c.version.id],["Structure saved",c.version.createdAt],["Formula",c.source?.local.formula??"Not calculated"],["Canonical SMILES",c.source?.descriptors.smiles??"Not calculated"],["Descriptor result / method",c.source?`${c.source.id} / ${c.source.method}`:"Not calculated"],["Descriptor engine / date",c.source?`${c.source.engine} / ${c.source.createdAt}`:"Not calculated"]];
+    if(report.sections.properties)for(const [key,p] of Object.entries(comparisonProperties))rows.push([`${p.label}${p.unit?` (${p.unit})`:""}`,String(descriptorValue(c,key as ComparisonProperty)??"Not calculated")]);
+    if(report.sections.rules){rows.push(["Screening source / method",c.screening?`${c.screening.id} / ${c.screening.method} / ${c.screening.screening.rulesVersion} / ${c.screening.createdAt}`:"Not calculated"]);for(const [id,r] of Object.entries(allRuleMethods))rows.push([r.name,ruleText(c,id as keyof typeof allRuleMethods)]);if(c.screening?.screening.reasons.length)rows.push(["Screening applicability",c.screening.screening.reasons.join("; ")]);}
+    if(report.sections.alerts){rows.push(["Alert source / method",c.alerts?`${c.alerts.id} / ${c.alerts.method} / ${c.alerts.alerts.catalogVersion} / ${c.alerts.engine} / ${c.alerts.createdAt}`:"Not calculated"],["PAINS",alertText(c,"PAINS")],["Brenk",alertText(c,"Brenk")]);for(const m of c.alerts?.alerts.matches??[]){const p=alertPatterns.find(p=>p.id===m.patternId)!;rows.push([`${p.set} ${p.id}`,`${p.name}; ${m.truncated?"at least ":""}${m.occurrences} mapped occurrences`]);}}
+    if(report.sections.solubility){const p=c.solubility?.prediction;rows.push(["Solubility result / model",c.solubility?`${c.solubility.id} / ${p!.modelVersion} / ${c.solubility.engine} / ${c.solubility.createdAt}`:"Not calculated"],["Predicted aqueous logS (log10 mol/L)",!p?"Not calculated":p.logS===null?`Not evaluable: ${p.reasons.join("; ")}`:String(p.logS)],["Predicted aqueous solubility (mol/L)",!p?"Not calculated":p.molPerL===null?"Not evaluable":String(p.molPerL)],["Predicted mass concentration (g/L)",!p?"Not calculated":p.gPerL===null?"Not evaluable":String(p.gPerL)]);if(p){rows.push(["ESOL inputs",p.inputs?JSON.stringify(p.inputs):"Not applicable to this unsupported structure"],["ESOL validation",`${p.validationVersion}: ${esolValidation.count} external molecules, RMSE ${esolValidation.rmse}, MAE ${esolValidation.mae} logS units; not a molecule-specific confidence interval.`],["Solubility interpretation",solubilityLimitations]);}}
+    if(report.sections.skin){const p=c.skin?.prediction;rows.push(["Skin result / model",c.skin?`${c.skin.id} / ${p!.modelVersion} / ${c.skin.engine} / ${c.skin.createdAt}`:"Not calculated"],["Predicted log10 Kp (cm/h)",!p?"Not calculated":p.logKpCmHour===null?`Not evaluable: ${p.reasons.join("; ")}`:String(p.logKpCmHour)],["Predicted Kp (cm/h)",!p?"Not calculated":p.kpCmHour===null?"Not evaluable":String(p.kpCmHour)],["Predicted Kp (cm/s)",!p?"Not calculated":p.kpCmSecond===null?"Not evaluable":String(p.kpCmSecond)]);if(p)rows.push(["Skin molecular weight (g/mol)",String(p.weight)],["Entered neutral LogKow",String(p.settings.logKow)],["LogKow evidence",p.settings.evidence],["LogKow source",p.settings.source],["Skin logKp contributions",p.contributions?JSON.stringify(p.contributions):"Not evaluable"],["Skin model evidence","Potts & Guy (1992): fit N=93, r²=0.67 (fit performance, not external accuracy). Independent 2008 comparison: 124 compounds, seven models, Potts–Guy ranked second. No molecule-specific confidence interval."],["Skin interpretation",skinLimitations]);}
+    return {heading:`${i+1}. ${c.version.graph.metadata.name} - version ${c.version.number}`,rows,column:c};
+  });
+}
+export const reportLimitations="Recorded calculations and heuristic screens support research review, not clinical decisions or proof of safety, efficacy or activity. LogP and molar refractivity are estimates. Rules use the named RDKit/Crippen variants, not identical original closed-source implementations. No alert matches do not establish safety. Alerts apply to the drawn structure without automatic salt removal or charge normalization. Imported results retain recorded provenance and are not independently certified. LogD, solubility and ADMET are not included. Different engine versions may not be directly comparable. Missing values are Not calculated, never zero. No chemistry is rerun to generate this report.";
+export const reportReferences=[...Object.values(allRuleMethods).map(r=>`${r.name}: ${r.source}. ${r.url} ${r.implementation}`),"PAINS: Baell & Holloway (2010), https://doi.org/10.1021/jm901137j","Brenk et al. (2008), https://doi.org/10.1002/cmdc.200800139","RDKit descriptor definitions: https://www.rdkit.org/docs/GettingStartedInPython.html#list-of-available-descriptors","Alert definitions: RDKit Release_2026_09_2 FilterCatalog; 480 PAINS and 105 Brenk; BSD-3-Clause. Query hydrogens merged; per-pattern mapped occurrences capped at 128."];
+export function reportLimitationsFor(report:SavedReport){
+  let text=report.sections.solubility?reportLimitations.replace("LogD, solubility and ADMET are not included.","LogD and ADMET are not included. Solubility is a separate recorded model estimate.")+" "+solubilityLimitations:reportLimitations;
+  if(report.sections.skin)text=text.replace("LogD and ADMET are not included.","LogD and other ADMET endpoints are not included.").replace("LogD, solubility and ADMET are not included.","LogD, solubility and other ADMET endpoints are not included.")+" "+skinLimitations;
+  return text;
+}
+export function reportReferencesFor(report:SavedReport){const refs=report.sections.solubility?[...reportReferences,`ESOL: ${esolSources.paper}; pinned RDKit refit: ${esolSources.implementation}; validation: ${esolSources.validation}.`]:[...reportReferences];if(report.sections.skin)refs.push(`Skin permeability: Potts & Guy (1992) ${skinSources.paper}; CDC/NIOSH implementation ${skinSources.niosh}; independent comparative evaluation ${skinSources.evaluation}.`);return refs;}
+export function reportChart(data:WorkspaceData,report:SavedReport){return report.sections.chart?comparisonPlot(reportColumns(data,report),report.x,report.y):undefined;}
+const cell=(v:string)=>`"${v.replace(/^\s*[=+@-]/,"'$&").replaceAll('"','""')}"`;
+export function reportCsv(data:WorkspaceData,report:SavedReport) {
+  const rows:string[][]=[["Report",report.title],["Report ID",report.id],["Report method",report.method],["Created",report.createdAt],["Notes",report.notes],["Chart included",String(report.sections.chart)],["Chart axes",`${report.x}, ${report.y}`]];
+  for(const s of reportSections(data,report))for(const [label,value] of s.rows)rows.push([s.heading,label,value]);
+  rows.push(["Limitations",reportLimitationsFor(report)]);for(const reference of reportReferencesFor(report))rows.push(["Reference",reference]);return "\ufeff"+rows.map(row=>row.map(cell).join(",")).join("\r\n");
+}

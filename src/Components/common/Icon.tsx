@@ -25,6 +25,8 @@ const paths: Record<string, string> = {
   folder: "M3 6h7l2 3h9v12H3z",
   arrow: "M4 12h16 M14 6l6 6-6 6",
   ring: "M12 2l9 5v10l-9 5-9-5V7z",
+  search: "M10 3a7 7 0 100 14 7 7 0 000-14 M15 15l6 6",
+  chart: "M3 3v18h18 M7 15l4-5 4 3 5-8",
   atom: "M12 9a3 3 0 100 6 3 3 0 000-6 M4 4l16 16 M20 4L4 20 M2 12h20",
   info: "M12 11v6 M12 7v.2 M12 2a10 10 0 100 20 10 10 0 000-20",
   download: "M12 3v12 M7 10l5 5 5-5 M4 17v4h16v-4",

@@ -6,7 +6,7 @@ import { useMoleculeStore, fingerprint } from "../../store/moleculeStore";
 import { useHistoryStore } from "../../store/historyStore";
 import { parseMolecule } from "../../utils/storage";
 import "./Navbar.css";
-export function Navbar() {
+export function Navbar({onSaveVersion}:{onSaveVersion?:()=>void}) {
   const tool = useUIStore((s) => s.tool),
     theme = useUIStore((s) => s.theme);
   const undo = useHistoryStore((s) => s.past.length),
@@ -82,9 +82,9 @@ export function Navbar() {
         </button>
         <button
           className="nav-tool"
-          aria-label="Save molecule locally"
-          onClick={() => useMoleculeStore.getState().save()}
-          title="Save locally (Ctrl/⌘ S)"
+          aria-label={onSaveVersion?"Save molecule version":"Save molecule locally"}
+          onClick={() => onSaveVersion?onSaveVersion():useMoleculeStore.getState().save()}
+          title="Save version (Ctrl/⌘ S)"
         >
           <Icon name="save" size={16} />
           <span>Save</span>

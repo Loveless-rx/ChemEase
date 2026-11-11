@@ -1,3 +1,7 @@
+## Structural-alert definitions (Phase 2)
+
+PAINS and Brenk SMARTS are derived without changes from RDKit Release_2026_09_2. Source files, per-file SHA-256 hashes and the BSD-3-Clause license are retained under vendor/rdkit-filter-catalog. A public license copy is distributed under licenses/rdkit-filter-catalog.txt, and the standalone HTML embeds the license. References: Baell and Holloway, doi:10.1021/jm901137j; Brenk et al., doi:10.1002/cmdc.200700139.
+
 # Third-party notices
 
 ## RDKit WebAssembly
@@ -214,3 +218,22 @@ is licensed under a BSD-3-Clause license.
 
 
 ```
+
+## Research report PDF generation
+
+jsPDF 4.2.1 is MIT licensed. Its complete notice is distributed at `licenses/jspdf.txt` and embedded in the standalone HTML. The app uses its image/PDF writer for locally rendered report pages, without the HTML conversion API. Source: https://github.com/parallax/jsPDF.
+
+## ESOL RDKit refit
+
+Fixed model coefficients and reference implementation: Patrick Walters, MIT, commit d1536c58afe5e0e7ac4c96e2ffef496d5b98664b of https://github.com/PatWalters/solubility. Source, manifest and full license are in vendor/esol. The app distributes the notice at licenses/esol.txt and embeds it in the standalone HTML. Delaney (2004), doi:10.1021/ci034243x; DLS provenance, doi:10.17630/3a3a5abc-8458-4924-8e6c-b804347605e8 and doi:10.1186/s13321-017-0250-y. External dataset files used for local verification are not bundled. Aggregate validation metrics and file hashes are retained.
+
+
+## Potts–Guy skin-permeability equation
+
+Scientific attribution: Potts & Guy (1992), https://doi.org/10.1023/A:1015810312465;
+CDC/NIOSH Skin Permeation Calculator, https://www.cdc.gov/niosh/skin-exposure/resources/skin-permeation-calculator.html;
+comparative evaluation https://doi.org/10.1002/jps.21074.
+The application implements the published numerical relationship. The committed
+vendor/skin fixture contains derived numerical reference cases and SHA-256 hashes
+from the official CDC calculator, not its JAR, GUI, class files or copied source.
+Rejected BBB weights and research datasets are not distributed.

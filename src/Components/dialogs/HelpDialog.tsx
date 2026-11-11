@@ -7,7 +7,7 @@ export function HelpDialog({ onClose }: { onClose: () => void }) {
           {[
             ["Undo", "Ctrl / ⌘ Z"],
             ["Redo", "Ctrl / ⌘ Shift Z"],
-            ["Save locally", "Ctrl / ⌘ S"],
+            ["Save molecule version", "Ctrl / ⌘ S"],
             ["New molecule", "Ctrl / ⌘ N"],
             ["Select / Erase / Lasso", "V / E / L"],
             ["Single / Double / Triple bond", "1 / 2 / 3"],
@@ -29,6 +29,12 @@ export function HelpDialog({ onClose }: { onClose: () => void }) {
           a 64-unit, 30°-snapped chain. Use the Hydrogen tool for explicit H, or
           atom properties to set implicit H (for example, aromatic [nH]).
         </div>
+        <p style={{ fontSize: 12, marginTop: 16 }}>
+          Use Home, Projects, Library and Properties from the workspace navigation.
+          Save version keeps the drawing in a project; Library lets you reopen
+          earlier versions and export a workspace backup. Properties can store
+          descriptor results for the exact saved version.
+        </p>
         <p style={{ fontSize: 12, marginTop: 16 }}>
           Open the periodic table from Extended elements to select by position,
           name, symbol or atomic number. The Carbon labels and Hydrogens controls

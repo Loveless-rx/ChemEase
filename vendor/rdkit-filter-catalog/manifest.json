@@ -1,0 +1,26 @@
+{
+  "release": "Release_2026_09_2",
+  "source": "https://github.com/rdkit/rdkit/tree/Release_2026_09_2/Code/GraphMol/FilterCatalog",
+  "files": [
+    {
+      "file": "pains_a.in",
+      "patterns": 16,
+      "sha256": "64c709cb38a0bf1ed121fc834a1782cadef9d14f909c325b16a443178231358b"
+    },
+    {
+      "file": "pains_b.in",
+      "patterns": 55,
+      "sha256": "505786afa87eaa71d7d051af0d97e01a1500ebacd89222a39174cd7de6ca5e78"
+    },
+    {
+      "file": "pains_c.in",
+      "patterns": 409,
+      "sha256": "0aaf01d8b7beb703a4fb93fa1f02d61ca8b1bd5dc49c0f887155215321e2464d"
+    },
+    {
+      "file": "brenk.in",
+      "patterns": 105,
+      "sha256": "6f375a2fa4da362882263fb1557309da3b155ee1c7a830a60f56eb3e68ba1639"
+    }
+  ]
+}

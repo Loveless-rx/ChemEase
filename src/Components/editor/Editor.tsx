@@ -17,7 +17,7 @@ import "./Editor.css";
 import { Molecule3DDialog } from "../viewer/Molecule3DDialog";
 import { SmilesDialog } from "../dialogs/SmilesDialog";
 import { PeriodicTableDialog } from "../dialogs/PeriodicTableDialog";
-export function Editor({ onIntro }: { onIntro: () => void }) {
+export function Editor({ onIntro, onSaveVersion, onLibrary }: { onIntro: () => void; onSaveVersion?:()=>void; onLibrary?:()=>void }) {
   const dialog = useUIStore((s) => s.dialog);
   const [mobileDrawer, setMobileDrawer] = useState<"tools" | "info" | null>(null);
   useEffect(() => {
@@ -28,7 +28,7 @@ export function Editor({ onIntro }: { onIntro: () => void }) {
     window.addEventListener("keydown", dismiss);
     return () => window.removeEventListener("keydown", dismiss);
   }, [mobileDrawer]);
-  useKeyboardShortcuts();
+  useKeyboardShortcuts(onSaveVersion);
   const close = useCallback(
     () => useUIStore.getState().set({ dialog: null }),
     [],
@@ -46,7 +46,7 @@ export function Editor({ onIntro }: { onIntro: () => void }) {
   }, []);
   return (
     <main className="editor">
-      <Navbar />
+      <Navbar onSaveVersion={onSaveVersion}/>
       <div className="mobile-notice">
         <span>Your molecular workspace</span>
         <button
@@ -94,6 +94,7 @@ export function Editor({ onIntro }: { onIntro: () => void }) {
       {dialog === "settings" && (
         <SettingsDialog
           onClose={close}
+          onLibrary={onLibrary}
           onIntro={() => {
             close();
             onIntro();

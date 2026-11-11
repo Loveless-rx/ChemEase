@@ -1,0 +1,7 @@
+import type { SkinResult } from "./model";
+import { skinSources,skinLimitations } from "./model";
+const cell=(v:unknown)=>`"${(typeof v==="number"?String(v):String(v??"").replace(/^\s*[=+@-]/,"'$&")).replaceAll('"','""')}"`;
+export function skinCsv(result:SkinResult,context:{name:string;versionId?:string;sourceId?:string;resultId?:string;createdAt?:string}){
+  const rows:unknown[][]=[["Molecule",context.name],["Version ID",context.versionId??"Live draft"],["Prediction ID",context.resultId??"Live prediction"],["Descriptor source",context.sourceId??"Live shared descriptors"],["Recorded at",context.createdAt??new Date().toISOString()],["Model",result.modelVersion],["Engine",result.engine],["Status",result.status],["Reasons",result.reasons.join("; ")],["Molecular weight (g/mol)",result.weight],["Entered neutral LogKow",result.settings.logKow],["LogKow evidence type",result.settings.evidence],["LogKow source",result.settings.source],["Predicted log10 Kp (cm/h)",result.logKpCmHour??"Not evaluable"],["Predicted Kp (cm/h)",result.kpCmHour??"Not evaluable"],["Predicted Kp (cm/s)",result.kpCmSecond??"Not evaluable"]];
+  for(const [key,value] of Object.entries(result.contributions??{}))rows.push([`logKp contribution ${key}`,value]);rows.push(["Interpretation",skinLimitations],["Paper",skinSources.paper],["Independent comparative evaluation",skinSources.evaluation],["Implementation reference",skinSources.niosh]);return "\ufeff"+rows.map(row=>row.map(cell).join(",")).join("\r\n");
+}

@@ -5,9 +5,11 @@ import { useUIStore } from "../../store/chemUIStore";
 export function SettingsDialog({
   onClose,
   onIntro,
+  onLibrary,
 }: {
   onClose: () => void;
   onIntro: () => void;
+  onLibrary?:()=>void;
 }) {
   const m = useMoleculeStore((s) => s.molecule),
     carbons = useUIStore((s) => s.showCarbons),
@@ -50,10 +52,11 @@ export function SettingsDialog({
         ))}
         <hr />
         <div className="setting-row">
-          <span>Saved structure</span>
+          <span>{onLibrary?"Saved molecule versions":"Saved structure"}</span>
           <button
             className="secondary"
             onClick={() => {
+              if(onLibrary){onClose();onLibrary();return;}
               const s = useMoleculeStore.getState();
               if (
                 fingerprint(s.molecule) !== s.savedFingerprint &&
@@ -66,16 +69,14 @@ export function SettingsDialog({
               onClose();
             }}
           >
-            Restore local save
+            {onLibrary?"Open molecule library":"Restore local save"}
           </button>
         </div>
         <button className="secondary" onClick={onIntro}>
           Replay introduction
         </button>
         <p className="notice">
-          Save stores one molecule on this browser. Export JSON for a portable
-          backup. Private-browsing or blocked storage may not persist across
-          visits.
+          {onLibrary?"Save version keeps this structure in a project on this device. Export a workspace backup from Library to keep a portable copy.":"Save stores one molecule on this browser. Export JSON for a portable backup."} Private-browsing or blocked storage may not persist across visits.
         </p>
       </div>
     </Modal>

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useMoleculeStore } from "../store/moleculeStore";
 import { useUIStore } from "../store/chemUIStore";
-export function useKeyboardShortcuts() {
+export function useKeyboardShortcuts(onSaveVersion?:()=>void) {
   useEffect(() => {
     const keydown = (e: KeyboardEvent) => {
       if (
@@ -12,7 +12,7 @@ export function useKeyboardShortcuts() {
         return;
       const u = useUIStore.getState(),
         m = useMoleculeStore.getState();
-      if (u.dialog) return;
+      if (u.dialog || document.querySelector('[role="dialog"]')) return;
       const k = e.key.toLowerCase(),
         mod = e.ctrlKey || e.metaKey;
       if (mod) {
@@ -21,7 +21,7 @@ export function useKeyboardShortcuts() {
           if (e.shiftKey) m.redo();
           else m.undo();
         } else if (k === "y") m.redo();
-        else if (k === "s") m.save();
+        else if (k === "s") {if(onSaveVersion)onSaveVersion();else m.save();}
         else if (k === "n") u.set({ dialog: "new" });
         return;
       }
@@ -51,5 +51,5 @@ export function useKeyboardShortcuts() {
     };
     window.addEventListener("keydown", keydown);
     return () => window.removeEventListener("keydown", keydown);
-  }, []);
+  }, [onSaveVersion]);
 }

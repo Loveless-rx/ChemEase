@@ -20,7 +20,7 @@ const escape = (s: string) =>
         "'": "&apos;",
       })[c]!,
   );
-export function moleculeSvg(m: Molecule, options: Partial<RenderOptions> = {}) {
+export function moleculeSvg(m: Molecule, options: Partial<RenderOptions> & {highlightAtoms?:string[];highlightBonds?:string[]} = {}) {
   const box = bounds(m.atoms);
   const width = Math.max(180, box.width + 130),
     height = Math.max(160, box.height + 130);
@@ -30,11 +30,13 @@ export function moleculeSvg(m: Molecule, options: Partial<RenderOptions> = {}) {
   const context = renderContext(m);
   const label = (a: Molecule["atoms"][number]) =>
     atomLabel(a, context.adj.get(a.id)?.length || 0, options.showCarbons);
-  let body = "";
+  const highlightedAtoms=new Set(options.highlightAtoms??[]),highlightedBonds=new Set(options.highlightBonds??[]);
+  let body = m.atoms.filter(a=>highlightedAtoms.has(a.id)).map(a=>`<circle cx="${a.x}" cy="${a.y}" r="17" fill="#b797e6" fill-opacity="0.32" stroke="#7655ad" stroke-width="1"/>`).join("");
   for (const b of m.bonds) {
     const a = context.atomMap.get(b.atomA),
       d = context.atomMap.get(b.atomB);
     if (!a || !d) continue;
+    if(highlightedBonds.has(b.id))body+=`<line x1="${a.x}" y1="${a.y}" x2="${d.x}" y2="${d.y}" stroke="#b797e6" stroke-opacity="0.5" stroke-width="10" stroke-linecap="round"/>`;
     for (const p of bondSegments(b, a, d, label(a), label(d)))
       body += `<line x1="${p.x1}" y1="${p.y1}" x2="${p.x2}" y2="${p.y2}" stroke="${ink}" stroke-width="${p.dashed ? 1.35 : 1.85}" stroke-linecap="round" ${p.dashed ? 'stroke-dasharray="4 4"' : ""}/>`;
   }

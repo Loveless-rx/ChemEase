@@ -6,7 +6,9 @@ This integrates your uploaded React/Vite project with the working ChemEase edito
 ## 1. Try it without installing anything
 Open **`dist/ChemEase.html`** in Chrome, Edge or another current browser. Scroll through the introduction, or choose **Start Creating / Skip intro**. The standalone bundles React, Zustand, 3Dmol.js and RDKit WebAssembly. Core editing, SMILES conversion and descriptors stay local; the optional 3D lookup sends SMILES to PubChem only after an explicit click.
 
-For reliable clipboard and local-save behavior, run from localhost or HTTPS. File-URL storage permissions vary by browser. JSON export is the portable backup; Save is one browser-local document, not cloud storage.
+For reliable clipboard and local-save behavior, run from localhost or HTTPS. File-URL storage permissions vary by browser. The new Foundation workspace organizes projects, molecule versions, and saved descriptor results on this device. Use Library → Export backup for a portable copy. See [the Foundation guide](docs/FOUNDATION.md) for the four-phase plan and future account integration.
+
+Phase 2 [Analysis Modules](docs/ANALYSIS_MODULES.md) are implemented: Lipinski, Veber, Ghose, Egan and the labelled Muegge Crippen variant; all 480 PAINS and 105 Brenk structural-alert definitions with mapped fragments/editor selection; and visualizations from saved descriptor/rule/alert records. Methods, applicability, sources, immutable history, and live/saved CSV or SVG exports remain visible and connected to the Foundation workspace.
 
 ## 2. Recommended migration: use this as your frontend foundation
 1. Keep your existing project folder as a backup. Extract this ZIP into a **new folder**, not over the old one.
@@ -100,7 +102,7 @@ See **`docs/MIGRATION.md`** for the exact replacement strategy and **`docs/FILE_
 - RDKit LogP, TPSA, HBD, HBA, rotatable bonds, molar refractivity, formal charge, ring count and heavy atom count; properties CSV export; pH/pKa-based monoprotic LogD estimates.
 - Contextual atom/bond inspector and analysis dialog with composition and clearly qualified simple descriptors.
 - Bounded undo/redo history; continuous drag is a single history action; cancelled drag restores its starting state.
-- One local save, startup recovery, JSON import/export, SVG export and actual PNG raster export.
+- Project-based local storage, startup draft recovery, immutable molecule versions and version-linked descriptor results; workspace backups, molecule JSON import/export, SVG and PNG export.
 - Keyboard shortcuts, labelled controls, visible focus, modal focus management and compact mobile drawers.
 - Defensive import validation, unsupported-state warnings and an application error boundary.
 
@@ -134,7 +136,7 @@ mass in the local fallback engine.
 6. Choose a ring and click empty space. Every ring atom and bond remains editable. Ring placement does not infer fused/spiro-ring topology.
 7. Choose **Charge**, select +1 or −1 and click an atom. Alt-click reverses the chosen sign. The inspector also has a numeric formal-charge field.
 8. Use **Hydrogen** to add a real H atom/bond. To model `[nH]`, select aromatic N and set its implicit-H override to 1.
-9. **Save** writes the current graph to this browser. **Export** downloads PNG, SVG or JSON. JSON can be re-imported using the folder control in the top bar.
+9. **Save** opens Save version to keep the graph in a project on this browser. **Export** downloads molecule images and chemical files. Use Library for saved versions, analysis history, and complete workspace backups.
 
 ### Keyboard shortcuts
 
@@ -142,7 +144,7 @@ mass in the local fallback engine.
 |---|---|
 | Ctrl/Cmd + Z | Undo |
 | Ctrl/Cmd + Shift + Z, Ctrl + Y | Redo |
-| Ctrl/Cmd + S | Save locally |
+| Ctrl/Cmd + S | Save molecule version |
 | Ctrl/Cmd + N | Confirm new molecule |
 | V / E / L | Select / Erase / Lasso |
 | 1 / 2 / 3 | Single / Double / Triple bond |
@@ -198,3 +200,24 @@ FILES.json             File sizes and SHA-256 checksums
 - General MOL/SDF import, stereochemical interpretation, arbitrary conformer generation, reaction editing and automatic pKa prediction remain future work.
 
 Authored project code is MIT; see `LICENSE` and `THIRD_PARTY_NOTICES.md`. Your original source backup and assets retain their original licensing.
+
+### Phase 3: first Research Tool
+
+Molecule Comparison is implemented locally: compare up to six saved versions, explicitly select recorded descriptor snapshots, inspect rule/alert summaries, plot shared axes, and export CSV/SVG with provenance. Existing Foundation activation guards and immutable results remain in use. Batch Analysis and Reports are also implemented below. See [Research Tools](docs/RESEARCH_TOOLS.md).
+
+### Phase 3 completed locally
+
+Batch Analysis now supports bounded SMILES/CSV preview, duplicate/invalid-row checks, cancellation/retry, atomic per-row project saves and source-linked results CSV. Research Reports save exact result references and export PDF/CSV with structures, charts, methods and limitations. All 176 tests, lint and production/standalone builds pass. See [Research Tools](docs/RESEARCH_TOOLS.md) for limits, verification and dependency follow-ups. Phase 4 now begins with ESOL solubility.
+
+### Phase 4: first prediction
+
+Aqueous Solubility uses a pinned MIT-licensed ESOL RDKit refit, checked on 56 nonoverlapping external compounds. The app shows measured benchmark error, applicability limits, exact inputs and explicit Not evaluable states. Saved predictions connect to the foundation, comparison, batch and source-frozen report v2 exports. All 192 tests pass, including the full local external benchmark. See [Predictions](docs/PREDICTIONS.md). The next local increment adds aqueous skin permeability (see below); other ADMET endpoints remain unimplemented.
+
+### Phase 4: first ADMET endpoint
+
+Skin permeability uses the published Potts–Guy model with the pinned CDC/NIOSH
+cm/h equation. Enter a sourced neutral LogKow; shared RDKit molecular weight,
+immutable version-linked history, comparison and frozen report v3 PDF/CSV are
+connected. No LogD/Crippen substitution, clinical classification or molecule-specific
+confidence interval is claimed. All 205 tests, lint and production/standalone builds
+pass. [Model evidence and verification](docs/ADMET_SKIN.md). Work remains local.
