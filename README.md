@@ -41,7 +41,7 @@ A normal build writes `dist/index.html` and its assets, plus `dist/ChemEase.html
 
 ### Molecular docking
 
-The independent [Vina-first docking module](docs/DOCKING.md) connects receptor/ligand preparation, asynchronous jobs, grid review, ranked poses, 3D comparisons, geometric contacts and research exports to the Foundation workspace. Follow [backend setup](backend/README.md), then run `npm run docking:backend` alongside the frontend. AutoDock 4, rDock and FlexAID are disabled extension targets. Static hosting alone cannot execute docking. See [verification evidence and limits](docs/DOCKING_VERIFICATION.md).
+The independent [docking module](docs/DOCKING.md) connects receptor/ligand preparation, asynchronous jobs, grid review, ranked poses, 3D comparisons, geometric contacts and research exports to the Foundation workspace. Follow [backend setup](backend/README.md), then run `npm run docking:backend` alongside the frontend. Native AutoDock Vina and [AutoDock 4 / AutoGrid 4](docs/AUTODOCK4.md) use separate settings and score meanings; rDock and FlexAID remain unavailable. Static hosting alone cannot execute the current native engines. See [verification evidence and limits](docs/DOCKING_VERIFICATION.md).
 
 The archive contains the Vite-built standalone. Rebuild with `npm run build` to regenerate the full hosting output.
 

@@ -261,3 +261,11 @@ Sources: https://github.com/ccsb-scripps/AutoDock-Vina,
 https://github.com/forlilab/Meeko, https://github.com/forlilab/molscrub,
 https://github.com/openmm/pdbfixer. Scientific attribution and method limits are
 documented in `docs/DOCKING.md`. No PLIP code is included.
+
+AutoDock 4.2.6 and AutoGrid 4.2.6 are optional separate native executables,
+Copyright The Scripps Research Institute, GNU GPL version 2 or later. The
+installer verifies the official Scripps package/binaries and retains the GPL
+text and source/download notice in ignored `backend/bin`. They are not embedded
+in the browser bundle. Official binaries and corresponding source distribution:
+https://autodock.scripps.edu/download-autodock4/ . Method attribution:
+Morris et al. (2009), https://doi.org/10.1002/jcc.21256.

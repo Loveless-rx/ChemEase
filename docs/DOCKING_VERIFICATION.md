@@ -4,7 +4,7 @@ Checked on Windows x64 with Python 3.12.14 and AutoDock Vina 1.2.7.
 This is implementation/protocol verification, not a general docking accuracy
 validation or evidence of experimental binding.
 
-## Automated checks
+## Initial Vina-first automated checks
 
 - Application: 231 tests passed, including immutable docking snapshots, owner/
   version links, malformed imports, finite scores/contacts, CSV provenance,
@@ -87,10 +87,72 @@ best-pose-relative RMSD bounds.
 
 ## Explicit outstanding scope
 
-AutoDock 4, rDock and FlexAID adapters are unavailable. Flexible-receptor,
+rDock and FlexAID adapters are unavailable. Flexible-receptor,
 covalent, metal/cofactor and explicit-water protocols are unsupported. The
 service is a loopback workstation backend; shared hosting needs authenticated
 authorization and a production supervisor. No physical phone connectivity or
 Linux/macOS execution has been verified on this Windows host. Responsive browser
 checks do not substitute for those tests. Target-specific redocking/enrichment
 and reviewed protonation remain necessary for research use.
+
+## AutoDock 4 addition — 2026-11-13
+
+The latest application checks passed 233 tests; backend checks passed 36 tests.
+TypeScript, ESLint, Vite and standalone builds passed. New cases cover native
+GPF/DPF generation, effective even-point grids, engine-specific settings, supported
+types/torsion limits, complete DLG ensembles and native clustering, malformed/
+partial/identity-changed poses, missing installations/version output, AD4 backup
+restore, null Vina bounds, map hashes and correct CSV interpretation.
+
+The optional installer was executed against the official Windows 4.2.6 package.
+It verified the package SHA-256
+`306dc72a06e80a2da6f3c410ac6aba7ebdaeef6b702eca42de44c7c6c9d48755`,
+AutoDock binary `36c0b16c04d7df8e6225737bae65bb04058d1f4c90accfaf2d230dbc913954bf`,
+and AutoGrid binary `797efce687d1ae82df59726461e0e1966b3d8edb0f8b187f982fa1ab0c12da9e`.
+Both reported 4.2.6; this is native AD4, not Vina with an AD4 scoring option.
+
+Real 1IEP chain A / imatinib runs used pH 7.4 (+2 rule-based ligand), seed 42/43,
+20 Å requested sides (20.25 Å effective), 0.375 Å spacing and native LGA:
+
+| Preparation/run | LGA runs × max evaluations | Best AD4 energy (kcal/mol) | Best-pose crystal RMSD (Å) |
+| --- | --- | --- | --- |
+| API SMILES preparation `c3813570ebb643049de452963c92e31d` | 3 × 2,500,000 | -13.54 | 1.1130 |
+| Editor-linked preparation `0b870d3042e340d284c7d7d42e27cf00` | 3 × 2,500,000 | -10.55 | 6.6888 |
+| Same editor inputs, default budget `db9bc2a8b46d447cbe54a8c98f15d648` | 10 × 2,500,000 | -11.75 | 3.5690 |
+
+The first recovered a near-crystal pose; the second did **not** pass a 2 Å
+redocking criterion. Both observations are retained. Input comparison found the
+ligand PDBQT identical, but receptor PDBQT coordinates differed by up to 0.0047 Å
+between the two preparation executions (heavy-atom coordinates were identical;
+only hydrogen coordinates differed). The stochastic search produced different
+outcomes. The default ten-run check returned five native cluster representatives
+and improved the editor-input result, but its top-scoring pose still failed the
+2 Å criterion. The default must **not** be described as a target-validated 1IEP
+preset. No seed/pose was substituted to hide this failure. The model's published validation cannot certify every preparation,
+target or parameter choice. Reference matching uses the verifier's full heavy-atom
+MCS, no coordinate alignment, and ignores charge/stereo differences for matching;
+the mapping cap was not reached. This is distinct from native AD4 clustering.
+
+A low-budget browser run `4a0f050a5f1147eb88911495bbb6944f` (3 × 100,000) was
+used for workflow checks only. Its result saved to Foundation with the original
+editor version/key; a four-page PDF was downloaded from Reports, rendered and
+inspected. Its CSV used AD4 energy/source-run/cluster labels, not Vina scores or
+invented RMSD bounds. Both this archive and the later editor-run archive passed
+CRC, prepared-input SHA-256, map SHA-256 and every pose's reloaded SDF chemical/
+stereochemical identity checks. Ranked SDF download also succeeded.
+
+Real cancellation was exercised during both `generating-ad4-maps` and native
+`docking`: each became terminal `cancelled`, hid results and rejected partial
+archive/SDF downloads with HTTP 409. A real Vina regression run
+`8b602b6f08a54b7693f4f53a716b789d` completed with -13.403 kcal/mol and passed
+archive/pose chemistry verification, preserving the separate Vina protocol.
+
+The final default-budget run's complete downloaded ZIP also passed the permanent
+verifier, including maps and the prepared ligand PDBQT needed by the native DPF.
+It saved to Foundation and survived a browser reload alongside earlier Vina/AD4
+records. Its six-page saved-report PDF was rendered and visually inspected.
+The final production UI displayed real pose overlays/contact lines and native
+run/cluster IDs with no browser console errors. Browser widths 320, 390 and 768
+had no page/card overflow; tables scroll locally. Desktop/phone screenshots were
+retained. The viewport override was reset. These are responsive browser checks,
+not physical-device/backend-connectivity or broad scientific accuracy validation.

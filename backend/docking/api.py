@@ -105,7 +105,8 @@ def ligand(request:LigandPreparation,owner:str=Depends(scope)):
 
 @app.post("/api/docking/jobs/dock",status_code=202)
 def dock(request:DockingRequest,owner:str=Depends(scope)):
-    DockingManager().engine(request.engine).command(request)
+    try: DockingManager().engine(request.engine).command(request)
+    except RuntimeError as error: raise HTTPException(503,str(error)) from error
     rec=db.get(request.receptorId,owner,"receptor");lig=db.get(request.ligandId,owner,"ligand")
     if not usable(rec) or not usable(lig):raise ValueError("Select preparations from completed jobs.")
     if "features" not in rec["files"] or "features" not in lig["files"]:raise ValueError("Reprepare these older inputs to include topology-based interaction typing.")

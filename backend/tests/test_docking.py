@@ -83,12 +83,15 @@ def test_settings_reject_nan_unbounded_grids_and_unconfirmed_cleanup():
     with pytest.raises(ValueError):LigandPreparation(content="CC",format="smiles",ph=13,source={"kind":"smiles","name":"Test"})
 
 
-def test_engine_manager_uses_argv_not_shell_and_rejects_unimplemented_engines():
+def test_engine_manager_uses_argv_not_shell_and_rejects_unimplemented_engines(monkeypatch):
     request=DockingRequest(receptorId="a"*32,ligandId="b"*32,grid={"center":{"x":1,"y":2,"z":3},"size":{"x":20,"y":20,"z":20}})
     manager=DockingManager();args=manager.engine("vina").command(request)
     assert args[args.index("--center_x")+1]=="1.0" and "--seed" in args
-    assert not manager.capabilities()[1]["available"]
-    for name in ("autodock4","rdock","flexaid","../../cmd.exe"):
+    monkeypatch.setattr(manager.engine("autodock4"),"executable",lambda:"trusted-autodock4")
+    monkeypatch.setattr(manager.engine("autodock4"),"autogrid",lambda:"trusted-autogrid4")
+    assert manager.engine("autodock4").command(request)[1:]==["-p","docking.dpf","-l","docking.dlg"]
+    assert not next(e for e in manager.capabilities() if e["id"]=="rdock")["available"]
+    for name in ("rdock","flexaid","../../cmd.exe"):
         with pytest.raises(ValueError):manager.engine(name)
 
 
@@ -99,6 +102,13 @@ def test_scope_authorization_blocks_cross_workspace_records(client):
     assert client.get(f"/api/docking/artifacts/{identifier}/pdb").status_code==200
     assert client.get(f"/api/docking/artifacts/{identifier}/pdb",headers={"X-ChemEase-Client":OTHER}).status_code==404
     assert client.get("/api/docking/jobs",headers={"X-ChemEase-Client":"bad"}).status_code==400
+
+
+def test_missing_ad4_installation_is_service_unavailable_not_a_server_crash(client,monkeypatch):
+    from docking.engines import AutoDock4
+    monkeypatch.setattr(AutoDock4,"autogrid",lambda _:None)
+    response=client.post("/api/docking/jobs/dock",json={"engine":"autodock4","receptorId":"a"*32,"ligandId":"b"*32,"grid":{"center":{"x":0.,"y":0.,"z":0.},"size":{"x":20.,"y":20.,"z":20.}}})
+    assert response.status_code==503 and "AutoGrid" in response.json()["detail"]
 
 
 def test_upload_validation_and_pdb_id_do_not_accept_arbitrary_urls(client):

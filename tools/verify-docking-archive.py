@@ -21,6 +21,12 @@ with zipfile.ZipFile(args.archive) as archive:
     result=json.loads(archive.read("result.json"))
     for name,record,key in [("receptor.pdbqt",result["receptor"],"pdbqt"),("input-ligand.sdf",result["ligand"],"sdf")]:
         assert hashlib.sha256(archive.read(name)).hexdigest()==record["files"][key]["sha256"],name
+    if "ligand.pdbqt" in archive.namelist():
+        assert hashlib.sha256(archive.read("ligand.pdbqt")).hexdigest()==result["ligand"]["files"]["pdbqt"]["sha256"]
+    if result["engine"]=="autodock4":
+        assert {"ligand.pdbqt","receptor.gpf","docking.dpf","docking.dlg","autogrid.glg"}.issubset(archive.namelist())
+        for name,expected in result["protocol"]["mapHashes"].items():
+            assert hashlib.sha256(archive.read(name)).hexdigest()==expected,name
     prepared=next(Chem.ForwardSDMolSupplier(io.BytesIO(archive.read("input-ligand.sdf")),removeHs=False))
     assert prepared is not None
     identity=Chem.MolToSmiles(Chem.RemoveHs(prepared),isomericSmiles=True)

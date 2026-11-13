@@ -12,6 +12,7 @@
 .docking-table table {border-collapse:collapse;width:100%;text-align:left;font-size:12px;line-height:1.6;}
 .docking-table td,.docking-table th {padding:12px;border-bottom:1px solid var(--border);min-width:70px;}
 .docking-table caption {text-align:left;padding:14px;color:var(--text-muted);}
+.docking-table th {min-width:100px;overflow-wrap:normal;word-break:normal;}
 .docking-table input {accent-color:var(--accent);width:18px;height:18px;}
 .docking-page pre {white-space:pre-wrap;overflow-wrap:anywhere;font-size:11px;}
 .docking-history,.docking-report-row {display:flex;justify-content:space-between;gap:20px;padding:20px 0;border-bottom:1px solid var(--border);}

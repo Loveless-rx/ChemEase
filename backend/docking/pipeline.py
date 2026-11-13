@@ -187,35 +187,30 @@ def dock(job, stage, check):
     if min(math.dist(a["xyz"],[c.x,c.y,c.z]) for a in receptor_atoms)>15:
         raise ValueError("The box center is more than 15 Å from every receptor atom. Review the binding site.")
     engine=DockingManager().engine(request.engine);version=engine.version()
-    stage("docking", "AutoDock Vina is searching. No reliable percentage is available during search.")
-    command=engine.command(request)
-    with (folder/"vina.log").open("w") as log:
-        process=subprocess.Popen(command,cwd=folder,stdout=log,stderr=subprocess.STDOUT)
-        try:
-            while process.poll() is None:
-                check();time.sleep(.5)
-            if process.returncode:
-                raise ValueError("Vina failed: "+(folder/"vina.log").read_text(errors="replace")[-2500:])
-        finally:
-            if process.poll() is None:
-                process.terminate()
-                try: process.wait(timeout=5)
-                except subprocess.TimeoutExpired: process.kill();process.wait()
+    extra_files={};protocol=None
+    if request.engine=="autodock4":
+        from .autodock4 import run
+        scores,extra_files,protocol=run(request,engine,folder,stage,check)
+    else:
+        from .process import execute
+        stage("docking", "AutoDock Vina is searching. No reliable percentage is available during search.")
+        execute(engine.command(request),folder,"vina.log",check)
+        scores=[]
+        for block in (folder/"poses.pdbqt").read_text().split("MODEL")[1:]:
+            match=re.search(r"REMARK VINA RESULT:\s+([-+0-9.eE]+)\s+([-+0-9.eE]+)\s+([-+0-9.eE]+)",block)
+            if not match or not all(math.isfinite(float(v)) for v in match.groups()):
+                raise ValueError("Vina returned malformed pose scores.")
+            affinity,lower,upper=map(float,match.groups())
+            scores.append({"affinity":affinity,"rmsdLower":lower,"rmsdUpper":upper})
     check();stage("processing-poses", "Restoring chemical bond orders and analyzing pose geometry")
     text=(folder/"poses.pdbqt").read_text()
     blocks=["MODEL"+chunk for chunk in text.split("MODEL")[1:]]
-    scores=[]
-    for block in blocks:
-        match=re.search(r"REMARK VINA RESULT:\s+([-+0-9.eE]+)\s+([-+0-9.eE]+)\s+([-+0-9.eE]+)",block)
-        if not match or not all(math.isfinite(float(v)) for v in match.groups()):
-            raise ValueError("Vina returned malformed pose scores.")
-        scores.append(tuple(map(float,match.groups())))
-    if not 1 <= len(scores) <= request.poses:
-        raise ValueError("Vina returned an unexpected number of poses.")
+    if not 1 <= len(scores) <= request.poses or len(blocks)!=len(scores):
+        raise ValueError("Engine returned an unexpected number of poses.")
     mols=RDKitMolCreate.from_pdbqt_mol(PDBQTMolecule(text,skip_typing=True))
     if len(mols)!=1 or mols[0] is None or mols[0].GetNumConformers()!=len(scores):
         raise ValueError("Docked poses could not be safely restored to SDF.")
-    molecule=mols[0];poses=[];files={"receptor":"receptor.pdb","receptorPdbqt":"receptor.pdbqt","inputLigand":"input-ligand.sdf","pdbqt":"poses.pdbqt","log":"vina.log"}
+    molecule=mols[0];poses=[];files={"receptor":"receptor.pdb","receptorPdbqt":"receptor.pdbqt","inputLigand":"input-ligand.sdf","inputLigandPdbqt":"ligand.pdbqt","pdbqt":"poses.pdbqt","log":"vina.log",**extra_files}
     if original_name:files["sourceLigand"]=original_name
     if original_receptor:files["sourceReceptor"]="original-receptor.pdb"
     prepared_mol=next(Chem.SDMolSupplier(str(folder/"input-ligand.sdf"),removeHs=False))
@@ -223,8 +218,8 @@ def dock(job, stage, check):
     prepared_identity=Chem.MolToSmiles(Chem.RemoveHs(prepared_mol),isomericSmiles=True)
     all_writer=Chem.SDWriter(str(folder/"poses.sdf"));coordinates=[]
     try:
-        for i,(affinity,lower,upper) in enumerate(scores):
-            check();molecule.SetProp("VINA_AFFINITY_KCAL_MOL",str(affinity));molecule.SetProp("POSE_RANK",str(i+1));all_writer.write(molecule,confId=i)
+        for i,score in enumerate(scores):
+            check();molecule.SetProp("VINA_AFFINITY_KCAL_MOL" if request.engine=="vina" else "AD4_ESTIMATED_BINDING_ENERGY_KCAL_MOL",str(score["affinity"]));molecule.SetProp("DOCKING_ENGINE",request.engine);molecule.SetProp("POSE_RANK",str(i+1));all_writer.write(molecule,confId=i)
             name=f"pose-{i+1}.sdf"
             with Chem.SDWriter(str(folder/name)) as writer: writer.write(molecule,confId=i)
             roundtrip=next(Chem.SDMolSupplier(str(folder/name),removeHs=False))
@@ -232,13 +227,16 @@ def dock(job, stage, check):
                 raise ValueError("Docked SDF export changed the prepared ligand chemistry/stereochemistry; outputs were withheld.")
             files[f"pose-{i+1}"]=name
             geom=contacts((folder/"receptor.pdbqt").read_text(),blocks[i],set(rec_features["hydrophobicSerials"]),set(lig_features["hydrophobicSerials"]))
-            poses.append({"rank":i+1,"affinity":affinity,"rmsdLower":lower,"rmsdUpper":upper,**geom})
+            poses.append({"rank":i+1,**score,**geom})
             coordinates.append(np.array([list(molecule.GetConformer(i).GetAtomPosition(a.GetIdx())) for a in molecule.GetAtoms() if a.GetAtomicNum()>1]))
     finally: all_writer.close()
     files["sdf"]="poses.sdf"
     files["receptorFeatures"]="receptor-features.json";files["ligandFeatures"]="ligand-features.json"
     rmsd=[[round(float(np.sqrt(np.mean(np.sum((a-b)**2,axis=1)))),4) for b in coordinates] for a in coordinates]
-    result={"schema":1,"jobId":job["id"],"createdAt":job["createdAt"],"completedAt":db.now(),"engine":"vina","engineVersion":version,"engineBinarySha256":hashlib.sha256(Path(engine.executable()).read_bytes()).hexdigest(),"tools":versions(),"receptor":db.public(rec),"ligand":db.public(lig),"settings":request.model_dump(),"poses":poses,"mappedHeavyAtomRmsd":rmsd,"rmsdMethod":"Common receptor coordinate frame, fixed atom mapping, no realignment or symmetry correction. Vina lower/upper RMSDs are relative to its best pose, not the crystal ligand.","limitations":LIMITATIONS}
+    result={"schema":1,"jobId":job["id"],"createdAt":job["createdAt"],"completedAt":db.now(),"engine":request.engine,"engineVersion":version,"engineBinarySha256":hashlib.sha256(Path(engine.executable()).read_bytes()).hexdigest(),"tools":versions(),"receptor":db.public(rec),"ligand":db.public(lig),"settings":request.model_dump(),"poses":poses,"mappedHeavyAtomRmsd":rmsd,"rmsdMethod":"Common receptor coordinate frame, fixed atom mapping, no realignment or symmetry correction. Vina lower/upper RMSDs are relative to its best pose, not the crystal ligand.","limitations":LIMITATIONS if request.engine=="vina" else LIMITATIONS.replace("AutoDock Vina", "AutoDock 4 / AutoGrid 4")+" Grid sides are rounded upward to even 0.375 Angstrom intervals; the effective grid and native LGA/cluster settings are retained. Independent search outcomes are not binding measurements."}
+    if protocol is not None:
+        result["protocol"]=protocol
+        result["rmsdMethod"]="Common receptor frame, fixed heavy-atom mapping, no alignment or symmetry correction. AD4 cluster representatives are ranked by estimated binding energy. Vina RMSD bounds are not applicable (null); cluster RMSDs in the native DLG have separate meanings."
     (folder/"result.json").write_text(json.dumps(result,indent=2,allow_nan=False));files["result"]="result.json"
     import csv
     with (folder/"interactions.csv").open("w",newline="") as out:

@@ -61,11 +61,27 @@ class Grid(Strict):
         return self
 
 
+class AD4Settings(Strict):
+    runs: int = Field(default=10, ge=1, le=50)
+    evaluations: int = Field(default=2500000, ge=100000, le=10000000)
+
+
 class DockingRequest(Strict):
     receptorId: str = Field(pattern=r"^[a-f0-9]{32}$")
     ligandId: str = Field(pattern=r"^[a-f0-9]{32}$")
-    engine: Literal["vina"] = "vina"
+    engine: Literal["vina", "autodock4"] = "vina"
     grid: Grid
-    exhaustiveness: int = Field(default=8, ge=1, le=32)
+    exhaustiveness: int | None = Field(default=None, ge=1, le=32)
+    ad4: AD4Settings | None = None
     poses: int = Field(default=9, ge=1, le=20)
     seed: int = Field(default=42, ge=1, le=2147483647)
+
+    @model_validator(mode="after")
+    def engine_settings(self):
+        if self.engine == "vina":
+            if self.ad4 is not None: raise ValueError("AutoDock 4 settings cannot be used for Vina.")
+            if self.exhaustiveness is None: self.exhaustiveness = 8
+        else:
+            if self.exhaustiveness is not None: raise ValueError("AutoDock 4 uses LGA runs/evaluations, not Vina exhaustiveness.")
+            if self.ad4 is None: self.ad4 = AD4Settings()
+        return self

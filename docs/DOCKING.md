@@ -1,4 +1,4 @@
-# Molecular Docking: Vina-first independent module
+# Molecular Docking: independent multi-engine module
 
 Docking is separate from the ADMET prediction workflow. React/TypeScript handles
 input review, progress, 3Dmol visualization and reports; the Python FastAPI service
@@ -57,16 +57,19 @@ must be 6–40 Å, with volume at most 40,000 Å³. A center more than 15 Å fro
 protein atom is rejected as a protocol guard. This is not automatic pocket
 discovery. Search uses selected seed, exhaustiveness 1–32, at most 20 returned
 poses and two CPUs. A pose limit is a maximum: Vina clustering may return fewer.
+Native AutoDock 4 uses its own LGA runs/evaluation budget and AutoGrid maps;
+see [AutoDock 4 protocol](AUTODOCK4.md) for its effective grid, score semantics,
+clustering, controls, compatibility and browser-execution scope.
 
 Jobs are persistent and asynchronous in isolated Python workers. Real stages
 include cleanup, repair, hydrogen placement, protonation, conformer generation,
-typing, Vina search and pose processing. No invented completion percentage or
+typing, map generation where needed, engine search and pose processing. No invented completion percentage or
 mock affinity is used. Worker errors, timeouts, cancellation and interrupted
 restarts are terminal non-success states. Outputs/preparation assets are gated
 by completed parent jobs, and owned subprocesses are cancelled/terminated.
 
-The adapter registry currently exposes Vina 1.2.7. AutoDock 4, rDock and FlexAID
-have no validated executable adapters in this release and remain disabled.
+The adapter registry exposes Vina 1.2.7 and native AutoDock 4 / AutoGrid 4
+(tested with 4.2.6). rDock and FlexAID remain disabled.
 Preparations made before topology feature maps were introduced must be prepared
 again for new searches; their existing result snapshots retain their recorded
 interaction method. Future engine adapters must use the same job/artifact contract while retaining
@@ -118,7 +121,9 @@ preparation/protonation, artifact hashes, exact grid/search, scores, RMSD and
 interaction criteria/limits. PDFs show up to 200 contacts per pose, with an explicit
 note when capped, and refuse more than 80 pages. CSV/ZIP provide fuller details.
 The page offers ranked SDF, CSV and a complete backend ZIP containing original
-and prepared inputs, poses, Vina log, config, JSON and contact CSV. Raw coordinate
+and prepared inputs, poses, native engine logs, config, JSON and contact CSV.
+AutoDock 4 archives additionally retain GPF/DPF, AutoGrid maps and their hashes.
+Raw coordinate
 files are not embedded in browser backups: retain the ZIP separately.
 
 Up to 100 run snapshots are retained, subject to the workspace backup size limit.

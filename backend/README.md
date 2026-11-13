@@ -1,6 +1,6 @@
 # ChemEase Docking backend
 
-This local FastAPI service executes the Vina-first docking workflow. It is not
+This local FastAPI service executes Vina and native AutoDock 4 workflows. It is not
 part of the GitHub Pages/static JavaScript runtime. Keep the Python service
 running while using Docking. Existing molecule editing/analysis and saved
 docking PDF/CSV reports remain usable without it.
@@ -23,6 +23,24 @@ pinned SHA-256 before installing it. Windows x64 execution was tested here;
 Linux/macOS downloads are pinned but their execution was not tested on this host.
 All generated data, installed dependencies and binaries are ignored by Git and
 excluded by the source packager.
+
+### Optional AutoDock 4 / AutoGrid 4
+
+On Windows x64, with official 7-Zip installed:
+
+```powershell
+backend/.venv/Scripts/python.exe tools/install-autodock4.py
+```
+
+The installer downloads the official Scripps 4.2.6 Windows package, verifies the
+package and both executable hashes, extracts only the two binaries without
+executing the installer, and installs the GPL license/notice. Both AutoDock and
+AutoGrid must pass version checks before the UI enables AutoDock 4.
+On other platforms install native 4.2.x binaries from the official project and
+set `CHEMEASE_AUTODOCK4` / `CHEMEASE_AUTOGRID4` to their absolute paths. Those
+platforms have not been executed on this Windows host. These settings can also
+select an existing Windows installation. Unsupported atom types, macrocycle
+glue atoms and more than 32 ligand torsions fail explicitly.
 
 After setup, `npm run docking:backend` starts the local service using the project
 environment. Start the React app separately with `npm run dev`. The Docking page defaults to
@@ -74,12 +92,12 @@ API documentation is available locally at `/docs`.
 ## Pipeline and scientific scope
 
 See [Docking design and limits](../docs/DOCKING.md). This release runs rigid,
-noncovalent **AutoDock Vina**. AutoDock 4, rDock and FlexAID are unavailable
-extension targets, not working alternative engines. `Engine`/`DockingManager`
+noncovalent **AutoDock Vina** and **AutoDock 4 / AutoGrid 4**. rDock and FlexAID
+remain unavailable extension targets. `Engine`/`DockingManager`
 separate execution contracts from job orchestration and React. Do not substitute
 Vina's AD4 scoring option for the actual AutoDock 4 engine.
 
-One worker runs at a time (Vina uses two CPUs). Up to ten jobs globally/three per
+One worker runs at a time (Vina uses two CPUs; the tested AD4 build is serial). Up to ten jobs globally/three per
 browser workspace may be queued. Jobs have a 30-minute wall limit and a bounded
 cancellation grace period before terminating their owned process tree. Stage
 messages are real execution states; no simulated search percentage is shown.
