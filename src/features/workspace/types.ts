@@ -1,3 +1,4 @@
+import type { SavedDockingRun } from "../docking/types";
 import type { Molecule } from "../../models/Molecule";
 import type { Analysis } from "../../types/analysis";
 import type { ToolkitResult } from "../../engine/toolkit";
@@ -6,6 +7,7 @@ import type { ExtendedScreening } from "../drugLikeness/extendedRules";
 import type { AlertResult } from "../medicinalChemistry/analysis";
 import type { SavedReport } from "../reports/model";
 import type { SolubilityResult } from "../solubility/model";
+import type { HepaticResult } from "../hepatic/model";
 import type { SkinResult } from "../skin/model";
 
 // Authentication can supply a different owner scope and repository later.
@@ -60,7 +62,8 @@ export interface SavedStructuralAlerts {
 }
 export interface SavedSolubility extends Omit<SavedDrugLikenessAnalysis,"method"|"screening"> {method:"esol-rdkit-v1";prediction:SolubilityResult}
 export interface SavedSkin extends Omit<SavedDrugLikenessAnalysis,"method"|"screening"> {method:"skin-pg-cdc-v1";prediction:SkinResult}
-export type SavedAnalysis=SavedDescriptorAnalysis | SavedDrugLikenessAnalysis | SavedExtendedScreening | SavedStructuralAlerts | SavedSolubility | SavedSkin;
+export interface SavedHepatic {id:string;versionId:string;structureKey:string;method:"hepatic-well-stirred-v1";engine:string;createdAt:string;prediction:HepaticResult}
+export type SavedAnalysis=SavedDescriptorAnalysis | SavedDrugLikenessAnalysis | SavedExtendedScreening | SavedStructuralAlerts | SavedSolubility | SavedSkin | SavedHepatic;
 export interface ActiveSelection {
   projectId: string | null;
   moleculeId: string | null;
@@ -77,6 +80,7 @@ export interface WorkspaceData {
   active: ActiveSelection;
   draft: Molecule | null;
   reports?: SavedReport[];
+  dockingRuns?: SavedDockingRun[];
 }
 export interface WorkspaceRepository {
   readonly ownerId: string;

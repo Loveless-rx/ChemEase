@@ -1,3 +1,4 @@
+import { validateDockingRuns } from "../docking/model";
 import { parseMolecule } from "../../utils/storage";
 import { chemistryKey } from "../../engine/toolkit";
 import { analyzeMolecule } from "../../engine/analysis";
@@ -11,6 +12,7 @@ import { ALERT_METHOD, validateAlertResult, type AlertResult } from "../medicina
 import { canonicalJson } from "../../utils/canonicalJson";
 import { validateReport } from "../reports/model";
 import { predictSolubility } from "../solubility/model";
+import { predictHepatic, HEPATIC_MODEL, type HepaticSettings } from "../hepatic/model";
 import { predictSkin,type SkinSettings } from "../skin/model";
 
 export const emptyWorkspace = (ownerId: string): WorkspaceData => ({schemaVersion:1,ownerId,revision:0,projects:[],molecules:[],versions:[],results:[],active:{projectId:null,moleculeId:null,versionId:null},draft:null});
@@ -115,6 +117,14 @@ export function saveSkin(data:WorkspaceData,versionId:string,graph:Molecule,desc
   if(!next.results.some(r=>r.method==="skin-pg-cdc-v1"&&r.descriptorResultId===source.id&&canonicalJson(r.prediction)===canonicalJson(prediction))){if(next.results.length>=5000)throw new Error("The saved-analysis limit is reached.");next.results.push({id:idFactory(),method:"skin-pg-cdc-v1",versionId,structureKey:descriptors.structureKey,descriptorResultId:source.id,engine:descriptors.engine,createdAt:new Date().toISOString(),prediction});}
   return next;
 }
+export function saveHepatic(data:WorkspaceData,versionId:string,graph:Molecule,settings:HepaticSettings,idFactory=uuid){
+  const version=data.versions.find(v=>v.id===versionId);
+  if(!version||snapshotKey(version.graph)!==snapshotKey(graph))throw new Error("Save this molecule version before saving a hepatic prediction.");
+  const prediction=predictHepatic(graph,settings);
+  if(data.results.some(r=>r.method==="hepatic-well-stirred-v1"&&r.versionId===versionId&&canonicalJson(r.prediction)===canonicalJson(prediction)))return structuredClone(data);
+  if(data.results.length>=5000)throw new Error("The saved-analysis limit is reached.");
+  const next=structuredClone(data);next.results.push({id:idFactory(),versionId,structureKey:prediction.structureKey,method:"hepatic-well-stirred-v1",engine:HEPATIC_MODEL,createdAt:new Date().toISOString(),prediction});return next;
+}
 // Validate imported/recovered data before any write; never overwrite a corrupt workspace automatically.
 export function validateWorkspace(input: unknown, ownerId: string): WorkspaceData {
   if (!input || typeof input!=="object") throw new Error("Invalid workspace backup.");
@@ -145,6 +155,10 @@ export function validateWorkspace(input: unknown, ownerId: string): WorkspaceDat
   for(const r of d.results) {
     const v=d.versions.find(v=>v.id===r.versionId);
     if(!v||r.structureKey!==v.structureKey||!date(r.createdAt)||typeof r.engine!=="string"||!r.engine||r.engine.length>100) throw new Error("Invalid saved analysis provenance.");
+    if(r.method==="hepatic-well-stirred-v1"){
+      if(r.engine!==HEPATIC_MODEL||canonicalJson(predictHepatic(v.graph,r.prediction?.settings))!==canonicalJson(r.prediction))throw new Error("Stored hepatic prediction does not match its input set, structure and model.");
+      continue;
+    }
     if(r.method==="structural-alerts-v1") {
       validateAlertResult(r.alerts,v.graph);
       if(r.alerts.engine!==r.engine)throw new Error("Structural-alert engine provenance does not match.");
@@ -181,6 +195,7 @@ export function validateWorkspace(input: unknown, ownerId: string): WorkspaceDat
     if(!Array.isArray(d.reports)||d.reports.length>100||new Set(d.reports.map(r=>r?.id)).size!==d.reports.length)throw new Error("Invalid saved report list.");
     for(const report of d.reports)validateReport(d,report);
   }
+  if(d.dockingRuns!==undefined)validateDockingRuns(d.dockingRuns,d);
   if(!a||typeof a!=="object"||![a.projectId,a.moleculeId,a.versionId].every(x=>x===null||typeof x==="string")) throw new Error("Invalid active selection.");
   if(a.projectId&&!d.projects.some(p=>p.id===a.projectId)) throw new Error("Active project is missing.");
   if(a.moleculeId&&!d.molecules.some(m=>m.id===a.moleculeId&&m.projectId===a.projectId)) throw new Error("Active molecule is missing.");

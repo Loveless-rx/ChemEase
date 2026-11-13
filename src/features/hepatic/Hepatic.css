@@ -1,0 +1,8 @@
+.admet-navigation {display:flex;flex-wrap:wrap;gap:12px;margin-bottom:24px;}
+.admet-navigation a {display:inline-flex;align-items:center;text-decoration:none;min-height:44px;padding:10px 16px;border:1px solid var(--border);border-radius:8px;color:var(--text-muted);}
+.admet-navigation a[aria-current=page] {color:var(--accent);border-color:var(--accent);background:var(--accent-dim);}
+.hepatic-page .ws-card {overflow-wrap:anywhere;}
+.hepatic-page .research-controls>div>label+label {margin-top:16px;}
+.hepatic-page .hepatic-confirm {display:flex;align-items:flex-start;gap:12px;line-height:1.7;margin:20px 0;}
+.hepatic-confirm input {width:18px!important;min-height:18px!important;flex-shrink:0;accent-color:var(--accent);}
+.hepatic-page .solubility-values strong {font-size:clamp(1.5rem,3vw,2rem);}

@@ -13,6 +13,8 @@ import { DrugLikenessPage } from "../drugLikeness/DrugLikenessPage";
 import { MedicinalChemistryPage } from "../medicinalChemistry/MedicinalChemistryPage";
 import { VisualizationsPage } from "../visualizations/VisualizationsPage";
 import { SolubilityPage } from "../solubility/SolubilityPage";
+import { DockingPage } from "../docking/DockingPage";
+import { HepaticPage } from "../hepatic/HepaticPage";
 import { SkinPage } from "../skin/SkinPage";
 import { BatchPage } from "../batch/BatchPage";
 import { ReportsPage } from "../reports/ReportsPage";
@@ -25,7 +27,7 @@ import "./Workspace.css";
 
 const subscribeRoute=(fn:()=>void)=>{window.addEventListener("hashchange",fn);return()=>window.removeEventListener("hashchange",fn);};
 const routeSnapshot=()=>parseRoute(window.location.hash);
-const icons:Record<WorkspaceRoute,string>={home:"grid",editor:"atom",projects:"folder",library:"ring",properties:"flask","drug-likeness":"info","medicinal-chemistry":"search",visualizations:"chart",comparison:"grid",batch:"folder",reports:"save",solubility:"flask",admet:"flask"};
+const icons:Record<WorkspaceRoute,string>={home:"grid",editor:"atom",projects:"folder",library:"ring",properties:"flask","drug-likeness":"info","medicinal-chemistry":"search",visualizations:"chart",comparison:"grid",batch:"folder",reports:"save",solubility:"flask",admet:"flask","hepatic-clearance":"flask",docking:"atom"};
 export function WorkspaceShell({onIntro}:{onIntro:()=>void}) {
   const route=useSyncExternalStore(subscribeRoute,routeSnapshot);
   const {data,ready,writable,error,pending}=useWorkspaceStore();
@@ -72,7 +74,7 @@ export function WorkspaceShell({onIntro}:{onIntro:()=>void}) {
         {route==="properties"&&<PropertiesPage actions={actions}/>}
         {route==="drug-likeness"&&<DrugLikenessPage actions={actions}/>}
         {route==="medicinal-chemistry"&&<MedicinalChemistryPage actions={actions}/>}
-        {route==="visualizations"&&<VisualizationsPage actions={actions}/>}{route==="comparison"&&<ComparisonPage actions={actions}/>}{route==="batch"&&<BatchPage actions={actions}/>}{route==="reports"&&<ReportsPage actions={actions}/>}{route==="solubility"&&<SolubilityPage actions={actions}/>}{route==="admet"&&<SkinPage actions={actions}/>}
+        {route==="visualizations"&&<VisualizationsPage actions={actions}/>}{route==="comparison"&&<ComparisonPage actions={actions}/>}{route==="batch"&&<BatchPage actions={actions}/>}{route==="reports"&&<ReportsPage actions={actions}/>}{route==="solubility"&&<SolubilityPage actions={actions}/>}{route==="admet"&&<SkinPage actions={actions}/>}{route==="hepatic-clearance"&&<HepaticPage actions={actions}/>}{route==="docking"&&<DockingPage actions={actions}/>}
       </main>}
     </>}</div><footer className="ws-mobile-footer"><span title={molecule.metadata.name}>{molecule.metadata.name} · {pending?"Saving…":versionLabel}</span><button onClick={onIntro}>View intro</button></footer></div>
     <input ref={backupInput} hidden type="file" accept="application/json,.json" aria-label="Restore workspace backup" onChange={e=>{

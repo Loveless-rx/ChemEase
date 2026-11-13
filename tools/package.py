@@ -2,11 +2,19 @@
 Run from the project root: python3 tools/package.py
 """
 from pathlib import Path
-import hashlib,json,zipfile
+import hashlib,json,zipfile,os
 root=Path.cwd()
-excluded={'node_modules','.test-build','.cache','.git','dist','backup','qa','__pycache__'}
+excluded={'node_modules','.test-build','.cache','.git','dist','backup','qa','__pycache__','.venv','.data','bin','.pytest_cache'}
 generated={'COMPLETE_SOURCE.md','FILES.json'}
-text_files=sorted(p for p in root.rglob('*') if p.is_file() and not p.is_symlink() and not any(x in excluded for x in p.relative_to(root).parts) and p.name not in generated and p.suffix not in {'.log','.zip','.pyc'})
+text_files=[]
+for directory,dirs,names in os.walk(root):
+ dirs[:]=[name for name in dirs if name not in excluded]
+ for name in names:
+  p=Path(directory)/name
+  if p.is_symlink() or name in generated or (name.startswith('.env') and name!='.env.example') or p.suffix in {'.log','.zip','.pyc'}:continue
+  text_files.append(p)
+text_files.sort()
+
 baseline={}
 backup=root/'backup/original-source.zip'
 if backup.exists():
@@ -33,7 +41,7 @@ with zipfile.ZipFile(archive,'w',zipfile.ZIP_DEFLATED,compresslevel=9) as z:
  for p in files+[root/'FILES.json']:z.write(p,'chemease/'+p.relative_to(root).as_posix())
 with zipfile.ZipFile(archive) as z:
  assert z.testzip() is None
- assert not any('/node_modules/' in n or '/.env' in n for n in z.namelist())
+ assert not any(any(part=='node_modules' or (part.startswith('.env') and part!='.env.example') for part in Path(n).parts) for n in z.namelist())
  assert 'chemease/src/Components/intro/MoleculeScene.ts' in z.namelist()
  assert 'chemease/package-lock.json' in z.namelist()
 print(json.dumps({'archive':str(archive),'textSourceFiles':len(text_files),'zipBytes':archive.stat().st_size,'sourceBookBytes':(root/'COMPLETE_SOURCE.md').stat().st_size},indent=2))

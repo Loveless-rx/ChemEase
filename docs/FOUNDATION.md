@@ -77,3 +77,18 @@ an exact descriptor snapshot. Settings and output save atomically and validate o
 restore. Research report v3 freezes a skin result ID or explicit null; legacy report
 schemas retain their original meaning. Endpoint implementation and evidence are
 in ADMET_SKIN.md. Owner boundaries and repository schema version remain unchanged.
+
+
+`SavedHepatic` (`hepatic-well-stirred-v1`) uses an exact version/key and entered
+parameter set. Its engine is the mathematical model version, and it has no RDKit
+descriptor dependency. The save action captures caller data before queuing the
+transaction. Report v4 freezes the result ID or null independently of descriptor
+selection; older schemas cannot acquire hepatic references. See ADMET_HEPATIC.md.
+
+Docking adds optional `dockingRuns` to schema 1, independently of compound analysis
+and report v4. Each completed run freezes preparation/tool versions, artifact
+hashes, grid/search configuration, ranked poses, contacts and source version/key.
+Restore checks those links and finite values; imported provenance is not scientific
+certification. Backend coordinates remain in separately downloaded archives.
+Saved docking PDF/CSV reports work offline. The backend scope dependency is the
+future account-authorization boundary. See [Docking](DOCKING.md).

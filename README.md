@@ -37,7 +37,11 @@ npm run build         # TypeScript + Vite, then a standalone HTML export
 npm run preview       # Serve Vite's production output locally
 ```
 
-A normal build writes `dist/index.html` and its assets, plus `dist/ChemEase.html`. Deploy the **whole Vite dist folder** to a static host. No server-side application is required for the current feature set.
+A normal build writes `dist/index.html` and its assets, plus `dist/ChemEase.html`. Deploy the **whole Vite dist folder** to a static host. Editing, analysis and saved reports run in the browser. New docking jobs require the separate Python backend described below.
+
+### Molecular docking
+
+The independent [Vina-first docking module](docs/DOCKING.md) connects receptor/ligand preparation, asynchronous jobs, grid review, ranked poses, 3D comparisons, geometric contacts and research exports to the Foundation workspace. Follow [backend setup](backend/README.md), then run `npm run docking:backend` alongside the frontend. AutoDock 4, rDock and FlexAID are disabled extension targets. Static hosting alone cannot execute docking. See [verification evidence and limits](docs/DOCKING_VERIFICATION.md).
 
 The archive contains the Vite-built standalone. Rebuild with `npm run build` to regenerate the full hosting output.
 
@@ -221,3 +225,13 @@ immutable version-linked history, comparison and frozen report v3 PDF/CSV are
 connected. No LogD/Crippen substitution, clinical classification or molecule-specific
 confidence interval is claimed. All 205 tests, lint and production/standalone builds
 pass. [Model evidence and verification](docs/ADMET_SKIN.md). Work remains local.
+
+### Phase 4: hepatic clearance
+
+The next ADMET endpoint uses the experimentally supported well-stirred liver model.
+Enter sourced whole-liver blood flow, whole-blood fraction unbound and unbound
+intrinsic clearance in a consistent species/context. The structure supplies identity;
+these parameters are not inferred from SMILES. Immutable version history, comparison
+and frozen report v4 PDF/CSV retain the input set and model limits.
+All 222 tests, lint and production/standalone builds pass.
+See [Hepatic model and verification](docs/ADMET_HEPATIC.md). Work remains local.

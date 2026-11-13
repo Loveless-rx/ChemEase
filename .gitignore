@@ -8,3 +8,8 @@ qa
 .env.*
 !.env.example
 .DS_Store
+backend/.venv/
+backend/.data/
+backend/bin/
+**/__pycache__/
+.pytest_cache/

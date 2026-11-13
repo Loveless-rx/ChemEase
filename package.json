@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host 0.0.0.0",
+    "docking:backend": "node tools/start-docking.mjs",
     "build": "tsc -b && vite build && node tools/make-standalone.mjs",
     "lint": "eslint .",
     "preview": "vite preview --host 0.0.0.0",

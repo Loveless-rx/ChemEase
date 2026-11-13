@@ -237,3 +237,27 @@ The application implements the published numerical relationship. The committed
 vendor/skin fixture contains derived numerical reference cases and SHA-256 hashes
 from the official CDC calculator, not its JAR, GUI, class files or copied source.
 Rejected BBB weights and research datasets are not distributed.
+
+
+## Well-stirred hepatic clearance relationship
+
+Scientific attribution: Pang & Rowland (1977), https://doi.org/10.1007/BF01059689;
+clearance framework, https://doi.org/10.1007/s10928-010-9187-8.
+The implementation is authored project code expressing a published mathematical
+relationship. No paper text, experimental dataset, third-party model weights or
+simulation software is distributed. The EMA-hosted supporting document is linked
+as an implementation reference, not an endorsement or product approval.
+
+## Optional local docking backend
+
+The backend installs separately pinned dependencies in `backend/requirements-lock.txt`,
+including RDKit (BSD-3-Clause), Meeko (LGPL-2.1), MolScrub (GPL-v3), Gemmi (MPL-2.0),
+PDBFixer (MIT), OpenMM (mixed permissive component licenses; see its installed
+license files), SciPy (BSD-3-Clause), FastAPI (MIT) and Uvicorn (BSD-3-Clause).
+Their installed distributions retain their license notices; they are not bundled
+in the browser/standalone export. The Vina installer downloads the official
+AutoDock Vina 1.2.7 binary and Apache-2.0 license into ignored `backend/bin`.
+Sources: https://github.com/ccsb-scripps/AutoDock-Vina,
+https://github.com/forlilab/Meeko, https://github.com/forlilab/molscrub,
+https://github.com/openmm/pdbfixer. Scientific attribution and method limits are
+documented in `docs/DOCKING.md`. No PLIP code is included.

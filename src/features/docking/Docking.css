@@ -1,0 +1,22 @@
+.docking-page .ws-card {min-width:0;overflow-wrap:anywhere;margin-bottom:24px;}
+.docking-steps {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;}
+.docking-page .docking-field {margin-top:20px;}
+.docking-connection {display:flex;gap:24px;align-items:flex-start;justify-content:space-between;}
+.docking-connection details {min-width:220px;max-width:500px;}
+.docking-grid-fields {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:20px 0;}
+.docking-viewport {height:430px;width:100%;position:relative;overflow:hidden;border:1px solid var(--border);border-radius:12px;background:#17171d;}
+.docking-visual {margin:24px 0;min-width:0;}
+.docking-confirm {display:flex!important;align-items:flex-start;gap:12px!important;line-height:1.8;margin:20px 0;}
+.docking-confirm input {flex-shrink:0;accent-color:var(--accent);margin-top:5px;}
+.docking-table {overflow:auto;max-width:100%;margin:20px 0;max-height:500px;border:1px solid var(--border);border-radius:10px;}
+.docking-table table {border-collapse:collapse;width:100%;text-align:left;font-size:12px;line-height:1.6;}
+.docking-table td,.docking-table th {padding:12px;border-bottom:1px solid var(--border);min-width:70px;}
+.docking-table caption {text-align:left;padding:14px;color:var(--text-muted);}
+.docking-table input {accent-color:var(--accent);width:18px;height:18px;}
+.docking-page pre {white-space:pre-wrap;overflow-wrap:anywhere;font-size:11px;}
+.docking-history,.docking-report-row {display:flex;justify-content:space-between;gap:20px;padding:20px 0;border-bottom:1px solid var(--border);}
+.docking-page .research-checkboxes label {align-items:flex-start;line-height:1.7;}
+.docking-page .research-checkboxes input {flex-shrink:0;}
+.docking-page h3 {margin:20px 0 10px;}
+@media(max-width:1000px){.docking-steps{grid-template-columns:1fr;}.docking-connection{display:block;}}
+@media(max-width:650px){.docking-grid-fields{grid-template-columns:repeat(2,minmax(0,1fr));}.docking-viewport{height:330px;}.docking-history,.docking-report-row{flex-direction:column;}.docking-connection details{min-width:0;}}

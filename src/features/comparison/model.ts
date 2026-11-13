@@ -4,6 +4,7 @@ import { statusLabels } from "../drugLikeness/rules";
 import { alertPatterns } from "../medicinalChemistry/catalog";
 import { plotProperties, type PlotProperty } from "../visualizations/model";
 
+import { hepaticRows } from "../hepatic/model";
 export const MAX_COMPARISON=6;
 export interface ComparisonSelection {versionId:string;sourceId?:string}
 export interface ComparisonColumn {
@@ -11,6 +12,7 @@ export interface ComparisonColumn {
   screening?:Extract<WorkspaceData["results"][number],{method:"drug-likeness-v1"|"drug-likeness-v2"}>;
   alerts?:Extract<WorkspaceData["results"][number],{method:"structural-alerts-v1"}>;
   solubility?:Extract<WorkspaceData["results"][number],{method:"esol-rdkit-v1"}>;
+  hepatic?:Extract<WorkspaceData["results"][number],{method:"hepatic-well-stirred-v1"}>;
   skin?:Extract<WorkspaceData["results"][number],{method:"skin-pg-cdc-v1"}>;
 }
 const latest=<T extends {id:string;createdAt:string}>(rows:T[])=>[...rows].sort((a,b)=>b.createdAt.localeCompare(a.createdAt)||a.id.localeCompare(b.id));
@@ -28,7 +30,8 @@ export function comparisonColumns(data:WorkspaceData,selections:ComparisonSelect
     const alerts=latest(data.results.filter((r):r is NonNullable<ComparisonColumn["alerts"]>=>r.method==="structural-alerts-v1"&&r.versionId===version.id&&r.structureKey===version.structureKey))[0];
     const solubility=source?latest(data.results.filter((r):r is NonNullable<ComparisonColumn["solubility"]>=>r.method==="esol-rdkit-v1"&&r.descriptorResultId===source.id&&r.versionId===version.id&&r.structureKey===version.structureKey&&r.engine===source.engine))[0]:undefined;
     const skin=source?latest(data.results.filter((r):r is NonNullable<ComparisonColumn["skin"]>=>r.method==="skin-pg-cdc-v1"&&r.descriptorResultId===source.id&&r.versionId===version.id&&r.structureKey===version.structureKey&&r.engine===source.engine))[0]:undefined;
-    return {version,project:data.projects.find(p=>p.id===record?.projectId)?.name??"Saved project",sources,source,screening,alerts,solubility,skin};
+    const hepatic=latest(data.results.filter((r):r is NonNullable<ComparisonColumn["hepatic"]>=>r.method==="hepatic-well-stirred-v1"&&r.versionId===version.id&&r.structureKey===version.structureKey))[0];
+    return {version,project:data.projects.find(p=>p.id===record?.projectId)?.name??"Saved project",sources,source,screening,alerts,solubility,skin,hepatic};
   });
 }
 export const comparisonProperties={
@@ -53,6 +56,7 @@ export function alertText(column:ComparisonColumn,set:"PAINS"|"Brenk") {
 const cell=(value:unknown)=>`"${(typeof value==="number"?String(value):String(value??"").replace(/^\s*[=+@-]/,"'$&")).replaceAll('"','""')}"`;
 export function solubilityText(column:ComparisonColumn){const prediction=column.solubility?.prediction;return !prediction?"Not calculated":prediction.status!=="predicted"?`Not evaluable: ${prediction.reasons.join("; ")}`:`${prediction.logS} log10 mol/L`;}
 export function skinText(column:ComparisonColumn){const p=column.skin?.prediction;return !p?"Not calculated":p.status!=="predicted"?`Not evaluable: ${p.reasons.join("; ")}`:`${p.logKpCmHour} log10 Kp (cm/h); entered LogKow ${p.settings.logKow} (${p.settings.evidence})`;}
+export function hepaticText(c:ComparisonColumn){const p=c.hepatic?.prediction;return !p?"Not calculated":p.status!=="predicted"?`Not evaluable: ${p.reasons.join("; ")}`:`${p.clearance} L/h; ${p.settings.context} (${p.settings.evidence})`;}
 export function comparisonCsv(columns:ComparisonColumn[]) {
   const row=(label:string,values:unknown[])=>[label,...values];
   const rows:unknown[][]=[row("Molecule",columns.map(c=>c.version.graph.metadata.name)),row("Project",columns.map(c=>c.project)),row("Saved version",columns.map(c=>c.version.number)),row("Version ID",columns.map(c=>c.version.id)),row("Descriptor result ID",columns.map(c=>c.source?.id??"Not calculated")),row("Descriptor method",columns.map(c=>c.source?.method??"Not calculated")),row("Descriptor engine",columns.map(c=>c.source?.engine??"Not calculated")),row("Descriptor calculated at",columns.map(c=>c.source?.createdAt??"Not calculated")),row("SMILES",columns.map(c=>c.source?.descriptors.smiles??"Not calculated")),row("Formula",columns.map(c=>c.source?.local.formula??"Not calculated"))];
@@ -65,6 +69,10 @@ export function comparisonCsv(columns:ComparisonColumn[]) {
   rows.push(row("Skin permeability",columns.map(skinText)),row("Skin result ID",columns.map(c=>c.skin?.id??"Not calculated")),row("Skin model",columns.map(c=>c.skin?.prediction.modelVersion??"Not calculated")),row("Skin engine",columns.map(c=>c.skin?.engine??"Not calculated")),row("Skin saved at",columns.map(c=>c.skin?.createdAt??"Not calculated")),row("Skin LogKow source",columns.map(c=>c.skin?.prediction.settings.source??"Not calculated")));
   for(const [label,key] of [["Skin predicted log10 Kp (cm/h)","logKpCmHour"],["Skin predicted Kp (cm/h)","kpCmHour"],["Skin predicted Kp (cm/s)","kpCmSecond"],["Skin molecular weight (g/mol)","weight"]] as const)rows.push(row(label,columns.map(c=>!c.skin?"Not calculated":c.skin.prediction[key]??"Not evaluable")));
   rows.push(row("Skin entered neutral LogKow",columns.map(c=>c.skin?.prediction.settings.logKow??"Not calculated")),row("Skin LogKow evidence",columns.map(c=>c.skin?.prediction.settings.evidence??"Not calculated")));
+  rows.push(row("Hepatic result ID",columns.map(c=>c.hepatic?.id??"Not calculated")),row("Hepatic saved at",columns.map(c=>c.hepatic?.createdAt??"Not calculated")),["Hepatic comparison interpretation","Parameter-based results depend on context and input sources. No descriptor inputs are used; a different descriptor selection does not change the same version's hepatic scenario."]);
+  const hepaticLabels=[...new Set(columns.flatMap(c=>c.hepatic?hepaticRows(c.hepatic.prediction).map(r=>r[0]):[]))];
+  if(!hepaticLabels.length)rows.push(row("Hepatic clearance",columns.map(()=>"Not calculated")));
+  for(const label of hepaticLabels)rows.push(row(label,columns.map(c=>c.hepatic?hepaticRows(c.hepatic.prediction).find(r=>r[0]===label)?.[1]??"Not calculated":"Not calculated")));
   return "\ufeff"+rows.map(r=>r.map(cell).join(",")).join("\r\n");
 }
 const escape=(value:unknown)=>String(value).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&apos;"})[c]!);

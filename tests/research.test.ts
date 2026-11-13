@@ -69,7 +69,7 @@ test("saved reports round-trip with older workspaces and tampered sources are re
   restored.reports![0].refs[0].alertId="missing";assert.throws(()=>validateWorkspace(restored,"test"),/alert source/);assert.throws(()=>storeReport(stored,f.report),/already saved/);
 });
 test("report section choices govern data exports and retain source provenance",async()=>{
-  const f=await reportFixture();f.report.sections={properties:false,rules:false,alerts:false,chart:false,solubility:false,skin:false};const csv=reportCsv(f.data,f.report);assert.ok(!csv.includes('"Hydrogen bond donors"'));assert.ok(!csv.includes('"PAINS"'));assert.ok(csv.includes("Descriptor result / method"));assert.equal(reportChart(f.data,f.report),undefined);assert.equal(reportSections(f.data,f.report).length,1);
+  const f=await reportFixture();f.report.sections={properties:false,rules:false,alerts:false,chart:false,solubility:false,skin:false,hepatic:false};const csv=reportCsv(f.data,f.report);assert.ok(!csv.includes('"Hydrogen bond donors"'));assert.ok(!csv.includes('"PAINS"'));assert.ok(csv.includes("Descriptor result / method"));assert.equal(reportChart(f.data,f.report),undefined);assert.equal(reportSections(f.data,f.report).length,1);
 });
 test("PDF pagination preserves Unicode, long notes/SMILES, images and safe page bounds",async()=>{
   const f=await reportFixture();f.report.title="Research β / 研究";f.report.notes="Long note ".repeat(290);const pages=layoutReport(f.data,f.report,(text,size)=>Array.from(text).length*size*.6);

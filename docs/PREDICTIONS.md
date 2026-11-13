@@ -77,3 +77,13 @@ remain supported without adding fields or filling missing historical results.
 Skin requires its own sourced neutral LogKow and is intentionally not applied to
 an entire batch with one input. Rejected BBB candidates are documented in
 [model review](ADMET_MODEL_REVIEW.md); no unvalidated BBB output is offered.
+
+
+## ADMET increment 2: parameter-based hepatic clearance
+
+The well-stirred model is implemented in `src/features/hepatic` with independent
+arithmetic verification and published experimental support. It requires three
+sourced pharmacokinetic inputs and a common context, with no structure-derived
+protein-binding or intrinsic-clearance prediction. See [Hepatic clearance](ADMET_HEPATIC.md).
+New reports use v4; v1-v3 retain their prior frozen references and meanings.
+The full ADMET suite remains in progress.
