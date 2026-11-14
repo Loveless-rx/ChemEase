@@ -226,3 +226,25 @@ Interrupted-job recovery was exercised with preparation
 its worker; reopening its history entry showed terminal failed / interrupted
 with no published partial output. Final desktop and 390 px phone previews show
 real overlaid poses/contact lines. The viewport override was reset.
+
+
+## Browser protocol v2 correction
+
+The subsequent accuracy-fix study recovered the top-ranked 1IEP crystal pose
+at 0.7659, 0.7724 and 0.7413 Angstrom across predefined browser seeds 42,
+104729 and 2026. A frozen anilino-heteroaromatic ligand torsion was corrected;
+the example now explicitly supplies the tutorial's +1 state and uses
+exhaustiveness 32 with four browser workers. See DOCKING_ACCURACY.md and
+docking-benchmark-1iep.json for the method, controls, hashes and scope. The
+historical failed v1 measurements above remain unchanged.
+
+All three results saved to Foundation reports. The saved CSV retained the exact
+job, seed, CPU count, budget, protocol and affinity; saved PDF generation produced
+a persistent download link. The UI blocked new searches from v1 ligands and
+allowed the corrected v2 ligand. Historical v1 runs displayed a rerun advisory.
+The permanent checker passes the corrected archives and rejects the inaccurate
+v1 pose with the same 2 Angstrom threshold. Final source checks: 243 frontend
+tests, strict TypeScript, ESLint and production build; native regression suite
+also checked. The independent browser repeats used no Python job server.
+
+Final v2 verification: 36 native tests passed, with one existing Starlette/httpx deprecation warning. Saved reports survived reload; PDF links generated and CSV contents retained exact source values. Expanded CSV previews and the docking result had no page/card overflow at 320/390 px, and the desktop 1280 px result also fit. Both screenshots were saved; the viewport override was reset.

@@ -15,7 +15,7 @@ export interface Pose {rank:number;affinity:number;rmsdLower:number|null;rmsdUpp
 export interface DockingResult {
   execution?:{kind:"browser-wasm";release:string;sourceCommit:string;assetHashes:Record<string,string>};
   schema:1;jobId:string;createdAt:string;completedAt:string;engine:DockingEngine;engineVersion:string;engineBinarySha256?:string;tools:Record<string,string>;receptor:Asset;ligand:Asset;protocol?:AD4Protocol;
-  settings:{receptorId:string;ligandId:string;engine:DockingEngine;grid:Grid;exhaustiveness?:number|null;ad4?:{runs:number;evaluations:number}|null;poses:number;seed:number};
+  settings:{receptorId:string;ligandId:string;engine:DockingEngine;grid:Grid;exhaustiveness?:number|null;cpu?:number;ad4?:{runs:number;evaluations:number}|null;poses:number;seed:number};
   poses:Pose[];mappedHeavyAtomRmsd:number[][];rmsdMethod:string;limitations:string;
 }
 export interface Job {id:string;createdAt:string;startedAt?:string;task:"receptor"|"ligand"|"dock";status:"queued"|"running"|"cancelling"|"cancelled"|"failed"|"completed";stage:string;message:string;result?:{receptor:Asset;sites:Site[]}|{ligands:Asset[]}|DockingResult}

@@ -1,5 +1,6 @@
 import { zipSync, strToU8 } from "fflate";
 import { chemicalIdentity } from "./identity";
+import {buildLigandTree,ligandRotors} from "./torsions";
 import { loadRDKit } from "../../../engine/rdkit";
 import { useWorkspaceStore } from "../../workspace/store";
 import type { Asset, DockingResult, Grid, Job, LigandSource } from "../types";
@@ -29,10 +30,11 @@ interface Search {
     exhaustiveness: number;
     poses: number;
     seed: number;
+    cpu?: number;
 }
 const active = new Map<string, AbortController>();
 const owner = () => useWorkspaceStore.getState().data.ownerId;
-const tools = { vina: "AutoDock Vina 1.2.3 / WebAssembly", openbabel: "Open Babel 3.1.0 / WebAssembly", reduce: "Reduce 4.13 / WebAssembly", protocol: "chemease-browser-v1" };
+const tools = { vina: "AutoDock Vina 1.2.3 / WebAssembly", openbabel: "Open Babel 3.1.0 / WebAssembly", reduce: "Reduce 4.13 / WebAssembly", protocol: "chemease-browser-v2", torsions:"RDKit chemical bond graph / graph-torsions-v2" };
 const textFile = (name: string, text: string) => ({ name, text });
 const json = (value: unknown, status = 200) => new Response(JSON.stringify(value), { status, headers: { "Content-Type": "application/json" } });
 const finished = (j: Job) => ["completed", "failed", "cancelled"].includes(j.status);
@@ -117,9 +119,10 @@ async function executeJob(record: Stored, signal: AbortSignal) {
             if (graph.elements.includes("H") || graph.xyz.every(p => p.every(n => n === 0)))
                 throw Error("3D conformer generation failed.");
             await stage("typing-ligand", "Assigning Gasteiger charges and a torsion tree with preserved heavy-atom indices");
-            const typed = await run("babel", ["-isdf", "input.sdf", "-opdbqt", "-O", "ligand.pdbqt", "-h", "-xp", "--partialcharge", "gasteiger"], { "input.sdf": sdf }, ["ligand.pdbqt"]);
-            const pdbqt = typed.files["ligand.pdbqt"], carbons = ligandCarbons(sdf, pdbqt);
-            const asset = await assetRecord(o, "ligand", r.source.name, { sdf: textFile("ligand.sdf", sdf), pdbqt: textFile("ligand.pdbqt", pdbqt), source: textFile("original." + ext, r.content), features: textFile("features.json", JSON.stringify({ hydrophobicSerials: carbons })), log: textFile("preparation.log", generated.stderr + state.stderr + heavy.stderr + typed.stderr) }, { source: r.source, inputSmiles: original.smiles, smiles: preparedMol.smiles, charge: preparedMol.charge, ph: r.ph, protonation: r.protonation, sourceHash: await sha(r.content), tools, warnings: ["Browser protocol: Open Babel 3D generation/optimization, Gasteiger charges and torsion tree. No RDKit ETKDG/MMFF94s or MolScrub computation is claimed.", r.protonation === "rules" ? "Open Babel rule-based pH transforms; no state populations, tautomer or stereoisomer ensemble is predicted." : "Supplied charge/protonation is preserved; pH is an annotation only.", "Inspect unspecified stereochemistry; generated geometry is not an experimental assignment."] });
+            const typed = await run("babel", ["-isdf", "input.sdf", "-opdbqt", "-O", "ligand.pdbqt", "-h", "-xp", "-xr", "--partialcharge", "gasteiger"], { "input.sdf": sdf }, ["ligand.pdbqt"]);
+            const rotors=ligandRotors(await loadRDKit(),sdf);
+            const pdbqt = buildLigandTree(sdf,typed.files["ligand.pdbqt"],rotors), carbons = ligandCarbons(sdf, pdbqt);
+            const asset = await assetRecord(o, "ligand", r.source.name, { sdf: textFile("ligand.sdf", sdf), pdbqt: textFile("ligand.pdbqt", pdbqt), source: textFile("original." + ext, r.content), features: textFile("features.json", JSON.stringify({ hydrophobicSerials: carbons })), torsions:textFile("torsions.json",JSON.stringify({method:tools.torsions,rotors,heavyAtomIndices:"1-based prepared SDF",count:rotors.length},null,2)),generated:textFile("generated.sdf",generated.files["generated.sdf"]),state:textFile("protonated.sdf",state.files["state.sdf"]), log: textFile("preparation.log", generated.stderr + state.stderr + heavy.stderr + typed.stderr) }, { source: r.source, inputSmiles: original.smiles, smiles: preparedMol.smiles, charge: preparedMol.charge, ph: r.ph, protonation: r.protonation, sourceHash: await sha(r.content), tools, warnings: ["Browser protocol: Open Babel 3D generation/optimization and Gasteiger charges; RDKit chemical-graph torsion tree v2 (acyclic single heavy bonds; true amides and rings rigid). No RDKit ETKDG/MMFF94s or MolScrub computation is claimed.", r.protonation === "rules" ? `Open Babel heuristic pH candidate: input charge ${original.charge}, prepared charge ${preparedMol.charge}. Coupled pKa values, state populations, tautomer and stereoisomer ensembles are not predicted; multiple-site protonation can be wrong. Choose an independently reviewed supplied state for validation.` : "Supplied charge/protonation is preserved; pH is an annotation only.", "Inspect unspecified stereochemistry; generated geometry is not an experimental assignment."] });
             assets = [asset];
             result = { ligands: [asset.value as Asset] };
         }
@@ -132,11 +135,13 @@ async function executeJob(record: Stored, signal: AbortSignal) {
                 if (!Number.isSafeInteger(v) || v < min || v > max)
                     throw Error("Invalid Vina search settings.");
             const rec = await prepared(o, r.receptorId, "receptor"), lig = await prepared(o, r.ligandId, "ligand"), receptor = await validArtifact(rec, "pdbqt"), ligand = await validArtifact(lig, "pdbqt"), pdb = await validArtifact(rec, "pdb"), template = await validArtifact(lig, "sdf");
+            if((lig.value as Asset).tools?.protocol!==tools.protocol)throw Error("Reprepare this ligand with the corrected v2 chemical torsion protocol before starting a new search. Existing results remain historical records.");
             const c = r.grid.center;
             if (Math.min(...pdbAtoms(pdb).map(a => Math.hypot(a.xyz[0] - c.x, a.xyz[1] - c.y, a.xyz[2] - c.z))) > 15)
                 throw Error("Grid center is more than 15 Angstrom from every protein atom.");
             await stage("docking", "AutoDock Vina is searching entirely in your browser. You can cancel; there is no reliable search percentage.");
-            const args = ["--cpu", "1", "--seed", String(r.seed), "--exhaustiveness", String(r.exhaustiveness), "--num_modes", String(r.poses)];
+            const cpu=r.cpu??1;if(!Number.isSafeInteger(cpu)||cpu<1||cpu>4)throw Error("Use 1–4 browser CPU workers.");r.cpu=cpu;
+            const args = ["--cpu", String(cpu), "--seed", String(r.seed), "--exhaustiveness", String(r.exhaustiveness), "--num_modes", String(r.poses)];
             for (const field of ["center", "size"] as const)
                 for (const axis of ["x", "y", "z"] as const)
                     args.push(`--${field}_${axis}`, String(r.grid[field][axis]));
@@ -177,10 +182,10 @@ async function executeJob(record: Stored, signal: AbortSignal) {
             jobFiles.ligandList = textFile("ligand_list.txt", "ligand.pdbqt\n");
             jobFiles.preparation = textFile("preparation.json", JSON.stringify({ receptor: rec.value, ligand: lig.value }, null, 2));
             for (const [key, value] of Object.entries(rec.files))
-                if (key === "source" || key === "features" || key === "log")
+                if (key === "source" || key === "features" || key === "log" || key === "torsions" || key === "state" || key === "generated")
                     jobFiles["receptor-" + key] = textFile("receptor-" + value.name, value.text);
             for (const [key, value] of Object.entries(lig.files))
-                if (key === "source" || key === "features" || key === "log")
+                if (key === "source" || key === "features" || key === "log" || key === "torsions" || key === "state" || key === "generated")
                     jobFiles["ligand-" + key] = textFile("ligand-" + value.name, value.text);
         }
         check();

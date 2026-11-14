@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {readFileSync} from "node:fs";
 import type {DockingResult,Asset} from "../src/features/docking/types";
-import {validateDockingResult,saveDockingRun,validateDockingRuns,dockingCsv} from "../src/features/docking/model";
+import {validateDockingResult,saveDockingRun,validateDockingRuns,dockingCsv,dockingAdvisory} from "../src/features/docking/model";
 import {emptyWorkspace,validateWorkspace} from "../src/features/workspace/domain";
 import {parseRoute} from "../src/features/workspace/routes";
 const file=(name:string)=>({name,sha256:"a".repeat(64),bytes:100});
@@ -17,16 +17,23 @@ test("browser execution provenance survives Foundation backup and rejects mixed 
   const r=fixture();r.engineVersion="AutoDock Vina v1.2.3 (WebAssembly)";
   r.engineBinarySha256=manifest.assets["webina/vina.wasm"].sha256;
   r.execution={kind:"browser-wasm",release:manifest.release,sourceCommit:manifest.sourceCommit,assetHashes:Object.fromEntries(Object.entries(manifest.assets).map(([key,value])=>[key,value.sha256]))};
+  r.settings.cpu=4;
   const data=saveDockingRun(emptyWorkspace("browser"),r);
   const restored=validateWorkspace(JSON.parse(JSON.stringify(data)),"browser");
   assert.deepEqual(restored.dockingRuns![0].result.execution,r.execution);
   assert.match(dockingCsv(r),/browser-wasm/);
-  for(const change of [(x:DockingResult)=>{x.engineVersion="AutoDock Vina v1.2.7";},(x:DockingResult)=>{x.engineBinarySha256="b".repeat(64);},(x:DockingResult)=>{delete x.execution!.assetHashes["webina/vina.wasm"];},(x:DockingResult)=>{x.execution!.assetHashes["../external.wasm"]="a".repeat(64);},(x:DockingResult)=>{x.execution!.sourceCommit="unrecorded";}]){
+  for(const change of [(x:DockingResult)=>{x.engineVersion="AutoDock Vina v1.2.7";},(x:DockingResult)=>{x.engineBinarySha256="b".repeat(64);},(x:DockingResult)=>{delete x.execution!.assetHashes["webina/vina.wasm"];},(x:DockingResult)=>{x.execution!.assetHashes["../external.wasm"]="a".repeat(64);},(x:DockingResult)=>{x.execution!.sourceCommit="unrecorded";},(x:DockingResult)=>{x.settings.cpu=5;},(x:DockingResult)=>{x.settings.cpu=0;},(x:DockingResult)=>{x.settings.cpu=1.5;}]){
     const bad=structuredClone(r);change(bad);assert.throws(()=>validateDockingResult(bad));
   }
 });
 test("docking snapshot saves independently of descriptor results and retains immutable inputs",()=>{const r=fixture(),data=emptyWorkspace("test"),before=JSON.stringify(data),next=saveDockingRun(data,r);assert.equal(JSON.stringify(data),before);assert.equal(next.results.length,0);assert.equal(next.dockingRuns?.length,1);r.settings.seed=100;assert.equal(next.dockingRuns![0].result.settings.seed,42);assert.doesNotThrow(()=>validateWorkspace(next,"test"));assert.equal(saveDockingRun(next,next.dockingRuns![0].result).dockingRuns?.length,1);});
 test("different outputs cannot overwrite an existing docking job ID",()=>{const r=fixture(),data=saveDockingRun(emptyWorkspace("test"),r);r.poses[0].affinity=-99;assert.throws(()=>saveDockingRun(data,r),/different result/);});
+test("known v1 browser preparation results retain frozen values and expose a rerun advisory",()=>{
+  const r=fixture();r.execution={kind:"browser-wasm",release:"molmoda-d458231d",sourceCommit:"d458231d7ea235fa0e7c60ca8fe1526622e06b88",assetHashes:{}};
+  r.tools.protocol="chemease-browser-v1";const before=JSON.stringify(r);
+  assert.match(dockingAdvisory(r)!,/Reprepare/);assert.equal(JSON.stringify(r),before);
+  r.tools.protocol="chemease-browser-v2";assert.equal(dockingAdvisory(r),undefined);
+});
 test("docking provenance validation rejects wrong engine, hashes, links and finite/rank errors",()=>{for(const change of [(r:DockingResult)=>{r.engine="bad" as "vina";},(r:DockingResult)=>{r.receptor.files.pdb.sha256="bad";},(r:DockingResult)=>{r.ligand.files.sdf.name="../private";},(r:DockingResult)=>{r.settings.ligandId="missing";},(r:DockingResult)=>{r.poses[0].affinity=NaN;},(r:DockingResult)=>{r.poses[1].rank=1;},(r:DockingResult)=>{r.mappedHeavyAtomRmsd=[[0]];},(r:DockingResult)=>{r.settings.grid.size.x=0;},(r:DockingResult)=>{r.settings.seed=0;}]){const r=fixture();change(r);assert.throws(()=>validateDockingResult(r));}});
 test("restored docking snapshots retain raw precision and reject missing editor-version links",()=>{const r=fixture();r.poses[0].affinity=-6.123456;const data=saveDockingRun(emptyWorkspace("test"),r),restored=validateWorkspace(JSON.parse(JSON.stringify(data)),"test");assert.equal(restored.dockingRuns![0].result.poses[0].affinity,-6.123456);const bad=fixture();bad.ligand.source={kind:"editor",name:"Draft",versionId:"missing",structureKey:"wrong"};assert.throws(()=>saveDockingRun(emptyWorkspace("test"),bad),/editor ligand/);restored.dockingRuns![0].id="wrong";assert.throws(()=>validateDockingRuns(restored.dockingRuns!,restored));});
 test("CSV preserves score units, input hashes and formula-safe user text",()=>{const r=fixture();r.ligand.name='=formula, "test"';r.poses[0].contacts=[{type:"hydrophobic carbon contact",residue:"A:1:PHE",receptorAtom:"CA",ligandAtom:1,distance:3.125,angle:null,ligandDonor:null}];const csv=dockingCsv(r);assert.ok(csv.includes("'=formula"));assert.ok(csv.includes("kcal/mol"));assert.ok(csv.includes("a".repeat(64)));assert.ok(csv.includes("3.125"));assert.ok(csv.includes("Fixed atom mapping"));assert.equal(parseRoute("#/docking"),"docking");});

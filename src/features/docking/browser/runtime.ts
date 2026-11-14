@@ -11,7 +11,8 @@ export async function runTool(tool: "vina" | "babel" | "reduce", args: string[],
         const worker = new Worker(new URL("run-tool.js", runtimeRoot()));
         const cleanup = () => { clearTimeout(timer); signal.removeEventListener("abort", cancel); worker.terminate(); };
         const cancel = () => { worker.postMessage({ cancel: true }); cleanup(); reject(new DOMException("Job cancelled; partial outputs are unavailable.", "AbortError")); };
-        const timer = setTimeout(() => { cleanup(); reject(new Error("Browser chemistry exceeded its 20-minute limit. Use smaller inputs or a smaller search budget.")); }, 20 * 60 * 1000);
+        const limitMinutes=tool==="vina"?45:20;
+        const timer = setTimeout(() => { cleanup(); reject(new Error(`Browser ${tool==="vina"?"docking":"preparation"} exceeded its ${limitMinutes}-minute limit. Review the input size, CPU workers and search budget.`)); }, limitMinutes * 60 * 1000);
         signal.addEventListener("abort", cancel, { once: true });
         worker.onerror = event => { cleanup(); reject(new Error(event.message || "The browser chemistry worker stopped unexpectedly.")); };
         worker.onmessage = ({ data }) => { cleanup(); if (data.ok)

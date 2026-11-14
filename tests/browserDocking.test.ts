@@ -4,11 +4,31 @@ import {readFileSync} from "node:fs";
 import {createHash} from "node:crypto";
 import initRDKit from "@rdkit/rdkit";
 import {chemicalIdentity} from "../src/features/docking/browser/identity";
+import {ligandRotors,buildLigandTree} from "../src/features/docking/browser/torsions";
 import {pdbAtoms,inspectPdb,cleanProtein,sdfGraph,ligandCarbons,restoreSdf,vinaPoses,validateGrid} from "../src/features/docking/browser/chemistry";
 const atom=(serial:number,name:string,x=0,resid=1,kind="ATOM",res="ALA",occupancy=1,alt=" ")=>`${kind.padEnd(6)}${String(serial).padStart(5)} ${name.padStart(4)}${alt}${res} A${String(resid).padStart(4)}    ${x.toFixed(3).padStart(8)}${"0.000".padStart(8)}${"0.000".padStart(8)}${occupancy.toFixed(2).padStart(6)}${"0.00".padStart(6)}          ${name[0].padStart(2)}`;
 const protein=()=>Array.from({length:5},(_,i)=>["N","CA","C","O","CB"].map((name,j)=>atom(i*5+j+1,name,i*4+j,i+1)).join("\n")).join("\n");
 const sdf="ethanol\n  ChemEase\n\n  3  2  0  0  0  0            999 V2000\n    0.0000    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n    1.5000    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n    2.5000    0.0000    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0\n  1  2  1  0  0  0  0\n  2  3  1  0  0  0  0\nM  END\n$$$$\n";
 const qt=(serial:number,x:number,type:string)=>atom(serial,type[0],x).slice(0,66)+"    "+"0.000".padStart(6)+" "+type;
+test("ligand graph torsions rotate anilino-heteroaromatic bonds but keep true amides and rings rigid",async()=>{
+  const kit=await initRDKit();
+  for(const [smiles,pattern,expected] of [["c1ccccc1Nc1ncccn1","[N]-[c]([n])[n]",true],["CC(=O)Nc1ccccc1","[N]-[C]=[O]",false]] as const){
+    const mol=kit.get_mol(smiles)!,query=kit.get_qmol(pattern)!;
+    try{const pair=(JSON.parse(mol.get_substruct_match(query)) as {atoms:number[]}).atoms.slice(0,2).map(i=>i+1);const cuts=ligandRotors(kit,mol.get_molblock());assert.equal(cuts.some(([a,b])=>pair.includes(a)&&pair.includes(b)),expected);}
+    finally{mol.delete();query.delete();}
+  }
+  const ring=kit.get_mol("C1CCCCC1")!;try{assert.deepEqual(ligandRotors(kit,ring.get_molblock()),[]);}finally{ring.delete();}
+  const alkyne=kit.get_mol("c1ccccc1C#Cc1ccccc1")!,nitrile=kit.get_mol("c1ccccc1C#N")!;
+  try{assert.equal(ligandRotors(kit,alkyne.get_molblock()).length,1);assert.deepEqual(ligandRotors(kit,nitrile.get_molblock()),[]);}finally{alkyne.delete();nitrile.delete();}
+});
+test("rebuilt torsion trees retain every original atom/coordinate and reject invalid connectivity",()=>{
+  const pdbqt=[qt(1,0,"C"),qt(2,1.5,"C"),qt(3,2.5,"OA")].join("\n");
+  const tree=buildLigandTree(sdf,pdbqt,[[1,2]]);
+  assert.match(tree,/TORSDOF 1/);assert.equal((tree.match(/^BRANCH /gm)??[]).length,1);
+  assert.deepEqual(restoreSdf(sdf,tree).coords,sdfGraph(sdf).xyz);
+  assert.throws(()=>buildLigandTree(sdf,pdbqt,[[1,3]]),/bonded/);
+  assert.throws(()=>buildLigandTree(sdf,pdbqt+"\n"+qt(3,2.5,"OA"),[]),/Duplicate/);
+});
 test("cross-format browser identities normalize ordinary H, preserve charge/stereo and reject ambiguous stereocenters",async()=>{
   const kit=await initRDKit();
   for(const text of ["CN","C[NH3+]","CC(=O)[O-]","C[C@H](O)C(=O)O"]){

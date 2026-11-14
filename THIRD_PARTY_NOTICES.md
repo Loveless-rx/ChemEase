@@ -283,3 +283,9 @@ public/coi-serviceworker.js and public/docking-wasm/COI-LICENSE.txt.
 fflate 0.8.2 is MIT licensed; its notice is retained alongside these files.
 The bundled 1IEP PDB is public structural data from RCSB PDB, entry 1IEP:
 https://www.rcsb.org/structure/1IEP . No fabricated docking result is bundled.
+
+The offline redocking reference docs/fixtures/1iep-crystal-ligand.sdf is the
+official AutoDock Vina 1IEP tutorial ligand input (v1.2.7 example/basic_docking/data).
+Its source and byte checksum are recorded in docs/DOCKING_ACCURACY.md. It is not
+included in the website runtime or supplied to the docking search. Vina's full
+Apache-2.0 notice remains in public/docking-wasm/THIRD-PARTY-LICENSES.md.

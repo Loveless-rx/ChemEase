@@ -21,3 +21,10 @@
 .docking-page h3 {margin:20px 0 10px;}
 @media(max-width:1000px){.docking-steps{grid-template-columns:1fr;}.docking-connection{display:block;}}
 @media(max-width:650px){.docking-grid-fields{grid-template-columns:repeat(2,minmax(0,1fr));}.docking-viewport{height:330px;}.docking-history,.docking-report-row{flex-direction:column;}.docking-connection details{min-width:0;}}
+
+.docking-export {display:flex;flex-wrap:wrap;gap:8px;align-items:flex-start;min-width:0;max-width:100%;}
+.docking-export a {display:inline-flex;align-items:center;justify-content:center;text-decoration:none;border:1px solid var(--border);border-radius:8px;padding:12px 16px;color:var(--text);}
+.docking-export details {flex-basis:100%;min-width:0;max-width:100%;}
+.docking-export .docking-coordinate-file {white-space:pre;overflow:auto;max-height:20rem;max-width:100%;font-size:11px;}
+
+.docking-report-row .ws-actions {min-width:0;max-width:100%;}

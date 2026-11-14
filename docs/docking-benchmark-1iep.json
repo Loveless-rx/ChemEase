@@ -1,0 +1,197 @@
+{
+  "scope": "1IEP chain A / imatinib rigid-receptor redocking; not universal docking or affinity validation",
+  "engine": "AutoDock Vina v1.2.3 (WebAssembly)",
+  "execution": {
+    "kind": "browser-wasm",
+    "release": "molmoda-d458231d",
+    "sourceCommit": "d458231d7ea235fa0e7c60ca8fe1526622e06b88",
+    "assetHashes": {
+      "obabel-wasm/obabel.data": "8a94b2f91d6aa28e3b82faa644b305906f5e4ea872771614238b64df8cef935d",
+      "obabel-wasm/obabel.js": "971bfe3c023bc7bb19b24486c97c23110ecc1f4e0b885c7344168f8d9ec1fab1",
+      "obabel-wasm/obabel.wasm": "9088102fde517902de6cf75b4b1d123df85f3e2773f7ba13b24607088d996cc3",
+      "reduce/index.data": "0da5ec87a909bb0eb8df480c42ce74bef92e710ff939764f960a62b0d9b38ab9",
+      "reduce/index.js": "bd3cba0457571192e6ca4492e1abc4b9b037fbfca4dd7b5a9733e5ee19806e33",
+      "reduce/index.wasm": "445faccd90d96ec8a9446668e0676a550ddf6770680ffb61469ccdd125d17085",
+      "webina/vina.js": "4c9c4bb3717d2d11db905826e2a3036b0d547cb07850a1c9e8f85097f033a6bb",
+      "webina/vina.wasm": "702192bed93a6a254b8a06dc10c886d68bfc4079a2613853cbe1de39a6ac7d87",
+      "webina/vina.worker.mjs": "f599516cb014a695de3f1a601a07dc8bfe619ce265a11171374245db77d92a04"
+    }
+  },
+  "protocol": {
+    "vina": "AutoDock Vina 1.2.3 / WebAssembly",
+    "openbabel": "Open Babel 3.1.0 / WebAssembly",
+    "reduce": "Reduce 4.13 / WebAssembly",
+    "protocol": "chemease-browser-v2",
+    "torsions": "RDKit chemical bond graph / graph-torsions-v2"
+  },
+  "settings": {
+    "engine": "vina",
+    "grid": {
+      "center": {
+        "x": 15.19,
+        "y": 53.903,
+        "z": 16.917
+      },
+      "size": {
+        "x": 20,
+        "y": 20,
+        "z": 20
+      }
+    },
+    "exhaustiveness": 32,
+    "cpu": 4,
+    "poses": 9,
+    "seed": 42
+  },
+  "ligandSmiles": "Cc1ccc(NC(=O)c2ccc(CN3CC[NH+](C)CC3)cc2)cc1Nc1nccc(-c2cccnc2)n1",
+  "preparedFormalCharge": 1,
+  "heavyAtoms": 37,
+  "reference": {
+    "path": "docs/fixtures/1iep-crystal-ligand.sdf",
+    "sha256": "051b8742c32adc05c07fb486a4e7c9327f84e131cee33ac4e6a568d07553eb38",
+    "source": "Official AutoDock Vina 1IEP tutorial ligand input; modeled H/protonation, crystallographic heavy coordinates",
+    "usedDuringSearch": false,
+    "sourceUrl": "https://github.com/ccsb-scripps/AutoDock-Vina/blob/v1.2.7/example/basic_docking/data/1iep_ligand.sdf"
+  },
+  "inputHashes": {
+    "receptorPdbqt": "7debf83c8f9adcf8b32d7615e0cdc4e4f8342b70b2bf8fc15dade6d01a7537ad",
+    "ligandPdbqt": "54c38c473e21d7e81453b014cc6636c92a401c9f8532daf363897c4f010c1a2e",
+    "ligandSdf": "b0ccc98247bceac3e7c69586faf13211298b5b1856b5a1d0b1ecfedcd10b46f0"
+  },
+  "metric": "All 37 heavy atoms, complete element/bond graph symmetry matching, no coordinate alignment, no crystal-based reranking; no mapping cap reached",
+  "acceptanceTopRankedRmsdAngstrom": 2,
+  "runs": [
+    {
+      "seed": 42,
+      "jobId": "d6a9a3528860423dbe7c619383f7b085",
+      "scoreKcalMol": -12.93,
+      "topRankedCrystalRmsdAngstrom": 0.7658751221333036,
+      "posesReturned": 2
+    },
+    {
+      "seed": 104729,
+      "jobId": "640338fc1a4f49d99168ec3e21279293",
+      "scoreKcalMol": -13.471,
+      "topRankedCrystalRmsdAngstrom": 0.7724473567298415,
+      "posesReturned": 1
+    },
+    {
+      "seed": 2026,
+      "jobId": "c986fd0e596d46539fc72bf5c9f52a13",
+      "scoreKcalMol": -12.728,
+      "topRankedCrystalRmsdAngstrom": 0.7412912948253094,
+      "posesReturned": 1
+    }
+  ],
+  "allPass": true,
+  "severeHeavyContactsUnder1_5Angstrom": 0,
+  "maximumBondLengthDriftAngstrom": 0.0015802461733531725,
+  "primarySearchDurationSeconds": 461.479,
+  "archiveChecks": "Primary and seed-104729 ZIPs: CRC, input/preparation SHA-256, engine log CPU/version, torsion manifest, every SDF chemical identity and rank/score property. All three: actual SDF coordinates, input manifests, geometry and crystal RMSD. Seed-2026 SDF and input snapshot inspected through the UI.",
+  "diagnosticNativeControl": [
+    {
+      "control": "native-baseline-42",
+      "engine": "native Vina 1.2.7",
+      "charge": 2,
+      "poses": [
+        {
+          "rank": 1,
+          "affinity": -9.367,
+          "rmsd": 11.922311551445455
+        },
+        {
+          "rank": 2,
+          "affinity": -9.227,
+          "rmsd": 12.497334597987447
+        },
+        {
+          "rank": 3,
+          "affinity": -9.204,
+          "rmsd": 12.849326039745263
+        },
+        {
+          "rank": 4,
+          "affinity": -9.034,
+          "rmsd": 12.235133789127024
+        },
+        {
+          "rank": 5,
+          "affinity": -8.9,
+          "rmsd": 2.667060777183225
+        },
+        {
+          "rank": 6,
+          "affinity": -8.655,
+          "rmsd": 11.58524991040273
+        },
+        {
+          "rank": 7,
+          "affinity": -8.263,
+          "rmsd": 12.105878135535333
+        },
+        {
+          "rank": 8,
+          "affinity": -8.066,
+          "rmsd": 11.627477622634448
+        },
+        {
+          "rank": 9,
+          "affinity": -7.927,
+          "rmsd": 12.332686114987718
+        }
+      ],
+      "alignment": "none; complete heavy graph; symmetry correction"
+    },
+    {
+      "control": "native-corrected-42",
+      "engine": "native Vina 1.2.7",
+      "charge": 2,
+      "poses": [
+        {
+          "rank": 1,
+          "affinity": -11.986,
+          "rmsd": 0.926898781610674
+        },
+        {
+          "rank": 2,
+          "affinity": -10.295,
+          "rmsd": 12.161621806855079
+        },
+        {
+          "rank": 3,
+          "affinity": -9.919,
+          "rmsd": 12.237148355105647
+        },
+        {
+          "rank": 4,
+          "affinity": -9.517,
+          "rmsd": 12.362906350548501
+        },
+        {
+          "rank": 5,
+          "affinity": -9.485,
+          "rmsd": 13.314717326570868
+        },
+        {
+          "rank": 6,
+          "affinity": -9.218,
+          "rmsd": 12.51927443498138
+        },
+        {
+          "rank": 7,
+          "affinity": -9.051,
+          "rmsd": 6.577861997599179
+        }
+      ],
+      "alignment": "none; complete heavy graph; symmetry correction"
+    }
+  ],
+  "resourceTrial": "CPU=1/20-minute limit produced a timeout for seed 42; remaining two were cancelled when changing resources. No accuracy result was published from these runs. All three predefined seeds were repeated with CPU=4 and a 45-minute limit.",
+  "partialChargeAudit": {
+    "sdfFormalCharge": 1,
+    "rawPdbqtPartialChargeSum": -0.003,
+    "usedByVinaScoring": false,
+    "interpretation": "Raw Open Babel charge columns retained, not validated as electrostatic charges or for AD4. Standard Vina ignores these columns; protonation-derived atom types remain required."
+  },
+  "validationCompletedOn": "2026-11-15"
+}

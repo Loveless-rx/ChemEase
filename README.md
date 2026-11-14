@@ -237,3 +237,5 @@ these parameters are not inferred from SMILES. Immutable version history, compar
 and frozen report v4 PDF/CSV retain the input set and model limits.
 All 222 tests, lint and production/standalone builds pass.
 See [Hepatic model and verification](docs/ADMET_HEPATIC.md). Work remains local.
+
+Browser docking protocol v2 fixes the frozen ligand torsion and uses reviewed supplied states by default. The 1IEP example recovered its crystal pose at 0.74-0.77 Angstrom across three predefined seeds. See [accuracy evidence and scope](docs/DOCKING_ACCURACY.md). CPU workers (1-4), exact preparation files and engine settings remain recorded in reports/ZIPs.
