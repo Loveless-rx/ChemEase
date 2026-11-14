@@ -37,11 +37,13 @@ npm run build         # TypeScript + Vite, then a standalone HTML export
 npm run preview       # Serve Vite's production output locally
 ```
 
-A normal build writes `dist/index.html` and its assets, plus `dist/ChemEase.html`. Deploy the **whole Vite dist folder** to a static host. Editing, analysis and saved reports run in the browser. New docking jobs require the separate Python backend described below.
+A normal build writes `dist/index.html` and its assets, plus `dist/ChemEase.html`. Deploy the **whole Vite dist folder** to a static host. Editing, analysis, saved reports and default Vina docking run in the browser. Browser docking requires the served website and its runtime assets; it cannot run from the single file-URL HTML export.
 
 ### Molecular docking
 
-The independent [docking module](docs/DOCKING.md) connects receptor/ligand preparation, asynchronous jobs, grid review, ranked poses, 3D comparisons, geometric contacts and research exports to the Foundation workspace. Follow [backend setup](backend/README.md), then run `npm run docking:backend` alongside the frontend. Native AutoDock Vina and [AutoDock 4 / AutoGrid 4](docs/AUTODOCK4.md) use separate settings and score meanings; rDock and FlexAID remain unavailable. Static hosting alone cannot execute the current native engines. See [verification evidence and limits](docs/DOCKING_VERIFICATION.md).
+The independent docking module connects preparation, asynchronous jobs, grid review, ranked poses, 3D comparisons, geometric contacts and research exports to Foundation. **Browser-only Vina is the default; no Python server is needed.** See [browser setup, scientific limits and provenance](docs/BROWSER_DOCKING.md). First full preparation downloads about 78 MB of bundled tools/data, cached when storage permits. Keep the tab open during calculations. HTTPS/localhost and current browser features are required; the included isolation service worker supports static GitHub Pages hosting.
+
+For optional advanced native engines, explicitly select the Python provider and follow [backend setup](backend/README.md) and the [native docking guide](docs/DOCKING.md). Native Vina and [AutoDock 4 / AutoGrid 4](docs/AUTODOCK4.md) have separate settings and score meanings; rDock and FlexAID remain unavailable. See [verification evidence and limits](docs/DOCKING_VERIFICATION.md).
 
 The archive contains the Vite-built standalone. Rebuild with `npm run build` to regenerate the full hosting output.
 

@@ -6,7 +6,7 @@ import tseslint from 'typescript-eslint'
 import { defineConfig, globalIgnores } from 'eslint/config'
 
 export default defineConfig([
-  globalIgnores(['dist', '.test-build', 'qa', 'backend/.venv', 'backend/.data']),
+  globalIgnores(['dist', '.test-build', 'qa', 'backend/.venv', 'backend/.data', 'public/docking-wasm/webina', 'public/docking-wasm/reduce', 'public/docking-wasm/obabel-wasm']),
   {
     files: ['**/*.{ts,tsx}'],
     extends: [

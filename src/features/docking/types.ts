@@ -13,6 +13,7 @@ export type DockingEngine="vina"|"autodock4";
 export interface AD4Protocol {method:string;scoring:string;unboundModel:"bound";gridSpacing:number;npts:number[];effectiveGrid:Grid;runs:number;evaluationsPerRun:number;population:number;maximumGenerations:number;seeds:number[];poseSelection:string;chargeModel:string;autogridVersion:string;autogridBinarySha256:string;mapHashes:Record<string,string>}
 export interface Pose {rank:number;affinity:number;rmsdLower:number|null;rmsdUpper:number|null;sourceRun?:number;cluster?:number;contacts:Contact[];truncated:boolean;method:string}
 export interface DockingResult {
+  execution?:{kind:"browser-wasm";release:string;sourceCommit:string;assetHashes:Record<string,string>};
   schema:1;jobId:string;createdAt:string;completedAt:string;engine:DockingEngine;engineVersion:string;engineBinarySha256?:string;tools:Record<string,string>;receptor:Asset;ligand:Asset;protocol?:AD4Protocol;
   settings:{receptorId:string;ligandId:string;engine:DockingEngine;grid:Grid;exhaustiveness?:number|null;ad4?:{runs:number;evaluations:number}|null;poses:number;seed:number};
   poses:Pose[];mappedHeavyAtomRmsd:number[][];rmsdMethod:string;limitations:string;

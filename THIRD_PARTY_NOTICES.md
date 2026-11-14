@@ -269,3 +269,17 @@ text and source/download notice in ignored `backend/bin`. They are not embedded
 in the browser bundle. Official binaries and corresponding source distribution:
 https://autodock.scripps.edu/download-autodock4/ . Method attribution:
 Morris et al. (2009), https://doi.org/10.1002/jcc.21256.
+
+## Browser docking runtime
+
+Browser-only docking includes separate Vina 1.2.3 (Apache-2.0), Open Babel 3.1.0
+(GPL-2.0) and Reduce 4.13 WASM distributions pinned from MolModa commit
+d458231d7ea235fa0e7c60ca8fe1526622e06b88. Complete upstream notices are retained
+in public/docking-wasm/THIRD-PARTY-LICENSES.md; source/build references are in
+public/docking-wasm/SOURCES.md, and all binary hashes are in manifest.json.
+These differ from the optional native tool versions described above.
+The coi-serviceworker isolation bootstrap is MIT licensed, with its notice in
+public/coi-serviceworker.js and public/docking-wasm/COI-LICENSE.txt.
+fflate 0.8.2 is MIT licensed; its notice is retained alongside these files.
+The bundled 1IEP PDB is public structural data from RCSB PDB, entry 1IEP:
+https://www.rcsb.org/structure/1IEP . No fabricated docking result is bundled.

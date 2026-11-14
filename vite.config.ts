@@ -6,6 +6,8 @@ import { dirname, join } from "node:path";
 const rdkitDir = dirname(createRequire(import.meta.url).resolve("@rdkit/rdkit"));
 const rdkitFiles = ["RDKit_minimal.js", "RDKit_minimal.wasm"];
 export default defineConfig({
+  server:{headers:{"Cross-Origin-Opener-Policy":"same-origin","Cross-Origin-Embedder-Policy":"require-corp"}},
+  preview:{headers:{"Cross-Origin-Opener-Policy":"same-origin","Cross-Origin-Embedder-Policy":"require-corp"}},
   plugins: [react(), {
     name: "local-rdkit",
     configureServer(server) {

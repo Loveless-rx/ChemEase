@@ -7,12 +7,15 @@ root=Path.cwd()
 excluded={'node_modules','.test-build','.cache','.git','dist','backup','qa','__pycache__','.venv','.data','bin','.pytest_cache'}
 generated={'COMPLETE_SOURCE.md','FILES.json'}
 text_files=[]
+runtime_assets=[]
 for directory,dirs,names in os.walk(root):
  dirs[:]=[name for name in dirs if name not in excluded]
  for name in names:
   p=Path(directory)/name
   if p.is_symlink() or name in generated or (name.startswith('.env') and name!='.env.example') or p.suffix in {'.log','.zip','.pyc'}:continue
-  text_files.append(p)
+  if p.suffix in {".wasm",".data"} or "docking-wasm" in p.parts:
+   runtime_assets.append(p)
+  else:text_files.append(p)
 text_files.sort()
 
 baseline={}
@@ -32,7 +35,7 @@ for p in text_files:
  while fence in content:fence+='`'
  book.extend([f'\n## {state(p)}\n\nFILE: `{name}`\n\n',f'{fence}{language}\n{content.rstrip()}\n{fence}\n'])
 (root/'COMPLETE_SOURCE.md').write_text(''.join(book))
-files=text_files+[root/'COMPLETE_SOURCE.md',root/'dist/ChemEase.html']
+files=text_files+runtime_assets+[root/'COMPLETE_SOURCE.md',root/'dist/ChemEase.html']
 if backup.exists():files.append(backup)
 manifest={'project':'ChemEase integrated scroll-WebGL edition','textSourceFileCount':len(text_files),'files':[{'path':p.relative_to(root).as_posix(),'bytes':p.stat().st_size,'sha256':hashlib.sha256(p.read_bytes()).hexdigest()} for p in files]}
 (root/'FILES.json').write_text(json.dumps(manifest,indent=2)+'\n')

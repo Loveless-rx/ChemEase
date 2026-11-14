@@ -1,0 +1,47 @@
+{
+  "release": "molmoda-d458231d",
+  "sourceCommit": "d458231d7ea235fa0e7c60ca8fe1526622e06b88",
+  "versions": {
+    "vina": "1.2.3",
+    "openbabel": "3.1.0",
+    "reduce": "4.13"
+  },
+  "assets": {
+    "obabel-wasm/obabel.data": {
+      "sha256": "8a94b2f91d6aa28e3b82faa644b305906f5e4ea872771614238b64df8cef935d",
+      "bytes": 4785945
+    },
+    "obabel-wasm/obabel.js": {
+      "sha256": "971bfe3c023bc7bb19b24486c97c23110ecc1f4e0b885c7344168f8d9ec1fab1",
+      "bytes": 240493
+    },
+    "obabel-wasm/obabel.wasm": {
+      "sha256": "9088102fde517902de6cf75b4b1d123df85f3e2773f7ba13b24607088d996cc3",
+      "bytes": 5036468
+    },
+    "reduce/index.data": {
+      "sha256": "0da5ec87a909bb0eb8df480c42ce74bef92e710ff939764f960a62b0d9b38ab9",
+      "bytes": 66390773
+    },
+    "reduce/index.js": {
+      "sha256": "bd3cba0457571192e6ca4492e1abc4b9b037fbfca4dd7b5a9733e5ee19806e33",
+      "bytes": 196792
+    },
+    "reduce/index.wasm": {
+      "sha256": "445faccd90d96ec8a9446668e0676a550ddf6770680ffb61469ccdd125d17085",
+      "bytes": 676386
+    },
+    "webina/vina.js": {
+      "sha256": "4c9c4bb3717d2d11db905826e2a3036b0d547cb07850a1c9e8f85097f033a6bb",
+      "bytes": 98228
+    },
+    "webina/vina.wasm": {
+      "sha256": "702192bed93a6a254b8a06dc10c886d68bfc4079a2613853cbe1de39a6ac7d87",
+      "bytes": 636446
+    },
+    "webina/vina.worker.mjs": {
+      "sha256": "f599516cb014a695de3f1a601a07dc8bfe619ce265a11171374245db77d92a04",
+      "bytes": 2017
+    }
+  }
+}

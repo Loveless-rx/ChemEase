@@ -79,13 +79,13 @@ uses SharedArrayBuffer and cross-origin isolation headers.
 
 [MolModa's peer-reviewed workflow](https://doi.org/10.1093/nar/gkae406) also
 demonstrates browser-side preparation using WebAssembly builds of Open Babel
-and Reduce, followed by Vina. This is a practical reference for a future
-ChemEase browser provider. Those tools/protocols differ from the present
+and Reduce, followed by Vina. This is the reference for the now-implemented
+[ChemEase browser Vina provider](BROWSER_DOCKING.md). Those tools/protocols differ from the present
 PDBFixer/OpenMM + MolScrub/RDKit/Meeko preparation and need independent comparison;
 they do not supply a validated drop-in native AutoDock 4 replacement.
 
-ChemEase currently runs native AutoGrid/AutoDock and Python preparation on the
-local service. Browser-only support would require a separately built/pinned
+AutoDock 4 still runs native AutoGrid/AutoDock and Python preparation on the
+optional local service. Browser-only AutoDock 4 support would require a separately built/pinned
 AutoGrid/AD4 WebAssembly runtime, worker cancellation/resource limits, validated
 preparation/export replacements, hosting/header compatibility and parity checks
 against native runs. It has not been implemented or claimed available here.

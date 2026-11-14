@@ -11,6 +11,7 @@ let html = await readFile(resolve(root, "index.html"), "utf8");
 for (const match of [
   ...html.matchAll(/<script\b[^>]*src="([^"]+)"[^>]*><\/script>/g),
 ]) {
+  if(match[1].endsWith("coi-serviceworker.js")||match[1].endsWith("docking-isolation.js"))continue;
   const code = await readFile(assetPath(match[1]), "utf8");
   html = html.replace(
     match[0],

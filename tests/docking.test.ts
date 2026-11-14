@@ -1,5 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import {readFileSync} from "node:fs";
 import type {DockingResult,Asset} from "../src/features/docking/types";
 import {validateDockingResult,saveDockingRun,validateDockingRuns,dockingCsv} from "../src/features/docking/model";
 import {emptyWorkspace,validateWorkspace} from "../src/features/workspace/domain";
@@ -10,6 +11,20 @@ function fixture():DockingResult {
   const lig:Asset={id:"b".repeat(32),kind:"ligand",name:"Ligand",ready:true,createdAt:rec.createdAt,files:{sdf:file("ligand.sdf"),pdbqt:file("ligand.pdbqt")},smiles:"CCO",inputSmiles:"CCO",ph:7.4,charge:0,conformerEnergy:1,source:{kind:"smiles",name:"Ligand",versionId:null,structureKey:null}};
   return {schema:1,jobId:"c".repeat(32),createdAt:rec.createdAt,completedAt:rec.createdAt,engine:"vina",engineVersion:"AutoDock Vina v1.2.7",tools:{rdkit:"2026.9.2"},receptor:rec,ligand:lig,settings:{receptorId:rec.id,ligandId:lig.id,engine:"vina",grid:{center:{x:0,y:0,z:0},size:{x:20,y:20,z:20}},exhaustiveness:8,poses:2,seed:42},poses:[{rank:1,affinity:-6,rmsdLower:0,rmsdUpper:0,contacts:[],truncated:false,method:"Unit fixture only"},{rank:2,affinity:-5,rmsdLower:1,rmsdUpper:2,contacts:[],truncated:false,method:"Unit fixture only"}],mappedHeavyAtomRmsd:[[0,2],[2,0]],rmsdMethod:"Fixed atom mapping; unit fixture",limitations:"Unit fixture only; no claimed experimental affinity"};
 }
+
+test("browser execution provenance survives Foundation backup and rejects mixed native/WASM identities",()=>{
+  const manifest=JSON.parse(readFileSync("public/docking-wasm/manifest.json","utf8")) as {release:string;sourceCommit:string;assets:Record<string,{sha256:string}>};
+  const r=fixture();r.engineVersion="AutoDock Vina v1.2.3 (WebAssembly)";
+  r.engineBinarySha256=manifest.assets["webina/vina.wasm"].sha256;
+  r.execution={kind:"browser-wasm",release:manifest.release,sourceCommit:manifest.sourceCommit,assetHashes:Object.fromEntries(Object.entries(manifest.assets).map(([key,value])=>[key,value.sha256]))};
+  const data=saveDockingRun(emptyWorkspace("browser"),r);
+  const restored=validateWorkspace(JSON.parse(JSON.stringify(data)),"browser");
+  assert.deepEqual(restored.dockingRuns![0].result.execution,r.execution);
+  assert.match(dockingCsv(r),/browser-wasm/);
+  for(const change of [(x:DockingResult)=>{x.engineVersion="AutoDock Vina v1.2.7";},(x:DockingResult)=>{x.engineBinarySha256="b".repeat(64);},(x:DockingResult)=>{delete x.execution!.assetHashes["webina/vina.wasm"];},(x:DockingResult)=>{x.execution!.assetHashes["../external.wasm"]="a".repeat(64);},(x:DockingResult)=>{x.execution!.sourceCommit="unrecorded";}]){
+    const bad=structuredClone(r);change(bad);assert.throws(()=>validateDockingResult(bad));
+  }
+});
 test("docking snapshot saves independently of descriptor results and retains immutable inputs",()=>{const r=fixture(),data=emptyWorkspace("test"),before=JSON.stringify(data),next=saveDockingRun(data,r);assert.equal(JSON.stringify(data),before);assert.equal(next.results.length,0);assert.equal(next.dockingRuns?.length,1);r.settings.seed=100;assert.equal(next.dockingRuns![0].result.settings.seed,42);assert.doesNotThrow(()=>validateWorkspace(next,"test"));assert.equal(saveDockingRun(next,next.dockingRuns![0].result).dockingRuns?.length,1);});
 test("different outputs cannot overwrite an existing docking job ID",()=>{const r=fixture(),data=saveDockingRun(emptyWorkspace("test"),r);r.poses[0].affinity=-99;assert.throws(()=>saveDockingRun(data,r),/different result/);});
 test("docking provenance validation rejects wrong engine, hashes, links and finite/rank errors",()=>{for(const change of [(r:DockingResult)=>{r.engine="bad" as "vina";},(r:DockingResult)=>{r.receptor.files.pdb.sha256="bad";},(r:DockingResult)=>{r.ligand.files.sdf.name="../private";},(r:DockingResult)=>{r.settings.ligandId="missing";},(r:DockingResult)=>{r.poses[0].affinity=NaN;},(r:DockingResult)=>{r.poses[1].rank=1;},(r:DockingResult)=>{r.mappedHeavyAtomRmsd=[[0]];},(r:DockingResult)=>{r.settings.grid.size.x=0;},(r:DockingResult)=>{r.settings.seed=0;}]){const r=fixture();change(r);assert.throws(()=>validateDockingResult(r));}});

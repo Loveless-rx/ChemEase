@@ -1,0 +1,29 @@
+# Browser-only docking
+
+Docking defaults to **In this browser / no Python server**. Real AutoDock Vina runs in a disposable Web Worker using WebAssembly. No docking API, Python installation, account or uploaded structures are required. Selecting a public PDB ID downloads it from RCSB; a local PDB and the bundled 1IEP/imatinib example avoid that request. Runtime assets come from this website.
+
+Serve the entire `dist` folder on HTTPS or localhost. Vite dev/preview supplies COOP/COEP headers. On GitHub Pages, the included MIT `coi-serviceworker` supplies isolation after its first-load reload. A current browser must support WebAssembly, workers, SharedArrayBuffer/cross-origin isolation, Web Locks and IndexedDB. Browser docking cannot run from a lone `file://` HTML export. No build-time download of chemistry binaries is necessary: pinned assets are included in `public/docking-wasm`.
+
+## Preparation and search
+
+1. Inspect a PDB and choose protein chains. The browser selects the first model and highest-occupancy alternate atom. It removes waters/non-protein residues and refuses incomplete standard-residue heavy atoms. Repair missing atoms/loops and review required cofactors externally before using this protocol.
+2. Reduce 4.13 adds hydrogens with `-NOFLIP`, preserving heavy coordinates. Receptor pH is an annotation, **not site-specific pKa prediction**. Open Babel 3.1.0 produces rigid Gasteiger-charged PDBQT.
+3. Choose an exact editor version or import one connected SMILES/SDF (1–80 heavy atoms). Undefined input stereocenters are refused when identified by RDKit. Open Babel generates 3D with hydrogens, then applies pH rules in a **separate conversion** or preserves the supplied charge state. A heavy-only SDF retains chemical identity; PDBQT uses preserved atom indices and Gasteiger charges. Prepared SMILES, formal charge and downloadable preparation files are shown for review. Rule-based protonation is approximate, especially for multi-site ligands; inspect the actual state rather than treating it as a validated population prediction.
+4. Review a co-crystal-derived or manual grid (6–40 Å sides; at most 40,000 Å³), ligand/receptor preparation, seed, exhaustiveness and pose count. Vina 1.2.3 uses one CPU. Progress reports stages, not fabricated percentages. Keep the tab open; cancel terminates its worker. Reloaded/interrupted calculations become failed, never completed partial results.
+5. Inspect ranked poses, mapped heavy-atom RMSD and geometric contacts in 3Dmol.js. Export SDF/PDBQT, scores CSV, PDF and the complete ZIP. Save a completed snapshot to Foundation for immutable research reports and backups. Reports identify browser execution, versions and runtime hashes. Raw coordinate/log files remain in this origin's IndexedDB and must be retained separately via ZIP; Foundation backups contain the report snapshot, not those raw files.
+
+Hydrogen-bond review uses N/O/S donors/acceptors, donor–H ≤1.35 Å, donor–acceptor ≤3.5 Å, H–acceptor ≤2.5 Å and donor–H–acceptor angle ≥120°. Hydrophobic review uses carbon atoms with only C/H neighbours and a 4 Å cutoff, reduced to nearest contacts per residue/ligand carbon. These are geometric review signals, not PLIP assignments or experimentally established interactions. Vina RMSD bounds compare against its best predicted pose; they do not measure agreement with a crystal structure.
+
+## Storage, limits and provenance
+
+The first full preparation downloads about **78 MB**, mainly Reduce chemistry data. Each pinned file is size/SHA-256 checked and cached when storage permits. Jobs are scoped to the Foundation owner in IndexedDB, with 100-job/100-upload limits. Only completed outputs are downloadable. Browser storage eviction loses local coordinates; export the ZIP. Current limits include 16 MB input PDB, 20,000 receptor heavy atoms and a 20-minute tool timeout. Browser/mobile memory and CPU can further limit practical searches.
+
+Browser and native execution are separate providers behind the same client interface, result schema, viewer, reports and Foundation save path. Native Vina/AutoDock 4 remain available only through the explicitly selected advanced Python provider. Browser AutoDock 4, rDock and FlexAID are not implemented. Engine/preparation versions differ; do not pool their scores or assume interchangeable protocols.
+
+This is a real Vina search, **not target-validated predictive accuracy**. Rigid-receptor, noncovalent docking does not cover metal/cofactor chemistry, explicit waters, flexible receptors or covalent ligands. Validate receptor/ligand states, redocking and enrichment for the intended target. Scores are scoring-function estimates, not measured affinity, Kd, efficacy or safety.
+
+## Source and licensing
+
+The WASM distributions are pinned to [MolModa commit d458231d7ea235fa0e7c60ca8fe1526622e06b88](https://github.com/durrantlab/molmoda/tree/d458231d7ea235fa0e7c60ca8fe1526622e06b88). See `public/docking-wasm/manifest.json` for every version, byte count and SHA-256. MolModa's Vina wrapper requires receptor/ligand list files and emits its batch-named output; the archive records that interface and exact arguments. The tools are Vina 1.2.3 (Apache-2.0), Open Babel 3.1.0 (GPL-2.0), and Reduce 4.13 (its bundled UCSF/Reliasolve notices). Full upstream notices are retained in `public/docking-wasm/THIRD-PARTY-LICENSES.md`. Build sources/recipes are linked from `public/docking-wasm/SOURCES.md`. `coi-serviceworker` and fflate retain their MIT notices.
+
+Primary method references: [MolModa](https://doi.org/10.1093/nar/gkae406), [Vina](https://doi.org/10.1002/jcc.21334), [Open Babel](https://doi.org/10.1186/1758-2946-3-33), [Reduce](https://doi.org/10.1006/jmbi.1998.2401). None independently validates ChemEase's complete preparation/search protocol for a particular target.

@@ -1,5 +1,10 @@
 # Molecular Docking: independent multi-engine module
 
+**Default execution now runs Vina in the browser without Python.** See
+[Browser docking](BROWSER_DOCKING.md) for that provider's preparation, hosting,
+versions and limits. The following guide describes the optional advanced native
+provider, which must be explicitly selected in Docking.
+
 Docking is separate from the ADMET prediction workflow. React/TypeScript handles
 input review, progress, 3Dmol visualization and reports; the Python FastAPI service
 handles chemistry and subprocess execution. Startup is documented in

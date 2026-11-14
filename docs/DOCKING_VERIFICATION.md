@@ -156,3 +156,73 @@ run/cluster IDs with no browser console errors. Browser widths 320, 390 and 768
 had no page/card overflow; tables scroll locally. Desktop/phone screenshots were
 retained. The viewport override was reset. These are responsive browser checks,
 not physical-device/backend-connectivity or broad scientific accuracy validation.
+
+
+## Browser-only provider verification - 2026-11-14
+
+Real Vina 1.2.3, Open Babel 3.1.0 and Reduce 4.13 WebAssembly from pinned MolModa
+commit d458231d7ea235fa0e7c60ca8fe1526622e06b88 ran in the browser with the
+Python docking service stopped. No sample results replace computed searches.
+These checks verify workflows and artifact integrity, not target-specific accuracy.
+
+Protein: chain-A 1IEP preparation retained heavy coordinates, added hydrogens and
+produced rigid Gasteiger-charged PDBQT. Incomplete standard-residue heavy atoms
+are refused. First-model/alternate occupancy selection has regression coverage.
+
+A reference check caught and fixed combined generation/pH preparation losing
+ionization. pH is now a separate Open Babel conversion after 3D generation.
+At pH 7.4, methylamine produced C[NH3+] (+1), acetate CC(=O)[O-] (-1).
+Supplied-state methylamine remained CN (0). This is not a validation of all pKa
+states: the rule-based imatinib preparation produced +2 and needs state review.
+
+Run b7dde10f4ac545c2b463a3a168b2da91 used this +2 imatinib, seed 42,
+exhaustiveness 8 and a 20 Angstrom cube. Three real scores were -9.217, -9.119,
+-9.051 kcal/mol. Its ZIP passed CRC, prepared-input SHA-256 and all exported
+pose chemical/stereochemical identity checks. Best-pose crystal-frame heavy-atom
+RMSD was 12.5018 Angstrom: it did not reproduce the crystal pose. This cube was
+smaller than the co-crystal site's suggested box on two axes.
+
+Final co-crystal-site box run 26c08642211e450b913c6ff3ec0fd478 used sides
+18.664 x 26.739 x 23.526 Angstrom, the same state/seed/exhaustiveness, and returned
+three poses scoring -9.002, -8.984 and -8.418 kcal/mol. Its archive passed the same
+checks. Best-pose crystal-frame RMSD was 12.4716 Angstrom. Enlarging the box did
+not establish redocking accuracy. No repeated seed selection hid this outcome.
+Do not infer accuracy from favorable scores: preparation/protonation and
+redocking/enrichment validation remain necessary before scientific interpretation.
+
+Editor-linked run 1c097441038747df939abf2355a3ee47 completed with the exact saved
+Foundation version 15597eec-dcca-47be-a8a1-86fff549206f, supplied-state methylamine
+and the co-crystal-derived site. It saved to reports. This small-ligand run is an
+integration check, not an accuracy benchmark. Completed jobs/preparations and
+Foundation report snapshots survived reload. The browser report's four-page PDF
+was downloaded, rendered and visually inspected, with provider/tool versions,
+runtime hashes, inputs, poses, contacts and scientific limits visible.
+
+Real running search e277de0df8f24b34882f0882117c2192 was cancelled. It became
+terminal cancelled, with no partial result/download section. A tab reload
+interrupts execution; the persisted job recovery checks active Web Locks before
+marking interrupted work failed, rather than publishing partial output.
+
+Production /ChemEase/ static hosting without COOP/COEP server headers reached
+Browser docking ready through the isolation service worker. A fresh origin
+reached ready automatically with the controller-change bootstrap. No GitHub
+deployment was performed. Widths 320, 390 and 768 px had no page/card overflow;
+these are emulations, not physical-phone memory/background suspension tests.
+
+Identity guards normalize ordinary explicit H before canonical comparison,
+refuse 3D-generation or H-removal chemical/stereo identity changes, and preserve
+prepared-state chemistry in every pose export. Real final preparations passed
+for imatinib and C[C@H](O)C(=O)O to C[C@H](O)C(=O)[O-], retaining its specified
+stereocenter. The regression test covers explicit-H round trips, charged
+references, opposite stereoisomers and ambiguous-stereocenter rejection.
+
+Checks: 240 frontend tests, strict TypeScript, ESLint and production build;
+36 native regression tests (one existing Starlette/httpx deprecation warning).
+Native and browser protocols remain distinct; no engine parity or universal
+scientific accuracy is claimed. See BROWSER_DOCKING.md for methods and limits.
+
+Interrupted-job recovery was exercised with preparation
+4c426836b5c34322a500aa2a56f9355a: reloading immediately after submission stopped
+its worker; reopening its history entry showed terminal failed / interrupted
+with no published partial output. Final desktop and 390 px phone previews show
+real overlaid poses/contact lines. The viewport override was reset.

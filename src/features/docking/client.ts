@@ -1,9 +1,12 @@
 import type {Asset,Health,Job,DockingResult} from "./types";
 const DEFAULT="http://127.0.0.1:8000";
+export const executionMode=():"browser"|"native"=>localStorage.getItem("chemease-docking-execution")==="native"?"native":"browser";
+export const setExecutionMode=(mode:"browser"|"native")=>localStorage.setItem("chemease-docking-execution",mode);
 export function dockingScope(){const base=apiBase(),key=`chemease-docking-client:${base}`;let token=localStorage.getItem(key)??(base===DEFAULT?localStorage.getItem("chemease-docking-client"):null);if(!token||!/^[a-f0-9]{32}$/.test(token))token=crypto.randomUUID().replaceAll("-","");localStorage.setItem(key,token);return token;}
 export function apiBase(){return localStorage.getItem("chemease-docking-api")??DEFAULT;}
 export function setApiBase(input:string){const url=new URL(input);if(!["http:","https:"].includes(url.protocol)||url.username||url.password||url.search||url.hash||url.pathname!=="/")throw new Error("Use a backend origin such as http://127.0.0.1:8000, without a path or credentials.");localStorage.setItem("chemease-docking-api",url.origin);return url.origin;}
 export async function dockingRequest(path:string,body?:unknown,signal?:AbortSignal){
+  if(executionMode()==="browser"){if(typeof location!=="undefined"&&location.protocol==="file:")throw new Error("Browser docking requires the served website over HTTPS or localhost, including its runtime assets.");if(signal?.aborted)throw new DOMException("Aborted","AbortError");return (await import("./browser/service")).browserRequest(path,body);}
   const headers:Record<string,string>=path==="/health"?{}:{"X-ChemEase-Client":dockingScope()};let data:BodyInit|undefined;
   if(body instanceof FormData)data=body;else if(body!==undefined){headers["Content-Type"]="application/json";data=JSON.stringify(body);}
   let response:Response;

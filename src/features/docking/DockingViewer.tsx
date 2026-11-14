@@ -24,7 +24,7 @@ export function DockingViewer({receptorId,jobId,ranks,grid,onPick,contacts}:{rec
       protein.setClickable({},!!pick.current,(atom:AtomSpec)=>{if([atom.x,atom.y,atom.z].every(v=>typeof v==="number"&&Number.isFinite(v)))pick.current?.({x:atom.x!,y:atom.y!,z:atom.z!});});
       shapes(instance,box.current,contactRef.current);instance.zoomTo();instance.render();
       observer=new ResizeObserver(()=>{instance?.resize();instance?.render();});observer.observe(container);setReady(n=>n+1);
-    }catch(e){if(!abort.signal.aborted)setError((e as Error).message+" Check backend access and WebGL.");}}
+    }catch(e){if(!abort.signal.aborted)setError((e as Error).message+" Check prepared artifact access and WebGL.");}}
     void load();return()=>{abort.abort();observer?.disconnect();instance?.clear();viewer.current=null;poseModels.current=[];container.replaceChildren();};
   },[receptorId]);
   const rankKey=ranks.join(",");
