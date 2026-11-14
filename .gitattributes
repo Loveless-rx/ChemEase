@@ -1,0 +1,9 @@
+# Vendored docking assets are pinned byte-for-byte, including text-backed
+# Emscripten data packages. Never rewrite their line endings during checkout.
+/public/docking-wasm/** -text
+/public/docking-wasm/**/*.data binary
+/public/docking-wasm/**/*.wasm binary
+/public/docking-wasm/manifest.json text eol=lf
+
+# Preserve the published crystallographic reference checksum on every platform.
+/docs/fixtures/*.sdf -text
