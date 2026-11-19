@@ -1,4 +1,5 @@
 import test from "node:test";
+import {layoutDockingReport} from "../src/features/docking/report";
 import assert from "node:assert/strict";
 import {readFileSync} from "node:fs";
 import type {DockingResult,Asset} from "../src/features/docking/types";
@@ -44,6 +45,18 @@ function ad4Fixture():DockingResult {
   r.protocol={method:"Native LGA",scoring:"AD4 estimated binding energy (kcal/mol)",unboundModel:"bound",gridSpacing:.375,npts:[54,54,54],effectiveGrid:{center:{x:0,y:0,z:0},size:{x:20.25,y:20.25,z:20.25}},runs:10,evaluationsPerRun:2500000,population:150,maximumGenerations:27000,seeds:[42,43],poseSelection:"Native cluster leads",chargeModel:"Prepared Gasteiger/template",autogridVersion:"AutoGrid 4.2.6",autogridBinarySha256:"e".repeat(64),mapHashes:{"receptor.C.map":"a".repeat(64),"receptor.e.map":"b".repeat(64),"receptor.d.map":"c".repeat(64),"receptor.maps.fld":"d".repeat(64)}};
   r.poses.forEach((p,i)=>{p.rmsdLower=null;p.rmsdUpper=null;p.sourceRun=i+1;p.cluster=i+1;});return r;
 }
+
+test("polished docking PDFs preserve engine-specific scores, protocols and contact geometry",()=>{
+ for(const r of [fixture(),ad4Fixture()]){
+  r.poses[0].contacts=[{type:"hydrogen-bond candidate",residue:"A:1:ASP",receptorAtom:"O",ligandAtom:1,distance:3.125,angle:150,ligandDonor:true}];
+  const pages=layoutDockingReport(r,(text,size)=>Array.from(text).length*size*.6);
+  const text=pages.flat().filter(op=>op.kind==="text").map(op=>op.text).join("\n");
+  assert.match(text,/Report guide/);assert.ok(text.includes(r.jobId));assert.match(text,/3.125/);assert.match(text,/150/);
+  assert.ok(text.includes(r.engine==="vina"?"Vina score (kcal/mol)":"AD4 energy (kcal/mol)"));
+  if(r.engine==="autodock4")assert.ok(!text.includes("Vina score (kcal/mol)"));
+  for(const page of pages)for(const op of page){assert.ok(op.y>=0&&op.y<=1017);if(op.kind==="image"||op.kind==="rect")assert.ok(op.y+op.height<=1017);}
+ }
+});
 test("AD4 runs preserve native protocol, source runs and null Vina RMSD bounds through workspace restore and CSV",()=>{
   const r=ad4Fixture(),next=saveDockingRun(emptyWorkspace("test"),r),restored=validateWorkspace(JSON.parse(JSON.stringify(next)),"test");
   assert.equal(restored.dockingRuns![0].result.protocol!.gridSpacing,.375);

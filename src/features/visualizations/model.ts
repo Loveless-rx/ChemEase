@@ -1,5 +1,6 @@
 import type { ToolkitResult } from "../../engine/toolkit";
 import type { SavedDescriptorAnalysis, MoleculeVersion } from "../workspace/types";
+import {brandPlotSvg} from "../exports/branding";
 
 export const plotProperties={
   logP:{label:"LogP · Wildman–Crippen",unit:"",min:-3,max:6,reference:5},
@@ -32,5 +33,5 @@ export function buildPropertyPlot(source:SavedDescriptorAnalysis,version:Molecul
   if(showReferences){const a=plotProperties[x].reference,b=plotProperties[y].reference;if(a!==null)body+=`<path d="M${px(a)} 95V355" stroke="#9c641c" stroke-dasharray="5 4"/><text x="${px(a)+5}" y="89" font-size="10">Reference ${a}</text>`;if(b!==null)body+=`<path d="M95 ${py(b)}H660" stroke="#9c641c" stroke-dasharray="5 4"/><text x="660" y="${py(b)-6}" text-anchor="end" font-size="10">Reference ${b}</text>`;}
   const point={x:px(xValue),y:py(yValue)};
   const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="720" height="470" viewBox="0 0 720 470"><title>${escape(version.graph.metadata.name)} version ${version.number}: ${escape(plotProperties[x].label)} versus ${escape(plotProperties[y].label)}</title><desc>Recorded inputs ${escape(xValue)}, ${escape(yValue)}. Source result ${escape(source.id)}. ${escape(source.engine)}. This is a descriptor plot, not an absorption or safety prediction.</desc><rect width="720" height="470" fill="#fffefa"/><g font-family="Arial,sans-serif" fill="#2d2b32"><text x="35" y="31" font-size="17" font-weight="bold">${escape(version.graph.metadata.name.slice(0,60))} · v${version.number}</text><text x="35" y="53" font-size="10">${escape(source.engine)} · saved ${escape(source.createdAt)}</text>${body}<path d="M95 95V355H660" fill="none" stroke="#77727d"/><path d="M95 ${point.y}H${point.x}V355" fill="none" stroke="#7655ad" stroke-dasharray="3 5"/><circle cx="${point.x}" cy="${point.y}" r="7" fill="#7655ad" stroke="#fffefa" stroke-width="2"><title>${escape(xValue)}, ${escape(yValue)}</title></circle><text x="377" y="411" text-anchor="middle" font-size="12">${escape(plotProperties[x].label)} ${escape(plotProperties[x].unit)}</text><text x="21" y="225" text-anchor="middle" font-size="12" transform="rotate(-90 21 225)">${escape(plotProperties[y].label)} ${escape(plotProperties[y].unit)}</text><text x="35" y="439" font-size="10">Dashed reference limits, when shown, are property heuristics; no GI/BBB classification is inferred.</text><text x="35" y="456" font-size="9">Result ${escape(source.id)} · Structure version ${escape(version.id)}</text></g></svg>`;
-  return {svg,point,xRange:xr,yRange:yr,xValue,yValue};
+  return {svg:brandPlotSvg(svg),point,xRange:xr,yRange:yr,xValue,yValue};
 }

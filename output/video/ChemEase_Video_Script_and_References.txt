@@ -1,0 +1,88 @@
+CHEMEASE / ENGLISH PRODUCT FILM
+
+1920 x 1080, 24 fps. English synthetic narration.
+Real app captures with edited timing and animated explanatory graphics.
+
+01. WELCOME | 00:00:00,000
+Welcome to ChemEase. A connected chemistry workspace that brings drawing, analysis, research tools, predictions, and molecular docking into one browser experience. Let us follow a structure from its first bond to a saved research result.
+
+02. ONE CONNECTED WORKSPACE | 00:00:17,458
+The idea is simple. Start with a molecule, understand its properties, compare ideas, and keep the evidence together. Shared molecular data connects the tools, while saved versions preserve the exact structure behind each result.
+
+03. DRAW & EDIT | 00:00:34,458
+In the editor, place atoms, connect bonds, select fragments, and refine the drawing. Undo and redo let you explore changes. Zoom and fit help keep the structure in view.
+
+04. ELEMENTS & LABELS | 00:00:48,167
+The extended element picker opens a periodic table with all one hundred and eighteen elements. Carbon and hydrogen labels can be switched on when teaching, then hidden again for familiar skeletal notation. Calculation support still depends on the chosen chemistry module.
+
+05. SMILES TO STRUCTURE | 00:01:06,667
+You can also paste a SMILES string or open a SMILES file. Validate it, review the formula and atom counts, then open an editable structure. Here, paracetamol becomes an eleven atom drawing, ready for the next step.
+
+06. MOLECULAR PROPERTIES | 00:01:22,917
+The same structure feeds molecular weight, Log P, polar surface area, hydrogen bond counts, flexibility, refractivity, formal charge, rings, and heavy atom count. For this aspirin example, molecular weight is about one hundred and eighty point one six, and polar surface area is sixty three point six.
+
+07. LOGD ESTIMATE | 00:01:44,792
+Log D adds an interactive pH and entered p K a estimate for a single ionizable site. Changing the inputs updates the result. The app does not predict p K a, and the approximation is clearly separated from the saved descriptor snapshot.
+
+08. PROPERTY SCREENS | 00:02:03,042
+Drug likeness shows five named property screens, with criteria and method notes. A result outside a guideline is explained rather than hidden. Passing a filter is not proof of safety, activity, or clinical usefulness.
+
+09. STRUCTURAL ALERTS | 00:02:19,625
+Structural alerts check the complete PAINS and Brenk catalog. Matched fragments can be highlighted and selected back in the editor. Download the highlighted figure or the recorded results. An alert is a review signal, not a toxicity verdict.
+
+10. PROJECTS & VERSIONS | 00:02:37,375
+Projects group related work. The library keeps independent molecule versions and their saved analyses. Reopen an earlier version without rewriting its evidence. A portable workspace backup helps preserve work beyond this browser and device.
+
+11. BATCH & COMPARISON | 00:02:55,542
+Batch analysis previews SMILES or CSV entries, flags duplicates and invalid structures, and saves valid rows with selected analyses. Comparison then places up to six saved versions on one table and one shared chart, using their recorded values.
+
+12. RESEARCH REPORTS | 00:03:14,000
+Research reports bring selected structures, properties, screens, alerts, predictions, and a comparison chart together. The report freezes source references. Missing results remain not calculated. Export a readable PDF, and use CSV for searchable text and full numerical precision.
+
+13. SOLUBILITY | 00:03:36,000
+The solubility module estimates aqueous log S, molar concentration, and grams per litre. You can inspect the inputs and contributions, save the prediction, and include it in a report. This model does not adjust for pH, temperature, or solid form.
+
+14. ADMET MODULES | 00:03:54,875
+Skin permeability uses a sourced neutral partition coefficient and molecular weight. Hepatic clearance uses entered blood flow, unbound fraction, and intrinsic clearance. Both preserve their input assumptions. These implemented endpoints are part of a growing suite, not a complete ADMET prediction system.
+
+15. MOLECULAR DOCKING | 00:04:16,625
+Molecular docking is the main research spotlight. Prepare a protein and ligand, define a binding site, run a search, then inspect ranked poses in three dimensions. The default AutoDock Vina workflow runs in the browser, without a separate Python server.
+
+16. DOCKING / PREPARATION | 00:04:34,750
+Start with a protein PDB file or identifier. Inspect chains and non protein residues, review cleanup, and prepare the receptor with hydrogens. Preparation logs and file hashes remain available. Missing heavy atoms and essential cofactors require careful review before proceeding.
+
+17. DOCKING / LIGAND & GRID | 00:04:55,625
+Bring a ligand from the editor, SMILES, or SDF. Review its supplied state or heuristic pH preparation, then generate a three dimensional conformer. Set the grid centre and dimensions, review the box in context, and confirm the complete setup.
+
+18. DOCKING / SEARCH | 00:05:13,750
+Configure the search budget, random seed, maximum poses, and browser workers. Keep the tab open as the asynchronous job runs. Completed results retain their own prepared inputs. Fewer poses than the requested maximum can be a normal engine outcome.
+
+19. DOCKING / RESULTS | 00:05:33,000
+Rotate and zoom the complex, overlay poses, and inspect hydrogen bond candidates and hydrophobic contacts. In this saved imatinib example, the top Vina score is minus twelve point nine three kilocalories per mole. A docking score is not measured binding affinity.
+
+20. DOCKING / EVIDENCE | 00:05:52,542
+Save the run into the workspace and reports. Export ranked SDF poses, scores and contacts as CSV, a docking PDF, and a complete ZIP with prepared inputs and logs. For one tested crystal redocking case, the top pose was within zero point seven eight angstrom across three predefined seeds.
+
+21. FOR STUDENTS, FACULTY & RESEARCH | 00:06:14,792
+Students can connect drawings to properties and explain their results. Faculty can teach changes step by step and review saved evidence. Research teams can compare early ideas and inspect docking inputs before specialist follow up. Responsive layouts support PC and phone, although demanding jobs depend on device resources.
+
+22. KEEP EXPLORING | 00:06:38,417
+ChemEase brings these steps into one connected workspace. More ADMET endpoints, broader docking validation, accounts, and collaboration remain future work. Built through hands on development and chemistry faculty guidance. Open ChemEase, create a molecule, and explore what its structure can tell you.
+
+EVIDENCE AND REFERENCES
+Product: https://loveless-rx.github.io/ChemEase/
+Source: https://github.com/Loveless-rx/ChemEase
+Scientific evidence: docs/DOCKING_ACCURACY.md and docs/docking-benchmark-1iep.json
+ESOL: https://doi.org/10.1021/ci034243x
+Skin: https://doi.org/10.1023/A:1015810312465
+Hepatic: https://doi.org/10.1007/BF01059689
+AutoDock Vina: https://doi.org/10.1002/jcc.21334
+The shown docking score belongs to a saved real 1IEP/imatinib run, not paracetamol.
+Crystal-pose RMSD uses the independent fixed protocol: 0.7658751221, 0.7724473567, 0.7412912948 angstrom.
+Displayed RMSD is target-specific; no universal accuracy, affinity or efficacy claim is made.
+LogD animation uses hypothetical pKa 7.4; it does not assign that pKa to paracetamol or aspirin.
+3D paracetamol capture is a PubChem conformer; it is not an experimental geometry claim.
+Report pages are actual exported PDF pages; inclusion depends on saved selections.
+Soundtrack and transition effects were synthesized for this video; no commercial music was used.
+Narration voice: Microsoft en-US-AriaNeural through edge-tts.
+No new viewer presets or unreleased features are depicted as implemented.

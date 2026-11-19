@@ -1,4 +1,5 @@
 import type { WorkspaceData, MoleculeVersion, SavedDescriptorAnalysis } from "../workspace/types";
+import {brandPlotSvg} from "../exports/branding";
 import { allRuleMethods } from "../drugLikeness/extendedRules";
 import { statusLabels } from "../drugLikeness/rules";
 import { alertPatterns } from "../medicinalChemistry/catalog";
@@ -90,5 +91,5 @@ export function comparisonPlot(columns:ComparisonColumn[],x:PlotProperty,y:PlotP
   const metadata=points.map(p=>({column:p.index,molecule:p.column.version.graph.metadata.name,versionId:p.column.version.id,resultId:p.column.source!.id,engine:p.column.source!.engine,createdAt:p.column.source!.createdAt,x:p.x,y:p.y}));
   const height=475+columns.length*23;
   const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="720" height="${height}" viewBox="0 0 720 ${height}"><title>Saved molecule comparison</title><desc>${escape(JSON.stringify({x,y,points:metadata}))}</desc><rect width="720" height="${height}" fill="#fffefa"/><g font-family="Arial,sans-serif" font-size="11" fill="#302a39"><text x="35" y="32" font-size="18" font-weight="bold">ChemEase / Saved molecule comparison</text><text x="35" y="56">Recorded descriptors · no recalculation · no efficacy or safety classification</text>${body}<path d="M95 90V355H650" fill="none" stroke="#77727d"/><text x="370" y="410" text-anchor="middle">${escape(plotProperties[x].label)} ${escape(plotProperties[x].unit)}</text><text transform="translate(22 225) rotate(-90)" text-anchor="middle">${escape(plotProperties[y].label)} ${escape(plotProperties[y].unit)}</text><text x="35" y="440">Coincident points overlap at their exact coordinates; consult numbered values in the table.</text>${columns.map((c,i)=>`<text x="35" y="${466+i*23}">${i+1}. ${escape(c.version.graph.metadata.name.slice(0,45))} · v${c.version.number} · ${escape(c.source?.engine??"Not calculated")}</text>`).join("")}</g></svg>`;
-  return {svg,points,xRange:xr,yRange:yr};
+  return {svg:brandPlotSvg(svg),points,xRange:xr,yRange:yr};
 }

@@ -1,0 +1,343 @@
+1
+00:00:00,550 --> 00:00:01,937
+Welcome to ChemEase.
+
+2
+00:00:01,937 --> 00:00:09,217
+A connected chemistry workspace that brings drawing, analysis, research tools, predictions, and molecular
+
+3
+00:00:09,217 --> 00:00:11,713
+docking into one browser experience.
+
+4
+00:00:11,713 --> 00:00:16,774
+Let us follow a structure from its first bond to a saved research result.
+
+5
+00:00:18,008 --> 00:00:19,340
+The idea is simple.
+
+6
+00:00:19,340 --> 00:00:26,068
+Start with a molecule, understand its properties, compare ideas, and keep the evidence together.
+
+7
+00:00:26,068 --> 00:00:33,286
+Shared molecular data connects the tools, while saved versions preserve the exact structure behind each
+
+8
+00:00:33,286 --> 00:00:33,776
+result.
+
+9
+00:00:35,008 --> 00:00:41,286
+In the editor, place atoms, connect bonds, select fragments, and refine the drawing.
+
+10
+00:00:41,286 --> 00:00:44,125
+Undo and redo let you explore changes.
+
+11
+00:00:44,125 --> 00:00:47,488
+Zoom and fit help keep the structure in view.
+
+12
+00:00:48,717 --> 00:00:54,778
+The extended element picker opens a periodic table with all one hundred and eighteen elements.
+
+13
+00:00:54,778 --> 00:01:01,225
+Carbon and hydrogen labels can be switched on when teaching, then hidden again for familiar skeletal
+
+14
+00:01:01,225 --> 00:01:01,806
+notation.
+
+15
+00:01:01,806 --> 00:01:05,997
+Calculation support still depends on the chosen chemistry module.
+
+16
+00:01:07,217 --> 00:01:11,256
+You can also paste a SMILES string or open a SMILES file.
+
+17
+00:01:11,256 --> 00:01:16,996
+Validate it, review the formula and atom counts, then open an editable structure.
+
+18
+00:01:16,996 --> 00:01:22,241
+Here, paracetamol becomes an eleven atom drawing, ready for the next step.
+
+19
+00:01:23,467 --> 00:01:30,670
+The same structure feeds molecular weight, Log P, polar surface area, hydrogen bond counts, flexibility,
+
+20
+00:01:30,670 --> 00:01:34,618
+refractivity, formal charge, rings, and heavy atom count.
+
+21
+00:01:34,618 --> 00:01:41,475
+For this aspirin example, molecular weight is about one hundred and eighty point one six, and polar
+
+22
+00:01:41,475 --> 00:01:44,107
+surface area is sixty three point six.
+
+23
+00:01:45,342 --> 00:01:51,511
+Log D adds an interactive pH and entered p K a estimate for a single ionizable site.
+
+24
+00:01:51,511 --> 00:01:54,376
+Changing the inputs updates the result.
+
+25
+00:01:54,376 --> 00:02:01,721
+The app does not predict p K a, and the approximation is clearly separated from the saved descriptor
+
+26
+00:02:01,721 --> 00:02:02,382
+snapshot.
+
+27
+00:02:03,592 --> 00:02:09,307
+Drug likeness shows five named property screens, with criteria and method notes.
+
+28
+00:02:09,307 --> 00:02:13,665
+A result outside a guideline is explained rather than hidden.
+
+29
+00:02:13,665 --> 00:02:18,952
+Passing a filter is not proof of safety, activity, or clinical usefulness.
+
+30
+00:02:20,175 --> 00:02:24,407
+Structural alerts check the complete PAINS and Brenk catalog.
+
+31
+00:02:24,407 --> 00:02:29,194
+Matched fragments can be highlighted and selected back in the editor.
+
+32
+00:02:29,194 --> 00:02:33,079
+Download the highlighted figure or the recorded results.
+
+33
+00:02:33,079 --> 00:02:36,687
+An alert is a review signal, not a toxicity verdict.
+
+34
+00:02:37,925 --> 00:02:39,927
+Projects group related work.
+
+35
+00:02:39,927 --> 00:02:45,146
+The library keeps independent molecule versions and their saved analyses.
+
+36
+00:02:45,146 --> 00:02:49,221
+Reopen an earlier version without rewriting its evidence.
+
+37
+00:02:49,221 --> 00:02:54,869
+A portable workspace backup helps preserve work beyond this browser and device.
+
+38
+00:02:56,092 --> 00:03:03,456
+Batch analysis previews SMILES or CSV entries, flags duplicates and invalid structures, and saves valid
+
+39
+00:03:03,456 --> 00:03:05,458
+rows with selected analyses.
+
+40
+00:03:05,458 --> 00:03:12,823
+Comparison then places up to six saved versions on one table and one shared chart, using their recorded
+
+41
+00:03:12,823 --> 00:03:13,324
+values.
+
+42
+00:03:14,550 --> 00:03:22,222
+Research reports bring selected structures, properties, screens, alerts, predictions, and a comparison
+
+43
+00:03:22,222 --> 00:03:23,350
+chart together.
+
+44
+00:03:23,350 --> 00:03:26,133
+The report freezes source references.
+
+45
+00:03:26,133 --> 00:03:28,992
+Missing results remain not calculated.
+
+46
+00:03:28,992 --> 00:03:35,310
+Export a readable PDF, and use CSV for searchable text and full numerical precision.
+
+47
+00:03:36,550 --> 00:03:42,912
+The solubility module estimates aqueous log S, molar concentration, and grams per litre.
+
+48
+00:03:42,912 --> 00:03:49,708
+You can inspect the inputs and contributions, save the prediction, and include it in a report.
+
+49
+00:03:49,708 --> 00:03:54,190
+This model does not adjust for pH, temperature, or solid form.
+
+50
+00:03:55,425 --> 00:04:01,114
+Skin permeability uses a sourced neutral partition coefficient and molecular weight.
+
+51
+00:04:01,114 --> 00:04:06,870
+Hepatic clearance uses entered blood flow, unbound fraction, and intrinsic clearance.
+
+52
+00:04:06,870 --> 00:04:09,444
+Both preserve their input assumptions.
+
+53
+00:04:09,444 --> 00:04:15,945
+These implemented endpoints are part of a growing suite, not a complete ADMET prediction system.
+
+54
+00:04:17,175 --> 00:04:20,487
+Molecular docking is the main research spotlight.
+
+55
+00:04:20,487 --> 00:04:27,313
+Prepare a protein and ligand, define a binding site, run a search, then inspect ranked poses in three
+
+56
+00:04:27,313 --> 00:04:28,056
+dimensions.
+
+57
+00:04:28,056 --> 00:04:34,071
+The default AutoDock Vina workflow runs in the browser, without a separate Python server.
+
+58
+00:04:35,300 --> 00:04:38,434
+Start with a protein PDB file or identifier.
+
+59
+00:04:38,434 --> 00:04:45,342
+Inspect chains and non protein residues, review cleanup, and prepare the receptor with hydrogens.
+
+60
+00:04:45,342 --> 00:04:48,903
+Preparation logs and file hashes remain available.
+
+61
+00:04:48,903 --> 00:04:54,956
+Missing heavy atoms and essential cofactors require careful review before proceeding.
+
+62
+00:04:56,175 --> 00:04:59,484
+Bring a ligand from the editor, SMILES, or SDF.
+
+63
+00:04:59,484 --> 00:05:06,453
+Review its supplied state or heuristic pH preparation, then generate a three dimensional conformer.
+
+64
+00:05:06,453 --> 00:05:13,071
+Set the grid centre and dimensions, review the box in context, and confirm the complete setup.
+
+65
+00:05:14,300 --> 00:05:19,965
+Configure the search budget, random seed, maximum poses, and browser workers.
+
+66
+00:05:19,965 --> 00:05:23,422
+Keep the tab open as the asynchronous job runs.
+
+67
+00:05:23,422 --> 00:05:27,174
+Completed results retain their own prepared inputs.
+
+68
+00:05:27,174 --> 00:05:32,324
+Fewer poses than the requested maximum can be a normal engine outcome.
+
+69
+00:05:33,550 --> 00:05:40,337
+Rotate and zoom the complex, overlay poses, and inspect hydrogen bond candidates and hydrophobic
+
+70
+00:05:40,337 --> 00:05:40,974
+contacts.
+
+71
+00:05:40,974 --> 00:05:48,044
+In this saved imatinib example, the top Vina score is minus twelve point nine three kilocalories per
+
+72
+00:05:48,044 --> 00:05:48,398
+mole.
+
+73
+00:05:48,398 --> 00:05:51,862
+A docking score is not measured binding affinity.
+
+74
+00:05:53,092 --> 00:05:56,353
+Save the run into the workspace and reports.
+
+75
+00:05:56,353 --> 00:06:03,764
+Export ranked SDF poses, scores and contacts as CSV, a docking PDF, and a complete ZIP with prepared
+
+76
+00:06:03,764 --> 00:06:04,950
+inputs and logs.
+
+77
+00:06:04,950 --> 00:06:12,435
+For one tested crystal redocking case, the top pose was within zero point seven eight angstrom across
+
+78
+00:06:12,435 --> 00:06:14,140
+three predefined seeds.
+
+79
+00:06:15,342 --> 00:06:20,225
+Students can connect drawings to properties and explain their results.
+
+80
+00:06:20,225 --> 00:06:24,759
+Faculty can teach changes step by step and review saved evidence.
+
+81
+00:06:24,759 --> 00:06:31,316
+Research teams can compare early ideas and inspect docking inputs before specialist follow up.
+
+82
+00:06:31,316 --> 00:06:37,734
+Responsive layouts support PC and phone, although demanding jobs depend on device resources.
+
+83
+00:06:38,967 --> 00:06:42,837
+ChemEase brings these steps into one connected workspace.
+
+84
+00:06:42,837 --> 00:06:49,422
+More ADMET endpoints, broader docking validation, accounts, and collaboration remain future work.
+
+85
+00:06:49,422 --> 00:06:53,903
+Built through hands on development and chemistry faculty guidance.
+
+86
+00:06:53,903 --> 00:06:59,199
+Open ChemEase, create a molecule, and explore what its structure can tell you.
