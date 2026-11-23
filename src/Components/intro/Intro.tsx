@@ -1,3 +1,4 @@
+import { AccountButton } from "../../features/account/AccountUI";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Logo, Icon } from "../common/Icon";
 import { Formula } from "../common/Formula";
@@ -234,7 +235,7 @@ export function Intro({ onEnter }: { onEnter: () => void }) {
         <div className="story-readability" />
         <header className="story-nav">
           <Logo />
-          <div className="story-nav-right">
+          <div className="story-nav-right"><AccountButton/>
             <span className="intro-build-label">THE MOLECULAR WORKSPACE</span>
             <button className="story-skip" onClick={enter}>
               Skip intro <Icon name="arrow" size={15} />

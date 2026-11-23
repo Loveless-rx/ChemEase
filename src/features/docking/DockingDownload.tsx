@@ -1,3 +1,4 @@
+import {requireExportAccount} from "../account/access";
 import {useEffect,useRef,useState} from "react";
 import "./Docking.css";
 
@@ -10,7 +11,7 @@ export function DockingDownload({label,filename,create,inspect=false}:{label:str
   const generation=useRef(0);
   useEffect(()=>()=>{generation.current++;},[]);
   useEffect(()=>()=>{if(url)URL.revokeObjectURL(url);},[url]);
-  async function prepare(){const request=++generation.current;setBusy(true);setError("");try{
+  async function prepare(){if(!requireExportAccount())return;const request=++generation.current;setBusy(true);setError("");try{
     const blob=await create(),content=inspect?await blob.text():"";
     if(request!==generation.current)return;
     setUrl(URL.createObjectURL(blob));setText(content);

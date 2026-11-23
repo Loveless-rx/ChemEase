@@ -1,6 +1,9 @@
 import { convertLegacySnapshot } from "./legacyImport";
 import type { Molecule } from "../types/chem";
 export const STORAGE_KEY = "chemease.molecule.v1";
+let moleculeOwner="local-device";
+export function setMoleculeStorageOwner(owner:string){moleculeOwner=owner;}
+const moleculeStorageKey=()=>moleculeOwner==="local-device"?STORAGE_KEY:`${STORAGE_KEY}:${moleculeOwner}`;
 export function readPreference(key: string, fallback: string) {
   try {
     return localStorage.getItem(key) ?? fallback;
@@ -122,12 +125,12 @@ export function parseMolecule(raw: string): Molecule {
   };
 }
 export function saveMolecule(m: Molecule) {
-  if (!writePreference(STORAGE_KEY, JSON.stringify(m)))
+  if (!writePreference(moleculeStorageKey(), JSON.stringify(m)))
     throw new Error(
       "Browser storage unavailable or full. Export JSON to keep your work.",
     );
 }
 export function loadMolecule() {
-  const raw = readPreference(STORAGE_KEY, "");
+  const raw = readPreference(moleculeStorageKey(), "");
   return raw ? parseMolecule(raw) : null;
 }

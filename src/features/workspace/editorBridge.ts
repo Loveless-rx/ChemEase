@@ -2,6 +2,7 @@ import type { Molecule } from "../../models/Molecule";
 import { useMoleculeStore, fingerprint } from "../../store/moleculeStore";
 import { useHistoryStore } from "../../store/historyStore";
 import { useUIStore } from "../../store/chemUIStore";
+import { emptyMolecule } from "../../models/Molecule";
 import { loadMolecule } from "../../utils/storage";
 import { useWorkspaceStore } from "./store";
 import { snapshotKey } from "./domain";
@@ -18,6 +19,7 @@ export function applyGraph(graph:Molecule, clearHistory=true) {
     if(clearHistory) useHistoryStore.getState().clear();
   } finally {applying=false;}
 }
+export function discardQueuedDraft(){clearTimeout(timer);queued=null;}
 export async function flushDraft() {
   clearTimeout(timer);
   const graph=queued;queued=null;
@@ -28,7 +30,7 @@ export async function initializeEditor() {
   if(useWorkspaceStore.getState().ready) return;
   await useWorkspaceStore.getState().initialize();
   const d=useWorkspaceStore.getState().data;
-  const graph=d.draft??d.versions.find(v=>v.id===d.active.versionId)?.graph??loadMolecule();
+  const graph=d.draft??d.versions.find(v=>v.id===d.active.versionId)?.graph??(d.ownerId==="local-device"?loadMolecule():emptyMolecule());
   if(graph) applyGraph(graph);
 }
 export function subscribeDraft() {

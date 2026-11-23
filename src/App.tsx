@@ -1,3 +1,4 @@
+import {useAccount} from "./features/account/state";
 import {
   useEffect,
   useState,
@@ -49,6 +50,8 @@ export default function App() {
     document.documentElement.dataset.theme = theme;
   }, [theme]);
   const enter = () => {
+    const account=useAccount.getState();
+    if(!account.user&&!account.guest){useAccount.setState({dialog:true});return;}
     setEditor(true);
     window.scrollTo(0, 0);
   };

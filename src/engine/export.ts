@@ -1,3 +1,4 @@
+import {requireExportAccount} from "../features/account/access";
 import type { Molecule } from "../types/chem";
 import { bounds } from "./geometry";
 import {
@@ -78,6 +79,7 @@ export function moleculeSvg(m: Molecule, options: Partial<RenderOptions> & {high
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="${box.x - 65} ${box.y - 65} ${width} ${height}"><title>${escape(m.metadata.name)}</title><rect x="${box.x - 65}" y="${box.y - 65}" width="${width}" height="${height}" fill="${bg}"/>${body}</svg>`;
 }
 export function downloadBlob(blob: Blob, name: string) {
+  if(!requireExportAccount())return;
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;

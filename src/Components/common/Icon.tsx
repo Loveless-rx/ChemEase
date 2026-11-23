@@ -1,5 +1,6 @@
 import type { CSSProperties } from "react";
 const paths: Record<string, string> = {
+  user: "M12 3a4 4 0 100 8 4 4 0 000-8 M4 21v-2a8 8 0 0116 0v2",
   select: "M5 3l14 9-7 1-3 7-4-17z",
   erase: "M16 3l5 5-11 12H5l-3-3L16 3z M8 11l6 6 M10 20h11",
   lasso: "M4 4h16v16H4z",

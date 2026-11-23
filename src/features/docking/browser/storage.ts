@@ -12,8 +12,8 @@ export interface Stored {
 }
 let opened: Promise<IDBDatabase> | undefined;
 function database() { return opened ??= new Promise<IDBDatabase>((resolve, reject) => { const r = indexedDB.open("chemease-browser-docking-v1", 1); r.onupgradeneeded = () => r.result.createObjectStore("records", { keyPath: ["owner", "id"] }); r.onsuccess = () => resolve(r.result); r.onerror = () => { opened = undefined; reject(r.error); }; }); }
-export async function all(owner: string) { const db = await database(); return new Promise<Stored[]>((resolve, reject) => { const t = db.transaction("records", "readonly"), r = t.objectStore("records").getAll(IDBKeyRange.bound([owner, ""], [owner, "\uffff"])); r.onsuccess = () => resolve(r.result as Stored[]); r.onerror = () => reject(r.error); }); }
-export async function get(owner: string, id: string) { const db = await database(); return new Promise<Stored>((resolve, reject) => { const r = db.transaction("records", "readonly").objectStore("records").get([owner, id]); r.onsuccess = () => r.result ? resolve(r.result as Stored) : reject(new Error("Browser docking record not found in this workspace.")); r.onerror = () => reject(r.error); }); }
+async function localAll(owner: string) { const db = await database(); return new Promise<Stored[]>((resolve, reject) => { const t = db.transaction("records", "readonly"), r = t.objectStore("records").getAll(IDBKeyRange.bound([owner, ""], [owner, "\uffff"])); r.onsuccess = () => resolve(r.result as Stored[]); r.onerror = () => reject(r.error); }); }
+async function localGet(owner: string, id: string) { const db = await database(); return new Promise<Stored>((resolve, reject) => { const r = db.transaction("records", "readonly").objectStore("records").get([owner, id]); r.onsuccess = () => r.result ? resolve(r.result as Stored) : reject(new Error("Browser docking record not found in this workspace.")); r.onerror = () => reject(r.error); }); }
 export async function put(...rows: Stored[]) { const db = await database(); await new Promise<void>((resolve, reject) => { const t = db.transaction("records", "readwrite"); for (const row of rows)
     t.objectStore("records").put(row); t.oncomplete = () => resolve(); t.onerror = () => reject(t.error); t.onabort = () => reject(t.error ?? new Error("Could not retain browser docking data.")); }); }
 export const id = () => crypto.randomUUID().replaceAll("-", "");
@@ -24,3 +24,21 @@ export async function assetRecord(owner: string, kind: string, name: string, fil
     text: string;
 }>, extra: Partial<Asset> = {}): Promise<Stored> { const manifest: Asset["files"] = {}; for (const [key, file] of Object.entries(files))
     manifest[key] = { name: file.name, sha256: await sha(file.text), bytes: new TextEncoder().encode(file.text).byteLength }; const identifier = id(); return { owner, id: identifier, kind, files, value: { id: identifier, kind, name, ready: true, createdAt: now(), files: manifest, ...extra } }; }
+
+let cloud: {owner:string;list:()=>Promise<Stored[]>;read:(id:string)=>Promise<Stored>}|null=null;
+let hydrated:Promise<void>|null=null;
+export function configureDockingStorage(next:typeof cloud){cloud=next;hydrated=null;}
+export async function all(owner:string){
+  const adapter=cloud;
+  if(adapter?.owner===owner){
+    hydrated??=adapter.list().then(async rows=>{await put(...rows);}).catch(error=>{hydrated=null;throw error;});
+    await hydrated;
+  }
+  return localAll(owner);
+}
+export async function get(owner:string,id:string){
+  try{return await localGet(owner,id);}catch(error){
+    if(cloud?.owner!==owner)throw error;
+    const record=await cloud.read(id);await put(record);return record;
+  }
+}

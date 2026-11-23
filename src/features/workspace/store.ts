@@ -9,10 +9,13 @@ import type { WorkspaceData, WorkspaceRepository } from "./types";
 import { LocalWorkspaceRepository } from "./repository";
 
 export function createWorkspaceStore(repository: WorkspaceRepository) {
+  let epoch=0;
   let tail:Promise<unknown>=Promise.resolve(), loading:Promise<void>|null=null;
   return create<{
     data:WorkspaceData;ready:boolean;writable:boolean;pending:number;error:string|null;
     initialize:()=>Promise<void>;
+    settle:()=>Promise<void>;
+    changeRepository:(next:WorkspaceRepository)=>Promise<void>;
     transact:(change:(data:WorkspaceData)=>WorkspaceData)=>Promise<void>;
     createProject:(name:string,description:string)=>Promise<string>;
     editProject:(id:string,name:string,description:string)=>Promise<void>;
@@ -29,25 +32,35 @@ export function createWorkspaceStore(repository: WorkspaceRepository) {
     restore:(input:unknown)=>Promise<void>;
   }>((set,get)=>({
     data:emptyWorkspace(repository.ownerId),ready:false,writable:false,pending:0,error:null,
+    settle:async()=>{await tail;},
     initialize:()=>{
       if(loading) return loading;
+      const scope=epoch,repo=repository;
       loading=(async()=>{
-        try { const data=await repository.load();set({data:data??emptyWorkspace(repository.ownerId),ready:true,writable:true,error:null}); }
-        catch(e) {set({ready:true,writable:false,error:(e as Error).message});}
-        finally {loading=null;}
+        try { const data=await repo.load();if(scope!==epoch)return;set({data:data??emptyWorkspace(repo.ownerId),ready:true,writable:true,error:null}); }
+        catch(e) {if(scope!==epoch)return;set({ready:true,writable:false,error:(e as Error).message});}
+        finally {if(scope===epoch)loading=null;}
       })();
       return loading;
     },
+    changeRepository:async next=>{
+      epoch++;repository=next;loading=null;
+      set({data:emptyWorkspace(next.ownerId),ready:false,writable:false,pending:0,error:null});
+      await get().initialize();
+    },
     transact:change=>{
+      const scope=epoch,repo=repository;
       set(s=>({pending:s.pending+1}));
       const job=tail.then(async()=>{
+        if(scope!==epoch)throw new Error("The account changed before this operation could be saved.");
         if(!get().writable) throw new Error("Project storage is unavailable. Retry loading it before saving.");
         const current=get().data;
         const next=change(structuredClone(current));next.revision=current.revision+1;
-        await repository.save(next,current.revision);
+        await repo.save(next,current.revision);
+        if(scope!==epoch)return;
         set({data:next,error:null});
-      }).catch((e:unknown)=>{set({error:e instanceof Error?e.message:"Workspace save failed."});throw e;})
-        .finally(()=>set(s=>({pending:s.pending-1})));
+      }).catch((e:unknown)=>{if(scope===epoch)set({error:e instanceof Error?e.message:"Workspace save failed."});throw e;})
+        .finally(()=>{if(scope===epoch)set(s=>({pending:s.pending-1}));});
       tail=job.catch(()=>undefined);return job;
     },
     createProject:async(name,description)=>{

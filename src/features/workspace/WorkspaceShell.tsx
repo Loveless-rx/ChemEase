@@ -1,3 +1,4 @@
+import { AccountButton, AccountStatus } from "../account/AccountUI";
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { Editor } from "../../Components/editor/Editor";
 import { Icon } from "../../Components/common/Icon";
@@ -59,7 +60,8 @@ export function WorkspaceShell({onIntro}:{onIntro:()=>void}) {
   const versionLabel=version?(snapshotKey(version.graph)===snapshotKey(molecule)?`Saved version ${version.number}`:`Draft from v${version.number}`):"Local draft";
   return <div className="workspace-shell">
     <aside className="ws-rail"><button className="ws-symbol" aria-label="ChemEase Home" onClick={()=>navigate("home")}><Icon name="atom" size={29}/></button><nav aria-label="Workspace modules">{workspaceRoutes.map(r=><a key={r} href={`#/${r}`} aria-current={route===r?"page":undefined}><Icon name={icons[r]} size={21}/><span>{routeLabels[r]}</span></a>)}</nav><button className="ws-intro-link" onClick={onIntro}>View intro</button></aside>
-    <div className="ws-main"><header className="ws-header"><div className="ws-desktop-title"><span className="eyebrow">CHEMEASE / {routeLabels[route].toUpperCase()}</span><strong title={molecule.metadata.name}>{molecule.metadata.name}</strong></div><label className="ws-mobile-navigation"><span className="sr-only">Workspace page</span><select aria-label="Workspace page" value={route} onChange={e=>navigate(e.target.value as WorkspaceRoute)}>{workspaceRoutes.map(r=><option key={r} value={r}>{routeLabels[r]}</option>)}</select></label><div className="ws-header-context"><span title={activeProject?.name}>{activeProject?.name??"Personal workspace"}</span><small>{pending?"Saving draft…":versionLabel}</small></div><button className="primary ws-save" disabled={!booted||!writable||busy||!!pending} onClick={save}><Icon name="save" size={16}/><span>Save version</span></button></header>
+    <div className="ws-main"><header className="ws-header"><div className="ws-desktop-title"><span className="eyebrow">CHEMEASE / {routeLabels[route].toUpperCase()}</span><strong title={molecule.metadata.name}>{molecule.metadata.name}</strong></div><label className="ws-mobile-navigation"><span className="sr-only">Workspace page</span><select aria-label="Workspace page" value={route} onChange={e=>navigate(e.target.value as WorkspaceRoute)}>{workspaceRoutes.map(r=><option key={r} value={r}>{routeLabels[r]}</option>)}</select></label><div className="ws-header-context"><span title={activeProject?.name}>{activeProject?.name??"Personal workspace"}</span><small>{pending?"Saving draft…":versionLabel}</small></div><AccountButton/><button className="primary ws-save" disabled={!booted||!writable||busy||!!pending} onClick={save}><Icon name="save" size={16}/><span>Save version</span></button></header>
+    <AccountStatus/>
     {(error||actionError)&&<div className="ws-error" role="alert"><span>{actionError||error} Your current drawing remains available. Export a backup before clearing browser storage.</span><button className="secondary" disabled={busy||!!pending} onClick={()=>{setActionError("");if(error)window.location.reload();}}> {error?"Reload storage":"Dismiss"}</button></div>}
     <div className="ws-content" aria-busy={!booted||busy}>{!booted||!ready?<div className="ws-empty" role="status">Opening your workspace…</div>:<>
       {route==="editor"?<Editor onIntro={onIntro} onSaveVersion={save} onLibrary={()=>navigate("library")}/>:<main className="ws-scroll" key={route}>
@@ -83,7 +85,7 @@ export function WorkspaceShell({onIntro}:{onIntro:()=>void}) {
         if(file.size>25*1024*1024)throw new Error("Choose a workspace backup smaller than 25 MB.");
         const input=JSON.parse(await file.text()) as unknown;
         validateWorkspace(structuredClone(input),data.ownerId);
-        if(!window.confirm("Replace all projects, versions, saved results, and the current drawing in this browser with this backup? Export your current workspace first to keep a copy."))return;
+        if(!window.confirm("Replace all projects, versions, saved results, and the current drawing in the current workspace with this backup? Export your current workspace first to keep a copy."))return;
         await flushDraft();await useWorkspaceStore.getState().restore(input);
         const restored=useWorkspaceStore.getState().data;
         applyGraph(restored.draft??restored.versions.find(v=>v.id===restored.active.versionId)?.graph??emptyMolecule());

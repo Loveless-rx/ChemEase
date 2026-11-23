@@ -33,6 +33,7 @@ interface Search {
     cpu?: number;
 }
 const active = new Map<string, AbortController>();
+export function cancelAccountJobs(){for(const controller of active.values())controller.abort();}
 const owner = () => useWorkspaceStore.getState().data.ownerId;
 const tools = { vina: "AutoDock Vina 1.2.3 / WebAssembly", openbabel: "Open Babel 3.1.0 / WebAssembly", reduce: "Reduce 4.13 / WebAssembly", protocol: "chemease-browser-v2", torsions:"RDKit chemical bond graph / graph-torsions-v2" };
 const textFile = (name: string, text: string) => ({ name, text });
