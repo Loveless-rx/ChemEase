@@ -23,6 +23,9 @@ if (typeof window === 'undefined') {
 
     self.addEventListener("fetch", function (event) {
         const r = event.request;
+        // Only local documents/assets need isolation headers. Rewrapping a CORS
+        // API response loses its filtered-response metadata and can fail fetch.
+        if (new URL(r.url).origin !== self.location.origin) return;
         if (r.cache === "only-if-cached" && r.mode !== "same-origin") {
             return;
         }
