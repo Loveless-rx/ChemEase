@@ -3,7 +3,7 @@ from pathlib import Path
 import sys
 root=Path(sys.argv[1]);path=root/"Code/MinimalLib/minilib.cpp"
 s=path.read_text()
-s="#include <GraphMol/RingInfo.h>\n#include <GraphMol/Descriptors/MolSurf.h>\n#include <GraphMol/PartialCharges/GasteigerCharges.h>\n#include <cmath>\n"+s
+s="#include <string>\n#include <GraphMol/RingInfo.h>\n#include <GraphMol/Descriptors/MolSurf.h>\n#include <GraphMol/PartialCharges/GasteigerCharges.h>\n#include <cmath>\n"+s
 old="  return MinimalLib::get_descriptors(*d_mol);"
 assert s.count(old)==1
 new=r'''  rapidjson::Document doc;
@@ -27,6 +27,11 @@ new=r'''  rapidjson::Document doc;
   add("MinPartialCharge",minimum);add("MaxPartialCharge",maximum);
   add("MinAbsPartialCharge",std::min(std::abs(minimum),std::abs(maximum)));
   add("MaxAbsPartialCharge",std::max(std::abs(minimum),std::abs(maximum)));
+  std::vector<double> atomAreas(d_mol->getNumAtoms()); double hydrogenArea=0;
+  Descriptors::getLabuteAtomContribs(*d_mol,atomAreas,hydrogenArea,true,false);
+  rapidjson::Value surface(rapidjson::kArrayType);
+  for(double area:atomAreas)surface.PushBack(area,allocator);
+  doc.AddMember("hergAtomAreas",surface,allocator);
   rapidjson::Value atoms(rapidjson::kArrayType),bonds(rapidjson::kArrayType);
   for(const auto atom:d_mol->atoms()){
     rapidjson::Value row(rapidjson::kArrayType);
