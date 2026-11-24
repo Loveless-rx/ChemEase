@@ -1,0 +1,30 @@
+name: Build historical hERG chemistry runtime (research)
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  reference-wasm:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: mymindstorm/setup-emsdk@v14
+        with:
+          version: '3.1.45'
+          actions-cache-folder: emsdk-cache
+      - name: Install headers
+        run: sudo apt-get update && sudo apt-get install -y libboost-dev libeigen3-dev
+      - name: Build pinned RDKit baseline
+        run: bash tools/herg/build-reference-wasm.sh
+      - name: Smoke-test historical chemistry
+        run: |
+          node - <<'JS'
+          const init=require('./output/herg-wasm-research/RDKit_minimal.js');
+          (async()=>{const r=await init();if(!r.version().startsWith('2023.03.3'))throw Error('Wrong RDKit version');const m=r.get_mol('CCO');if(!m)throw Error('Parse failed');const d=JSON.parse(m.get_descriptors());if(Math.abs(d.amw-46.069)>1e-6)throw Error('Mass parity failed');m.delete();console.log(r.version());})();
+          JS
+      - uses: actions/upload-artifact@v4
+        with:
+          name: herg-rdkit-reference-wasm-research
+          path: output/herg-wasm-research/
+          if-no-files-found: error
