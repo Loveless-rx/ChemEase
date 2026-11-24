@@ -29,4 +29,5 @@ cmake --build build --target RDKit_minimal --parallel 2
 mkdir -p ../../output/herg-wasm-research
 cp build/Code/MinimalLib/RDKit_minimal.js build/Code/MinimalLib/RDKit_minimal.wasm ../../output/herg-wasm-research/
 cd ../../output/herg-wasm-research
+printf '%s\n' '{"type":"commonjs"}' > package.json
 sha256sum RDKit_minimal.js RDKit_minimal.wasm > SHA256SUMS

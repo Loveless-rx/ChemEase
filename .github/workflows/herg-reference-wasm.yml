@@ -24,6 +24,7 @@ jobs:
           (async()=>{const fs=require('fs');const r=await init({wasmBinary:fs.readFileSync('./output/herg-wasm-research/RDKit_minimal.wasm')});if(!r.version().startsWith('2023.03.3'))throw Error('Wrong RDKit version');const m=r.get_mol('CCO');if(!m)throw Error('Parse failed');const d=JSON.parse(m.get_descriptors());if(Math.abs(d.amw-46.069)>1e-6)throw Error('Mass parity failed');m.delete();console.log(r.version());})();
           JS
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: herg-rdkit-reference-wasm-research
           path: output/herg-wasm-research/
