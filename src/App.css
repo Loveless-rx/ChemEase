@@ -47,3 +47,9 @@
   font-size: 0.62em;
   vertical-align: -0.2em;
 }
+
+.brand-logo{display:inline-flex;align-items:center;gap:11px;flex-shrink:0;width:auto;max-width:100%;line-height:1;color:var(--text);background:none!important;border:0!important;padding:0!important}
+.brand-mark{display:block;flex-shrink:0;color:var(--accent);overflow:visible}
+.brand-type{display:grid;gap:7px;min-width:0}.brand-name{font-size:27px;font-weight:750;letter-spacing:-1px;color:var(--text);white-space:nowrap}.brand-name>span{color:var(--accent)}.brand-caption{font-size:7px;letter-spacing:2px;color:var(--text-muted);font-weight:600;white-space:nowrap}
+.story-nav .brand-logo{width:auto;font-size:inherit}.navbar .brand-logo{width:auto;gap:8px}.navbar .brand-name{font-size:23px}.navbar .brand-caption{display:none}.navbar .brand-mark{width:31px;height:31px}.ws-symbol{background:transparent!important;border:1px solid var(--border);border-radius:14px}.account-emblem{background:transparent!important;border-color:var(--border)}
+@media(max-width:650px){.story-nav .brand-logo{width:auto;max-width:44vw;gap:8px}.story-nav .brand-name{font-size:22px}.story-nav .brand-mark{width:32px;height:32px}.brand-caption{font-size:6px;letter-spacing:1.1px}.navbar .brand-name{font-size:20px}.navbar .brand-mark{width:27px;height:27px}.ws-symbol .brand-mark{width:38px;height:38px}}

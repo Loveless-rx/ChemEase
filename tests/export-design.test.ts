@@ -27,8 +27,9 @@ test("branded molecular images retain atom labels, bonds, highlights and escape 
 });
 test("figure branding expands the frame while preserving plot data coordinates",()=>{
  const result=brandPlotSvg('<svg width="720" height="470" viewBox="0 0 720 470"><circle cx="104.3" cy="210.8" r="7"/></svg>');
- assert.match(result,/height="519"/);assert.match(result,/viewBox="0 0 720 519"/);assert.match(result,/cx="104.3" cy="210.8"/);assert.match(result,/ChemEase/);
+ assert.match(result,/height="542"/);assert.match(result,/viewBox="0 0 720 542"/);assert.match(result,/cx="104.3" cy="210.8"/);assert.match(result,/ChemEase/);
 });
 test("wrapping preserves Unicode and bounds unbroken identifiers",()=>{
  const lines=wrapText("研究 β " + "a".repeat(1000),200,12,false,measure);assert.ok(lines.join("").includes("研究 β"));for(const line of lines)assert.ok(measure(line,12)<=200);
 });
+

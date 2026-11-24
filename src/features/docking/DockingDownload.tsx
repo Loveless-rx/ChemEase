@@ -1,3 +1,4 @@
+import {attributeDataFile} from "../exports/attribution";
 import {requireExportAccount} from "../account/access";
 import {useEffect,useRef,useState} from "react";
 import "./Docking.css";
@@ -12,7 +13,7 @@ export function DockingDownload({label,filename,create,inspect=false}:{label:str
   useEffect(()=>()=>{generation.current++;},[]);
   useEffect(()=>()=>{if(url)URL.revokeObjectURL(url);},[url]);
   async function prepare(){if(!requireExportAccount())return;const request=++generation.current;setBusy(true);setError("");try{
-    const blob=await create(),content=inspect?await blob.text():"";
+    const blob=await attributeDataFile(await create(),filename),content=inspect?await blob.text():"";
     if(request!==generation.current)return;
     setUrl(URL.createObjectURL(blob));setText(content);
   }catch(e){if(request===generation.current)setError((e as Error).message);}finally{if(request===generation.current)setBusy(false);}}

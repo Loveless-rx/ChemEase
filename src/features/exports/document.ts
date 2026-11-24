@@ -1,3 +1,5 @@
+import {exportIdentity} from "../account/access";
+import {logoMarkData} from "./logoAsset";
 import {jsPDF} from "jspdf";
 import {exportBrand as B} from "./branding";
 
@@ -98,11 +100,13 @@ export class ReportDocument {
 export function canvasMeasure(ctx:CanvasRenderingContext2D):MeasureText{return(text,size,bold)=>{ctx.font=`${bold?600:400} ${size}px Arial,sans-serif`;return ctx.measureText(text).width;};}
 async function svgImage(svg:string){const url=URL.createObjectURL(new Blob([svg],{type:"image/svg+xml"}));try{return await new Promise<HTMLImageElement>((resolve,reject)=>{const img=new Image(),timer=setTimeout(()=>reject(new Error("Report image timed out. Please retry.")),15000);img.onload=()=>{clearTimeout(timer);resolve(img);};img.onerror=()=>{clearTimeout(timer);reject(new Error("A report figure could not be rendered."));};img.src=url;});}finally{URL.revokeObjectURL(url);}}
 export async function renderDocument(pages:DocumentDraw[][],title:string,category:string,id:string,canvas:HTMLCanvasElement){
+ const attribution=exportIdentity();
  const ctx=canvas.getContext("2d");if(!ctx)throw new Error("PDF rendering is unavailable.");
- const pdf=new jsPDF({format:"a4",unit:"mm",compress:true});pdf.setProperties({title,subject:`${category}; record ${id}`,author:"ChemEase",creator:"ChemEase Studio"});
+ const pdf=new jsPDF({format:"a4",unit:"mm",compress:true});pdf.setProperties({title,subject:`${category}; record ${id}`,author:attribution?`ChemEase / ${attribution}`:"ChemEase",creator:"ChemEase Studio"});
+ const brandImage=await svgImage(`<svg xmlns="http://www.w3.org/2000/svg" width="60" height="52"><image href="${logoMarkData}" width="60" height="52"/></svg>`);
  for(let i=0;i<pages.length;i++){
   ctx.setTransform(2,0,0,2,0,0);ctx.fillStyle="#ffffff";ctx.fillRect(0,0,794,1123);
-  ctx.strokeStyle=B.purple;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(69,36);ctx.lineTo(81,43);ctx.lineTo(81,57);ctx.lineTo(69,64);ctx.lineTo(57,57);ctx.lineTo(57,43);ctx.closePath();ctx.stroke();
+  ctx.drawImage(brandImage,54,32,36,32);
   ctx.fillStyle=B.ink;ctx.font="700 23px Arial,sans-serif";ctx.fillText("ChemEase",94,59);ctx.fillStyle=B.muted;ctx.font="10px Arial,sans-serif";ctx.textAlign="right";ctx.fillText(category.toUpperCase(),736,56);ctx.textAlign="left";
   ctx.fillStyle=B.line;ctx.fillRect(LEFT,83,WIDTH,1);
   for(const op of pages[i]){
@@ -113,6 +117,7 @@ export async function renderDocument(pages:DocumentDraw[][],title:string,categor
   ctx.save();ctx.translate(397,565);ctx.rotate(-Math.PI/6);ctx.globalAlpha=.035;ctx.fillStyle=B.purple;ctx.font="700 99px Arial,sans-serif";ctx.textAlign="center";ctx.fillText("ChemEase",0,0);ctx.restore();
   // The footer brand remains visible even on pages containing opaque figures/tables.
   ctx.fillStyle=B.line;ctx.fillRect(LEFT,1043,WIDTH,1);ctx.fillStyle=B.purple;ctx.font="600 11px Arial,sans-serif";ctx.fillText("ChemEase | Recorded research results",LEFT,1066);ctx.fillStyle=B.muted;ctx.font="10px Arial,sans-serif";ctx.fillText(B.site,LEFT,1084);ctx.textAlign="right";ctx.fillText(`${String(i+1).padStart(2,"0")} / ${String(pages.length).padStart(2,"0")}`,736,1074);ctx.textAlign="left";
+  if(attribution){ctx.fillStyle=B.muted;ctx.font="10px Arial,sans-serif";const label=`EXPORTED BY  /  ${attribution}`;ctx.fillText(label,LEFT,1104,WIDTH);}
   if(i)pdf.addPage();pdf.addImage(canvas.toDataURL("image/png"),"PNG",0,0,210,297,undefined,"FAST");await new Promise(resolve=>setTimeout(resolve,0));
  }
  canvas.width=canvas.height=0;return pdf.output("blob");

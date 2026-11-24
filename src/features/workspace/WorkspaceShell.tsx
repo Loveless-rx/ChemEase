@@ -1,7 +1,7 @@
 import { AccountButton, AccountStatus } from "../account/AccountUI";
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { Editor } from "../../Components/editor/Editor";
-import { Icon } from "../../Components/common/Icon";
+import { Icon, BrandMark } from "../../Components/common/Icon";
 import { useUIStore } from "../../store/chemUIStore";
 import { useMoleculeStore } from "../../store/moleculeStore";
 import { emptyMolecule } from "../../models/Molecule";
@@ -32,6 +32,7 @@ const icons:Record<WorkspaceRoute,string>={home:"grid",editor:"atom",projects:"f
 export function WorkspaceShell({onIntro}:{onIntro:()=>void}) {
   const route=useSyncExternalStore(subscribeRoute,routeSnapshot);
   const {data,ready,writable,error,pending}=useWorkspaceStore();
+  const theme=useUIStore(s=>s.theme);
   const molecule=useMoleculeStore(s=>s.molecule);
   const [dialog,setDialog]=useState<"save"|"project"|null>(null),[project,setProject]=useState<Project|undefined>();
   const [booted,setBooted]=useState(false),[busy,setBusy]=useState(false),[actionError,setActionError]=useState("");
@@ -59,8 +60,8 @@ export function WorkspaceShell({onIntro}:{onIntro:()=>void}) {
   const version=data.versions.find(v=>v.id===data.active.versionId), activeProject=data.projects.find(p=>p.id===data.active.projectId);
   const versionLabel=version?(snapshotKey(version.graph)===snapshotKey(molecule)?`Saved version ${version.number}`:`Draft from v${version.number}`):"Local draft";
   return <div className="workspace-shell">
-    <aside className="ws-rail"><button className="ws-symbol" aria-label="ChemEase Home" onClick={()=>navigate("home")}><Icon name="atom" size={29}/></button><nav aria-label="Workspace modules">{workspaceRoutes.map(r=><a key={r} href={`#/${r}`} aria-current={route===r?"page":undefined}><Icon name={icons[r]} size={21}/><span>{routeLabels[r]}</span></a>)}</nav><button className="ws-intro-link" onClick={onIntro}>View intro</button></aside>
-    <div className="ws-main"><header className="ws-header"><div className="ws-desktop-title"><span className="eyebrow">CHEMEASE / {routeLabels[route].toUpperCase()}</span><strong title={molecule.metadata.name}>{molecule.metadata.name}</strong></div><label className="ws-mobile-navigation"><span className="sr-only">Workspace page</span><select aria-label="Workspace page" value={route} onChange={e=>navigate(e.target.value as WorkspaceRoute)}>{workspaceRoutes.map(r=><option key={r} value={r}>{routeLabels[r]}</option>)}</select></label><div className="ws-header-context"><span title={activeProject?.name}>{activeProject?.name??"Personal workspace"}</span><small>{pending?"Saving draft…":versionLabel}</small></div><AccountButton/><button className="primary ws-save" disabled={!booted||!writable||busy||!!pending} onClick={save}><Icon name="save" size={16}/><span>Save version</span></button></header>
+    <aside className="ws-rail"><button className="ws-symbol" aria-label="ChemEase Home" onClick={()=>navigate("home")}><BrandMark size={30}/></button><nav aria-label="Workspace modules">{workspaceRoutes.map(r=><a key={r} href={`#/${r}`} aria-current={route===r?"page":undefined}><Icon name={icons[r]} size={21}/><span>{routeLabels[r]}</span></a>)}</nav><button className="ws-intro-link" onClick={onIntro}>View intro</button></aside>
+    <div className="ws-main"><header className="ws-header"><div className="ws-desktop-title"><span className="eyebrow">CHEMEASE / {routeLabels[route].toUpperCase()}</span><strong title={molecule.metadata.name}>{molecule.metadata.name}</strong></div><label className="ws-mobile-navigation"><span className="sr-only">Workspace page</span><select aria-label="Workspace page" value={route} onChange={e=>navigate(e.target.value as WorkspaceRoute)}>{workspaceRoutes.map(r=><option key={r} value={r}>{routeLabels[r]}</option>)}</select></label><div className="ws-header-context"><span title={activeProject?.name}>{activeProject?.name??"Personal workspace"}</span><small>{pending?"Saving draft…":versionLabel}</small></div><button className="secondary ws-theme-toggle" aria-label={theme==="light"?"Switch to dark mode":"Switch to light mode"} title={theme==="light"?"Switch to dark mode":"Switch to light mode"} onClick={()=>useUIStore.getState().setTheme(theme==="light"?"dark":"light")}><Icon name={theme==="light"?"moon":"sun"} size={18}/></button><AccountButton/><button className="primary ws-save" disabled={!booted||!writable||busy||!!pending} onClick={save}><Icon name="save" size={16}/><span>Save version</span></button></header>
     <AccountStatus/>
     {(error||actionError)&&<div className="ws-error" role="alert"><span>{actionError||error} Your current drawing remains available. Export a backup before clearing browser storage.</span><button className="secondary" disabled={busy||!!pending} onClick={()=>{setActionError("");if(error)window.location.reload();}}> {error?"Reload storage":"Dismiss"}</button></div>}
     <div className="ws-content" aria-busy={!booted||busy}>{!booted||!ready?<div className="ws-empty" role="status">Opening your workspace…</div>:<>

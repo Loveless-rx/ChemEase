@@ -1,3 +1,5 @@
+import {attributeDataFile} from "../features/exports/attribution";
+import {exportIdentity} from "../features/account/access";
 import {requireExportAccount} from "../features/account/access";
 import type { Molecule } from "../types/chem";
 import { bounds } from "./geometry";
@@ -9,7 +11,7 @@ import {
 } from "./rendering";
 import { elementColor } from "../utils/elementColor";
 import { chargeLabel } from "../utils/format";
-import {svgBrand,exportBrand} from "../features/exports/branding";
+import {svgBrand,svgAttribution,exportBrand} from "../features/exports/branding";
 const escape = (s: string) =>
   s.replace(
     /[&<>"']/g,
@@ -72,14 +74,17 @@ export function moleculeSvg(m: Molecule, options: Partial<RenderOptions> & {high
     }
   }
   if(options.branded){
-    const w=Math.max(360,width),h=height+100,x=box.x-(w-box.width)/2,y=box.y-65;
+    const w=Math.max(360,width),h=height+124,x=box.x-(w-box.width)/2,y=box.y-65;
     const name=m.metadata.name||"Molecular structure",max=Math.floor((w-36)/7),caption=name.length>max?name.slice(0,max-1)+"…":name;
-    return `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="${x} ${y} ${w} ${h}"><title>${escape(name)}</title><desc>Molecular structure exported from ChemEase. ${exportBrand.site}</desc><rect x="${x}" y="${y}" width="${w}" height="${h}" rx="10" fill="${bg}"/><path d="M${x+18} ${y+49}H${x+w-18} M${x+18} ${y+h-49}H${x+w-18}" stroke="${dark?'#48404f':'#e3dbea'}"/>${svgBrand(x+18,y+15,dark)}<text x="${x+w-18}" y="${y+32}" text-anchor="end" font-family="Arial,sans-serif" font-size="9" fill="${dark?'#c5aaec':'#756b80'}">STRUCTURE</text><text x="${x+w/2}" y="${y+h/2}" text-anchor="middle" fill="#9974bf" fill-opacity="0.07" font-family="Arial,sans-serif" font-size="${Math.min(58,w/6)}" font-weight="700">ChemEase</text><g transform="translate(0 49)">${body}</g><text x="${x+18}" y="${y+h-29}" fill="${ink}" font-family="Arial,sans-serif" font-size="11">${escape(caption)}</text><text x="${x+18}" y="${y+h-13}" fill="${dark?'#b6a9c4':'#756b80'}" font-family="Arial,sans-serif" font-size="9">${exportBrand.site}</text></svg>`;
+    return `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="${x} ${y} ${w} ${h}"><title>${escape(name)}</title><desc>Molecular structure exported from ChemEase. ${exportBrand.site}</desc><rect x="${x}" y="${y}" width="${w}" height="${h}" rx="10" fill="${bg}"/><path d="M${x+18} ${y+49}H${x+w-18} M${x+18} ${y+h-65}H${x+w-18}" stroke="${dark?'#48404f':'#e3dbea'}"/>${svgBrand(x+18,y+15,dark)}<text x="${x+w-18}" y="${y+32}" text-anchor="end" font-family="Arial,sans-serif" font-size="9" fill="${dark?'#c5aaec':'#756b80'}">STRUCTURE</text><text x="${x+w/2}" y="${y+h/2}" text-anchor="middle" fill="#9974bf" fill-opacity="0.07" font-family="Arial,sans-serif" font-size="${Math.min(58,w/6)}" font-weight="700">ChemEase</text><g transform="translate(0 49)">${body}</g><text x="${x+18}" y="${y+h-45}" fill="${ink}" font-family="Arial,sans-serif" font-size="11">${escape(caption)}</text><text x="${x+18}" y="${y+h-28}" fill="${dark?'#b6a9c4':'#756b80'}" font-family="Arial,sans-serif" font-size="9">${exportBrand.site}</text>${svgAttribution(x+18,y+h-7,w-36,dark)}</svg>`;
   }
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="${box.x - 65} ${box.y - 65} ${width} ${height}"><title>${escape(m.metadata.name)}</title><rect x="${box.x - 65}" y="${box.y - 65}" width="${width}" height="${height}" fill="${bg}"/>${body}</svg>`;
 }
-export function downloadBlob(blob: Blob, name: string) {
+export async function downloadBlob(blob: Blob, name: string) {
   if(!requireExportAccount())return;
+  const owner=exportIdentity();
+  blob=await attributeDataFile(blob,name,owner);
+  if(!requireExportAccount()||exportIdentity()!==owner)return;
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;

@@ -44,6 +44,8 @@ class ErrorBoundary extends Component<
 }
 export default function App() {
   const [editor, setEditor] = useState(false);
+  const [entryRequested,setEntryRequested]=useState(false);
+  const access=useAccount(s=>!!s.user||s.guest);
   const theme = useUIStore((s) => s.theme),
     toast = useUIStore((s) => s.toast);
   useEffect(() => {
@@ -51,17 +53,17 @@ export default function App() {
   }, [theme]);
   const enter = () => {
     const account=useAccount.getState();
-    if(!account.user&&!account.guest){useAccount.setState({dialog:true});return;}
+    if(!account.user&&!account.guest){setEntryRequested(true);useAccount.setState({dialog:true});return;}
     setEditor(true);
     window.scrollTo(0, 0);
   };
   return (
     <ErrorBoundary>
       <div className="app">
-        {editor ? (
+        {(editor||(entryRequested&&access)) ? (
           <WorkspaceShell
             onIntro={() => {
-              setEditor(false);
+              setEditor(false);setEntryRequested(false);
               window.scrollTo(0, 0);
             }}
           />

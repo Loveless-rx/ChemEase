@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState, type ReactNode } from "react";
 import { Modal } from "../../Components/common/Modal";
-import { Icon } from "../../Components/common/Icon";
+import { Icon, BrandMark } from "../../Components/common/Icon";
 import { downloadBlob } from "../../engine/export";
 import { useMoleculeStore } from "../../store/moleculeStore";
 import { useWorkspaceStore } from "../workspace/store";
@@ -15,7 +15,7 @@ import "./Account.css";
 export function AccountBoundary({children}:{children:ReactNode}){
   const ready=useAccount(s=>s.ready),owner=useAccount(s=>s.user?.id??"guest");
   useEffect(()=>{initializeAccount();},[]);
-  return <>{ready?<div className="account-scope" key={owner}>{children}</div>:<main className="account-loading" role="status"><Icon name="atom" size={36}/><h1>Opening ChemEase</h1><p>Connecting your workspace…</p></main>}<AccountDialog/></>;
+  return <>{ready?<div className="account-scope" key={owner}>{children}</div>:<main className="account-loading" role="status"><BrandMark size={64}/><h1>Opening ChemEase</h1><p>Connecting your workspace…</p></main>}<AccountDialog/></>;
 }
 export function AccountButton(){
   const user=useAccount(s=>s.user);
@@ -41,7 +41,7 @@ function AccountDialog(){
   if(!account.dialog)return null;
   const recovery=account.recovery;
   return <Modal title={recovery?"Choose a new password":account.user?"Your ChemEase account":"Your chemistry, wherever you work"} onClose={close} className="account-modal">
-    <div className="account-body"><div className="account-intro"><span className="account-emblem"><Icon name="atom" size={28}/></span><div><span className="eyebrow">CHEMEASE / PERSONAL WORKSPACE</span><p>{account.user?account.user.email:"Save molecules, research and docking results in your private workspace."}</p></div></div>
+    <div className="account-body"><div className="account-intro"><span className="account-emblem"><BrandMark size={38}/></span><div><span className="eyebrow">CHEMEASE / PERSONAL WORKSPACE</span><p>{account.user?account.user.email:"Save molecules, research and docking results in your private workspace."}</p></div></div>
     {(error||account.error)&&<p className="account-alert" role="alert">{error||account.error}</p>}{message&&<p className="account-message" role="status">{message}</p>}
     {!supabase&&<p className="account-alert">{accountConfigurationError||"Account sign-in is not configured on this build yet."} Guest mode is ready to use. Add the Supabase project settings to enable accounts.</p>}
     {account.user&&!recovery?<div className="account-details">

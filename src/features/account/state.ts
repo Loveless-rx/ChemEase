@@ -1,4 +1,4 @@
-import {configureExportAccess} from "./access";
+import {configureExportAccess,setExportIdentity} from "./access";
 import { create } from "zustand";
 import type { User } from "@supabase/supabase-js";
 import { supabase } from "./client";
@@ -23,6 +23,7 @@ async function activate(user:User|null,force=false){
   if(owner===activeOwner&&!force){useAccount.setState({user});return;}
   const current=++generation;activeOwner=owner;
   useAccount.setState({user,ready:false,error:""});
+  setExportIdentity(user?.user_metadata?.full_name||user?.user_metadata?.name||user?.email||"");
   configureExportAccess(!!user,()=>useAccount.setState({dialog:true,error:"Create an account or sign in to export and download your work."}));
   discardQueuedDraft();cancelAccountJobs();
   useWorkspaceStore.setState({writable:false});

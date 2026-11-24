@@ -1,3 +1,4 @@
+import {useAccount} from "../../features/account/state";
 import { AccountButton } from "../../features/account/AccountUI";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Logo, Icon } from "../common/Icon";
@@ -192,6 +193,8 @@ export function Intro({ onEnter }: { onEnter: () => void }) {
   };
   const enter = () => {
     if (leaving) return;
+    const account=useAccount.getState();
+    if(!account.user&&!account.guest){onEnter();return;}
     setLeaving(true);
     enterTimer.current = setTimeout(
       onEnter,
