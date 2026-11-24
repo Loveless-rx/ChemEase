@@ -26,7 +26,7 @@ emcmake cmake -S rdkit -B build \
 # Historical InChI util.c platform check: same compatibility patch as upstream.
 sed -i 's/&& defined(__APPLE__)//' rdkit/External/INCHI-API/src/INCHI_BASE/src/util.c
 cmake --build build --target RDKit_minimal --parallel 2
-mkdir -p ../../../output/herg-wasm-research
-cp build/Code/MinimalLib/RDKit_minimal.js build/Code/MinimalLib/RDKit_minimal.wasm ../../../output/herg-wasm-research/
-cd ../../../output/herg-wasm-research
+mkdir -p ../../output/herg-wasm-research
+cp build/Code/MinimalLib/RDKit_minimal.js build/Code/MinimalLib/RDKit_minimal.wasm ../../output/herg-wasm-research/
+cd ../../output/herg-wasm-research
 sha256sum RDKit_minimal.js RDKit_minimal.wasm > SHA256SUMS
