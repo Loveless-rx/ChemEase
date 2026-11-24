@@ -3,7 +3,7 @@ from pathlib import Path
 import sys
 root=Path(sys.argv[1]);path=root/"Code/MinimalLib/minilib.cpp"
 s=path.read_text()
-s="#include <string>\n#include <GraphMol/RingInfo.h>\n#include <GraphMol/Descriptors/MolSurf.h>\n#include <GraphMol/PartialCharges/GasteigerCharges.h>\n#include <cmath>\n"+s
+s="#include <string>\n#include <GraphMol/Fingerprints/MorganFingerprints.h>\n#include <GraphMol/ChemTransforms/ChemTransforms.h>\n#include <GraphMol/Descriptors/Lipinski.h>\n#include <GraphMol/RingInfo.h>\n#include <GraphMol/Descriptors/MolSurf.h>\n#include <GraphMol/PartialCharges/GasteigerCharges.h>\n#include <cmath>\n"+s
 old="  return MinimalLib::get_descriptors(*d_mol);"
 assert s.count(old)==1
 new=r'''  rapidjson::Document doc;
@@ -20,6 +20,19 @@ new=r'''  rapidjson::Document doc;
   series("SlogP_VSA",Descriptors::calcSlogP_VSA(*d_mol));
   series("SMR_VSA",Descriptors::calcSMR_VSA(*d_mol));
   series("PEOE_VSA",Descriptors::calcPEOE_VSA(*d_mol));
+  add("NumAliphaticCarbocycles",Descriptors::calcNumAliphaticCarbocycles(*d_mol));
+  add("NumAromaticCarbocycles",Descriptors::calcNumAromaticCarbocycles(*d_mol));
+  add("NumSaturatedCarbocycles",Descriptors::calcNumSaturatedCarbocycles(*d_mol));
+  unsigned int radicals=0;for(const auto atom:d_mol->atoms())radicals+=atom->getNumRadicalElectrons();
+  add("NumRadicalElectrons",radicals);
+  unsigned int heavy=0;for(const auto atom:d_mol->atoms())if(atom->getAtomicNum()>1)++heavy;
+  for(unsigned int radius=1;radius<=3;++radius){
+    std::unique_ptr<SparseIntVect<std::uint32_t>> fp(MorganFingerprints::getFingerprint(*d_mol,radius));
+    add("FpDensityMorgan"+std::to_string(radius),heavy?double(fp->getNonzeroElements().size())/heavy:0);
+  }
+  std::unique_ptr<ROMol> aliphaticQuery(SmartsToMol("[$([A;R][!a])]"));
+  std::unique_ptr<ROMol> aromaticRemainder(deleteSubstructs(*d_mol,*aliphaticQuery));
+  add("hergQEDAROM",MolOps::findSSSR(*aromaticRemainder));
   std::vector<double> charges(d_mol->getNumAtoms());
   computeGasteigerCharges(*d_mol,charges,12,false);
   double minimum=1e100,maximum=-1e100;
