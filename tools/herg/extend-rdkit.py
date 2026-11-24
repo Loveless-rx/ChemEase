@@ -71,3 +71,11 @@ new=r'''  rapidjson::Document doc;
   rapidjson::StringBuffer buffer;rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
   doc.Accept(writer);return buffer.GetString();'''
 s=s.replace(old,new);path.write_text(s)
+
+# Historical MinimalLib truncates descriptor JSON to five decimals. Model features
+# require full double precision before normalization, so patch only this writer.
+common=root/"Code/MinimalLib/common.h"
+c=common.read_text();start=c.index("std::string get_descriptors(");end=c.index("namespace {",start)
+section=c[start:end];assert section.count("writer.SetMaxDecimalPlaces(5);")==1
+c=c[:start]+section.replace("writer.SetMaxDecimalPlaces(5);","writer.SetMaxDecimalPlaces(17);")+c[end:]
+common.write_text(c)
