@@ -7,6 +7,8 @@ cd .cache/herg-wasm
 if [ ! -d rdkit/.git ]; then git clone --filter=blob:none https://github.com/rdkit/rdkit.git rdkit; fi
 git -C rdkit checkout --detach "$RDKIT_COMMIT"
 test "$(git -C rdkit rev-parse HEAD)" = "$RDKIT_COMMIT"
+# Historical MinimalLib uses MolAlign without listing it as a direct link input.
+sed -i 's/CIPLabeler_static MolDraw2D_static/CIPLabeler_static MolAlign_static MolDraw2D_static/' rdkit/Code/MinimalLib/CMakeLists.txt
 mkdir -p headers
 cp -R /usr/include/boost headers/
 cp -R /usr/include/eigen3 headers/
