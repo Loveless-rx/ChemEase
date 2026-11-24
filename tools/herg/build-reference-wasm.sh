@@ -16,11 +16,13 @@ emcmake cmake -S rdkit -B build \
  -DRDK_USE_BOOST_SERIALIZATION=OFF -DRDK_OPTIMIZE_POPCNT=OFF \
  -DRDK_BUILD_THREADSAFE_SSS=OFF -DRDK_BUILD_DESCRIPTORS3D=OFF \
  -DRDK_TEST_MULTITHREADED=OFF -DRDK_BUILD_MAEPARSER_SUPPORT=OFF \
- -DRDK_BUILD_COORDGEN_SUPPORT=OFF -DRDK_BUILD_INCHI_SUPPORT=OFF \
+ -DRDK_BUILD_COORDGEN_SUPPORT=OFF -DRDK_BUILD_INCHI_SUPPORT=ON \
  -DRDK_BUILD_FREETYPE_SUPPORT=OFF -DRDK_BUILD_SLN_SUPPORT=OFF \
  -DRDK_USE_BOOST_IOSTREAMS=OFF \
  -DCMAKE_CXX_FLAGS="-Wno-enum-constexpr-conversion -s DISABLE_EXCEPTION_CATCHING=0" \
  -DCMAKE_EXE_LINKER_FLAGS="-s MODULARIZE=1 -s EXPORT_NAME='initRDKitModule'"
+# Historical InChI util.c platform check: same compatibility patch as upstream.
+sed -i 's/&& defined(__APPLE__)//' rdkit/External/INCHI-API/src/INCHI_BASE/src/util.c
 cmake --build build --target RDKit_minimal --parallel 2
 mkdir -p ../../../output/herg-wasm-research
 cp build/Code/MinimalLib/RDKit_minimal.js build/Code/MinimalLib/RDKit_minimal.wasm ../../../output/herg-wasm-research/
