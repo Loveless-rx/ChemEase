@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 # Build prerequisite only: does not provide the 200-feature hERG runtime yet.
+PROJECT_ROOT="$PWD"
 RDKIT_COMMIT=b598a27802d30d2f07913fe40ede0d9fb60e4239
 mkdir -p .cache/herg-wasm
 cd .cache/herg-wasm
@@ -9,6 +10,7 @@ git -C rdkit checkout --detach "$RDKIT_COMMIT"
 test "$(git -C rdkit rev-parse HEAD)" = "$RDKIT_COMMIT"
 # Historical MinimalLib uses MolAlign without listing it as a direct link input.
 sed -i 's/CIPLabeler_static MolDraw2D_static/CIPLabeler_static MolAlign_static MolDraw2D_static/' rdkit/Code/MinimalLib/CMakeLists.txt
+python3 "$PROJECT_ROOT/tools/herg/extend-rdkit.py" "$PWD/rdkit"
 mkdir -p headers
 cp -R /usr/include/boost headers/
 cp -R /usr/include/eigen3 headers/
