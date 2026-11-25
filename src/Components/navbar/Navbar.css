@@ -192,3 +192,8 @@
     flex-shrink: 0;
   }
 }
+.nav-layout-reset{border:1px solid var(--border);border-radius:9px;color:var(--text-muted);margin-left:5px;background:var(--bg)}
+.nav-layout-reset:hover{color:var(--accent);border-color:var(--accent)}
+.nav-layout-reset:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(max-width:1280px){.nav-layout-reset{width:34px;min-width:34px;padding:0}.nav-layout-reset span{display:none}}
+@media(max-width:960px){.navbar .brand-button{grid-column:1 / 3}.navbar .nav-layout-reset{grid-column:3;grid-row:1;min-height:44px;width:100%;margin:0;padding:0;border-color:transparent;background:transparent}.navbar .nav-layout-reset span{display:none}}

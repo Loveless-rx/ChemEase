@@ -14,6 +14,9 @@ interface UIState {
   cursor: Point;
   theme: "light" | "dark";
   expanded: boolean;
+  editorCompactHeader: boolean;
+  editorToolsOpen: boolean;
+  editorInfoOpen: boolean;
   showCarbons: boolean;
   showHydrogens: boolean;
   showGrid: boolean;
@@ -47,6 +50,9 @@ export const useUIStore = create<UIState>((set) => ({
       ? "dark"
       : "light",
   expanded: true,
+  editorCompactHeader: readPreference("chemease.editorCompactHeader", "false") === "true",
+  editorToolsOpen: readPreference("chemease.editorToolsOpen", "true") !== "false",
+  editorInfoOpen: readPreference("chemease.editorInfoOpen", "true") !== "false",
   showCarbons: readPreference("chemease.showCarbons", "false") === "true",
   showHydrogens: readPreference("chemease.showHydrogens", "true") === "true",
   showGrid: true,
@@ -55,6 +61,9 @@ export const useUIStore = create<UIState>((set) => ({
   fitVersion: 0,
   toast: "",
   set: (patch) => {
+    if (patch.editorCompactHeader !== undefined) writePreference("chemease.editorCompactHeader", String(patch.editorCompactHeader));
+    if (patch.editorToolsOpen !== undefined) writePreference("chemease.editorToolsOpen", String(patch.editorToolsOpen));
+    if (patch.editorInfoOpen !== undefined) writePreference("chemease.editorInfoOpen", String(patch.editorInfoOpen));
     if (patch.showCarbons !== undefined) writePreference("chemease.showCarbons", String(patch.showCarbons));
     if (patch.showHydrogens !== undefined) writePreference("chemease.showHydrogens", String(patch.showHydrogens));
     set(patch);

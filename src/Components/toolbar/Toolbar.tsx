@@ -4,7 +4,7 @@ import { IconButton } from "../common/IconButton";
 import type { BondType } from "../../types/chem";
 import { ELEMENTS } from "../../utils/elementData";
 import "./Toolbar.css";
-export function Toolbar({onOpenPeriodic}: {onOpenPeriodic: () => void}) {
+export function Toolbar({onOpenPeriodic,onCollapse}: {onOpenPeriodic: () => void;onCollapse?:()=>void}) {
   const tool = useUIStore((s) => s.tool),
     atom = useUIStore((s) => s.atom),
     bond = useUIStore((s) => s.bond),
@@ -44,9 +44,9 @@ export function Toolbar({onOpenPeriodic}: {onOpenPeriodic: () => void}) {
         <IconButton
           icon={expanded ? "left" : "chevron"}
           label={
-            expanded ? "Collapse chemistry toolbar" : "Expand chemistry toolbar"
+            onCollapse ? "Hide chemistry tools panel" : expanded ? "Collapse chemistry toolbar" : "Expand chemistry toolbar"
           }
-          onClick={() => set({ expanded: !expanded })}
+          onClick={onCollapse ?? (() => set({ expanded: !expanded }))}
         />
       </header>
       <div className="toolbar-scroll">

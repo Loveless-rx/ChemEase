@@ -26,7 +26,7 @@ export function AccountStatus(){
   const [online,setOnline]=useState(navigator.onLine);
   useEffect(()=>{const update=()=>setOnline(navigator.onLine);window.addEventListener("online",update);window.addEventListener("offline",update);return()=>{window.removeEventListener("online",update);window.removeEventListener("offline",update);};},[]);
   const text=!user?"Guest · saved on this device":!online?"Offline · cloud saves unavailable":error?"Cloud save needs attention":pending?"Saving to your account…":writable?"Account workspace · cloud connected":"Cloud workspace unavailable";
-  return <div className="account-status" role="status"><span className={error||!online?"account-dot warning":"account-dot"}/><span>{text}</span>{!user&&<button onClick={()=>useAccount.setState({dialog:true})}>Save across devices →</button>}</div>;
+  return <div className={`account-status ${error||!online ? "account-status-attention" : ""}`} role="status"><span className={error||!online?"account-dot warning":"account-dot"}/><span>{text}</span>{!user&&<button onClick={()=>useAccount.setState({dialog:true})}>Save across devices →</button>}</div>;
 }
 function AccountDialog(){
   const account=useAccount(),workspace=useWorkspaceStore();

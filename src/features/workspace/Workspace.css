@@ -31,3 +31,24 @@
 @media(max-width:650px){.ws-header{gap:8px}.ws-theme-toggle{width:38px;min-width:38px;height:42px}.ws-mobile-navigation select{max-width:145px}.ws-save{margin-left:0}}
 
 .ws-rail nav a .ws-module-icon{display:block;width:23px;height:23px;flex-shrink:0;max-width:none;background:currentColor;mask-size:contain;mask-position:center;mask-repeat:no-repeat;-webkit-mask-size:contain;-webkit-mask-position:center;-webkit-mask-repeat:no-repeat;transition:color .18s ease}
+
+.ws-rail{gap:22px}
+.ws-rail nav{gap:12px;scrollbar-width:thin;scrollbar-color:var(--border) transparent}
+.ws-nav-primary,.ws-nav-section{display:grid;gap:3px;min-width:0}
+.ws-nav-section{border:1px solid var(--border);border-radius:14px;padding:9px 3px 5px;background:var(--bg)}
+.ws-nav-heading{display:block;text-align:center;font-size:7px;font-weight:600;letter-spacing:.7px;text-transform:uppercase;color:var(--text-muted);padding:2px 0 7px;line-height:1.4;user-select:none}
+.ws-rail .ws-nav-section a{padding:10px 1px;border-radius:9px;font-size:9px;gap:6px}
+.ws-rail nav a:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+
+.editor-focus-mode>.ws-main>.account-status:not(.account-status-attention){display:none}
+.editor-focus-mode .ws-header{min-height:52px;height:52px;padding:6px 18px;gap:14px}
+.editor-focus-mode .ws-desktop-title{display:flex;align-items:center;gap:12px;flex:1;min-width:0}
+.editor-focus-mode .ws-desktop-title .eyebrow{font-size:8px;color:var(--text-muted);flex-shrink:0}
+.editor-focus-mode .ws-desktop-title strong{font-size:12px;max-width:32vw}
+.editor-focus-mode .ws-header-context{font-size:10px;gap:3px}
+.editor-focus-mode .ws-header-context small{font-size:9px}
+.editor-focus-mode .ws-header .secondary,.editor-focus-mode .ws-save,.editor-focus-mode .header-layout-toggle{height:34px;min-height:34px}
+.editor-focus-mode .ws-theme-toggle{width:34px;min-width:34px}
+.editor-focus-mode .ws-save{padding:0 12px;font-size:11px}
+@media(max-width:960px){.editor-focus-mode .ws-desktop-title{display:none}.editor-focus-mode .ws-header{padding:6px 12px;gap:8px}}
+@media(max-width:650px){.editor-focus-mode .ws-header .ws-mobile-navigation{flex:0 1 75px}.editor-focus-mode .ws-header .ws-desktop-title{display:flex}.editor-focus-mode .ws-desktop-title .eyebrow{display:none}.editor-focus-mode .ws-desktop-title strong{max-width:none;font-size:11px}.editor-focus-mode .ws-header .account-button{width:34px;min-width:34px;padding:0}.editor-focus-mode .ws-header .account-button span{display:none}.editor-focus-mode .ws-header .ws-save{width:34px;min-width:34px;padding:0}.editor-focus-mode .ws-header .ws-save span{display:none}}

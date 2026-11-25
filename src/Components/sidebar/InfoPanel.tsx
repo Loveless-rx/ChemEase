@@ -6,11 +6,12 @@ import { atomValence } from "../../engine/valence";
 import { bondOrder } from "../../engine/chemistry";
 import { exportMolecule, copyText } from "../../engine/export";
 import { Icon } from "../common/Icon";
+import { IconButton } from "../common/IconButton";
 import { Formula } from "../common/Formula";
 import { formatNumber } from "../../utils/format";
 import type { BondType } from "../../types/chem";
 import "./InfoPanel.css";
-export function InfoPanel() {
+export function InfoPanel({onCollapse}: {onCollapse?:()=>void} = {}) {
   const m = useMoleculeStore((s) => s.molecule),
     ids = useMoleculeStore((s) => s.selectedAtoms),
     bondIds = useMoleculeStore((s) => s.selectedBonds);
@@ -45,7 +46,7 @@ export function InfoPanel() {
     <aside className="info-panel" aria-label="Structure information">
       <header>
         <span className="eyebrow">Structure information</span>
-        <Icon name="info" size={15} />
+        {onCollapse ? <IconButton icon="chevron" label="Hide structure information panel" onClick={onCollapse}/> : <Icon name="info" size={15} />}
       </header>
       <div className="info-scroll">
         <div className="structure-context">

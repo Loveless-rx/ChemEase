@@ -6,7 +6,7 @@ import { useMoleculeStore, fingerprint } from "../../store/moleculeStore";
 import { useHistoryStore } from "../../store/historyStore";
 import { parseMolecule } from "../../utils/storage";
 import "./Navbar.css";
-export function Navbar({onSaveVersion}:{onSaveVersion?:()=>void}) {
+export function Navbar({onSaveVersion,onResetLayout}:{onSaveVersion?:()=>void;onResetLayout?:()=>void}) {
   const tool = useUIStore((s) => s.tool),
     theme = useUIStore((s) => s.theme);
   const undo = useHistoryStore((s) => s.past.length),
@@ -124,6 +124,7 @@ export function Navbar({onSaveVersion}:{onSaveVersion?:()=>void}) {
         icon="help"
         onClick={() => set({ dialog: "help" })}
       />
+      {onResetLayout && <button className="nav-tool nav-layout-reset" aria-label="Reset editor layout" title="Reset layout · restore panels and full header" onClick={onResetLayout}><Icon name="fit" size={16}/><span>Reset layout</span></button>}
       <input
         ref={input}
         type="file"

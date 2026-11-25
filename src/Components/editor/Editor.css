@@ -25,7 +25,16 @@
 .drawer-backdrop {
   display: none;
 }
+.editor-panel-rail{width:46px;min-width:46px;background:var(--surface);display:flex;justify-content:center;padding:12px 4px;flex-shrink:0}
+.editor-tools-rail{border-right:1px solid var(--border)}
+.editor-info-rail{border-left:1px solid var(--border)}
+.editor-panel-tab{display:flex;flex-direction:column;align-items:center;gap:9px;align-self:flex-start;width:36px;padding:12px 3px;border:1px solid var(--border);border-radius:12px;background:linear-gradient(150deg,var(--accent-soft),var(--surface));color:var(--accent);font-size:9px;transition:border-color .18s,background .18s}
+.editor-panel-tab:hover{border-color:var(--accent)}
+.editor-panel-plus{display:grid;place-items:center;border:1px solid var(--border);border-radius:5px;width:17px;height:17px;font-size:13px;line-height:1;color:var(--text-muted)}
+.editor-panel-tab:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(min-width:961px){.tools-is-collapsed>.toolbar-container,.info-is-collapsed>.info-container{display:none}}
 @media (max-width: 960px) {
+  .editor-panel-rail{display:none}
   .mobile-notice {
     min-height: 52px;
     display: flex;
