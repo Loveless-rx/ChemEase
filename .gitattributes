@@ -10,3 +10,4 @@
 
 # Scientific runtime hashes must survive Windows and Linux checkout unchanged.
 /public/herg/** -text
+/public/herg/manifest.json text eol=lf
