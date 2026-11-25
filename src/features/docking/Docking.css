@@ -87,6 +87,7 @@
 .docking-history-section>.ws-card{margin-top:15px}
 @media(max-width:1000px){.docking-runtime-content{display:block}.docking-workflow button{gap:6px;padding:10px 6px}.docking-workflow strong{font-size:11px}}
 @media(max-width:650px){
+ .docking-stage{scroll-margin-top:170px}
  .docking-workflow{top:5px;padding:5px;border-radius:12px;margin-bottom:16px}
  .docking-workflow ol{gap:2px}
  .docking-workflow button{flex-direction:column;justify-content:flex-start;gap:7px;text-align:center;min-height:72px;padding:8px 2px}
