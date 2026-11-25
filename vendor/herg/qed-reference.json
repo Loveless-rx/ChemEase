@@ -1,0 +1,122 @@
+[
+  {
+    "smiles": "CCO",
+    "inputs": {
+      "MolWt": 46.069,
+      "MolLogP": -0.0014000000000000123,
+      "NumHDonors": 1,
+      "TPSA": 20.23,
+      "NumRotatableBonds": 0,
+      "hergQEDAROM": 0
+    },
+    "expected": 0.40680796565539457
+  },
+  {
+    "smiles": "CC(=O)Oc1ccccc1C(=O)O",
+    "inputs": {
+      "MolWt": 180.15899999999996,
+      "MolLogP": 1.3101,
+      "NumHDonors": 1,
+      "TPSA": 63.60000000000001,
+      "NumRotatableBonds": 2,
+      "hergQEDAROM": 1
+    },
+    "expected": 0.5501217966938848
+  },
+  {
+    "smiles": "Cn1c(=O)c2c(ncn2C)n(C)c1=O",
+    "inputs": {
+      "MolWt": 194.194,
+      "MolLogP": -1.0293,
+      "NumHDonors": 0,
+      "TPSA": 61.82,
+      "NumRotatableBonds": 0,
+      "hergQEDAROM": 2
+    },
+    "expected": 0.5384628262372215
+  },
+  {
+    "smiles": "CCN(CC)CC",
+    "inputs": {
+      "MolWt": 101.193,
+      "MolLogP": 1.3481,
+      "NumHDonors": 0,
+      "TPSA": 3.24,
+      "NumRotatableBonds": 3,
+      "hergQEDAROM": 0
+    },
+    "expected": 0.5183748699715436
+  },
+  {
+    "smiles": "[NH4+]",
+    "inputs": {
+      "MolWt": 18.039,
+      "MolLogP": 0.3762,
+      "NumHDonors": 1,
+      "TPSA": 36.5,
+      "NumRotatableBonds": 0,
+      "hergQEDAROM": 0
+    },
+    "expected": 0.3932132102438689
+  },
+  {
+    "smiles": "[Na+].[Cl-]",
+    "inputs": {
+      "MolWt": 58.443,
+      "MolLogP": -5.992,
+      "NumHDonors": 0,
+      "TPSA": 0.0,
+      "NumRotatableBonds": 0,
+      "hergQEDAROM": 0
+    },
+    "expected": 0.24339242075148573
+  },
+  {
+    "smiles": "C[C@H](O)C(=O)O",
+    "inputs": {
+      "MolWt": 90.07799999999999,
+      "MolLogP": -0.5482,
+      "NumHDonors": 2,
+      "TPSA": 57.53,
+      "NumRotatableBonds": 1,
+      "hergQEDAROM": 0
+    },
+    "expected": 0.45393595064720316
+  },
+  {
+    "smiles": "c1ccccc1",
+    "inputs": {
+      "MolWt": 78.11399999999999,
+      "MolLogP": 1.6866,
+      "NumHDonors": 0,
+      "TPSA": 0.0,
+      "NumRotatableBonds": 0,
+      "hergQEDAROM": 1
+    },
+    "expected": 0.4426283718993647
+  },
+  {
+    "smiles": "CC(=O)N",
+    "inputs": {
+      "MolWt": 59.068,
+      "MolLogP": -0.5084,
+      "NumHDonors": 1,
+      "TPSA": 43.09,
+      "NumRotatableBonds": 0,
+      "hergQEDAROM": 0
+    },
+    "expected": 0.40103092275538377
+  },
+  {
+    "smiles": "O",
+    "inputs": {
+      "MolWt": 18.015,
+      "MolLogP": -0.8247,
+      "NumHDonors": 0,
+      "TPSA": 31.5,
+      "NumRotatableBonds": 0,
+      "hergQEDAROM": 0
+    },
+    "expected": 0.3277476769246249
+  }
+]

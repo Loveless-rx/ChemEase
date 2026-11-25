@@ -1,0 +1,1406 @@
+[
+  {
+    "atoms": [
+      [
+        6,
+        4,
+        0,
+        0,
+        3,
+        4,
+        false,
+        12.011
+      ],
+      [
+        6,
+        4,
+        0,
+        0,
+        2,
+        4,
+        false,
+        12.011
+      ],
+      [
+        8,
+        2,
+        0,
+        0,
+        1,
+        4,
+        false,
+        15.999
+      ]
+    ],
+    "bonds": [
+      [
+        0,
+        1,
+        1.0,
+        false,
+        false,
+        0
+      ],
+      [
+        1,
+        2,
+        1.0,
+        false,
+        false,
+        0
+      ]
+    ],
+    "areas": [
+      6.923737199690624,
+      6.606881964512918,
+      5.106527394840706
+    ],
+    "smiles": "CCO",
+    "expected": {
+      "MaxEStateIndex": 7.569444444444445,
+      "MinEStateIndex": 0.25,
+      "MaxAbsEStateIndex": 7.569444444444445,
+      "MinAbsEStateIndex": 0.25,
+      "EState_VSA1": 0.0,
+      "EState_VSA2": 6.606881964512918,
+      "EState_VSA3": 0.0,
+      "EState_VSA4": 0.0,
+      "EState_VSA5": 0.0,
+      "EState_VSA6": 6.923737199690624,
+      "EState_VSA7": 0.0,
+      "EState_VSA8": 0.0,
+      "EState_VSA9": 5.106527394840706,
+      "EState_VSA10": 0.0,
+      "EState_VSA11": 0.0,
+      "VSA_EState1": 0.0,
+      "VSA_EState2": 0.0,
+      "VSA_EState3": 7.569444444444445,
+      "VSA_EState4": 0.0,
+      "VSA_EState5": 0.0,
+      "VSA_EState6": 0.0,
+      "VSA_EState7": 0.0,
+      "VSA_EState8": 1.9305555555555556,
+      "VSA_EState9": 0.0,
+      "VSA_EState10": 0.0,
+      "NumValenceElectrons": 20,
+      "HeavyAtomMolWt": 40.021
+    }
+  },
+  {
+    "atoms": [
+      [
+        6,
+        4,
+        0,
+        0,
+        3,
+        4,
+        false,
+        12.011
+      ],
+      [
+        6,
+        3,
+        0,
+        0,
+        0,
+        3,
+        false,
+        12.011
+      ],
+      [
+        8,
+        1,
+        0,
+        0,
+        0,
+        3,
+        false,
+        15.999
+      ],
+      [
+        8,
+        2,
+        0,
+        0,
+        0,
+        3,
+        false,
+        15.999
+      ],
+      [
+        6,
+        3,
+        0,
+        0,
+        0,
+        3,
+        true,
+        12.011
+      ],
+      [
+        6,
+        3,
+        0,
+        0,
+        1,
+        3,
+        true,
+        12.011
+      ],
+      [
+        6,
+        3,
+        0,
+        0,
+        1,
+        3,
+        true,
+        12.011
+      ],
+      [
+        6,
+        3,
+        0,
+        0,
+        1,
+        3,
+        true,
+        12.011
+      ],
+      [
+        6,
+        3,
+        0,
+        0,
+        1,
+        3,
+        true,
+        12.011
+      ],
+      [
+        6,
+        3,
+        0,
+        0,
+        0,
+        3,
+        true,
+        12.011
+      ],
+      [
+        6,
+        3,
+        0,
+        0,
+        0,
+        3,
+        false,
+        12.011
+      ],
+      [
+        8,
+        1,
+        0,
+        0,
+        0,
+        3,
+        false,
+        15.999
+      ],
+      [
+        8,
+        2,
+        0,
+        0,
+        1,
+        3,
+        false,
+        15.999
+      ]
+    ],
+    "bonds": [
+      [
+        0,
+        1,
+        1.0,
+        false,
+        false,
+        0
+      ],
+      [
+        1,
+        2,
+        2.0,
+        true,
+        false,
+        0
+      ],
+      [
+        1,
+        3,
+        1.0,
+        true,
+        false,
+        0
+      ],
+      [
+        3,
+        4,
+        1.0,
+        true,
+        false,
+        0
+      ],
+      [
+        4,
+        5,
+        1.5,
+        true,
+        true,
+        0
+      ],
+      [
+        5,
+        6,
+        1.5,
+        true,
+        true,
+        0
+      ],
+      [
+        6,
+        7,
+        1.5,
+        true,
+        true,
+        0
+      ],
+      [
+        7,
+        8,
+        1.5,
+        true,
+        true,
+        0
+      ],
+      [
+        8,
+        9,
+        1.5,
+        true,
+        true,
+        0
+      ],
+      [
+        9,
+        10,
+        1.0,
+        true,
+        false,
+        0
+      ],
+      [
+        10,
+        11,
+        2.0,
+        true,
+        false,
+        0
+      ],
+      [
+        10,
+        12,
+        1.0,
+        true,
+        false,
+        0
+      ],
+      [
+        9,
+        4,
+        1.5,
+        true,
+        true,
+        0
+      ]
+    ],
+    "areas": [
+      6.923737199690624,
+      5.969305287951849,
+      4.794537184071822,
+      4.736862953800049,
+      5.749511833283905,
+      6.06636706846161,
+      6.06636706846161,
+      6.06636706846161,
+      6.06636706846161,
+      5.563451491696996,
+      5.969305287951849,
+      4.794537184071822,
+      5.106527394840706
+    ],
+    "smiles": "CC(=O)Oc1ccccc1C(=O)O",
+    "expected": {
+      "MaxEStateIndex": 10.611948223733938,
+      "MinEStateIndex": -1.1140277777777776,
+      "MaxAbsEStateIndex": 10.611948223733938,
+      "MinAbsEStateIndex": 0.01601851851851821,
+      "EState_VSA1": 11.938610575903699,
+      "EState_VSA2": 11.3129633249809,
+      "EState_VSA3": 0.0,
+      "EState_VSA4": 0.0,
+      "EState_VSA5": 19.056471336613843,
+      "EState_VSA6": 12.13273413692322,
+      "EState_VSA7": 0.0,
+      "EState_VSA8": 4.736862953800049,
+      "EState_VSA9": 5.106527394840706,
+      "EState_VSA10": 9.589074368143644,
+      "EState_VSA11": 0.0,
+      "VSA_EState1": 4.686898148148147,
+      "VSA_EState2": 21.184767573696142,
+      "VSA_EState3": 8.687243008314436,
+      "VSA_EState4": -0.01601851851851821,
+      "VSA_EState5": -1.575879629629629,
+      "VSA_EState6": 5.978792517006803,
+      "VSA_EState7": 0.0,
+      "VSA_EState8": 1.2208635676492818,
+      "VSA_EState9": 0.0,
+      "VSA_EState10": 0.0,
+      "NumValenceElectrons": 68,
+      "HeavyAtomMolWt": 172.09499999999997
+    }
+  },
+  {
+    "atoms": [
+      [
+        6,
+        4,
+        0,
+        0,
+        3,
+        4,
+        false,
+        12.011
+      ],
+      [
+        7,
+        3,
+        0,
+        0,
+        0,
+        3,
+        true,
+        14.007
+      ],
+      [
+        6,
+        3,
+        0,
+        0,
+        0,
+        3,
+        true,
+        12.011
+      ],
+      [
+        8,
+        1,
+        0,
+        0,
+        0,
+        3,
+        false,
+        15.999
+      ],
+      [
+        6,
+        3,
+        0,
+        0,
+        0,
+        3,
+        true,
+        12.011
+      ],
+      [
+        6,
+        3,
+        0,
+        0,
+        0,
+        3,
+        true,
+        12.011
+      ],
+      [
+        7,
+        2,
+        0,
+        0,
+        0,
+        3,
+        true,
+        14.007
+      ],
+      [
+        6,
+        3,
+        0,
+        0,
+        1,
+        3,
+        true,
+        12.011
+      ],
+      [
+        7,
+        3,
+        0,
+        0,
+        0,
+        3,
+        true,
+        14.007
+      ],
+      [
+        6,
+        4,
+        0,
+        0,
+        3,
+        4,
+        false,
+        12.011
+      ],
+      [
+        7,
+        3,
+        0,
+        0,
+        0,
+        3,
+        true,
+        14.007
+      ],
+      [
+        6,
+        4,
+        0,
+        0,
+        3,
+        4,
+        false,
+        12.011
+      ],
+      [
+        6,
+        3,
+        0,
+        0,
+        0,
+        3,
+        true,
+        12.011
+      ],
+      [
+        8,
+        1,
+        0,
+        0,
+        0,
+        3,
+        false,
+        15.999
+      ]
+    ],
+    "bonds": [
+      [
+        0,
+        1,
+        1.0,
+        false,
+        false,
+        0
+      ],
+      [
+        1,
+        2,
+        1.5,
+        true,
+        true,
+        0
+      ],
+      [
+        2,
+        3,
+        2.0,
+        true,
+        false,
+        0
+      ],
+      [
+        2,
+        4,
+        1.5,
+        true,
+        true,
+        0
+      ],
+      [
+        4,
+        5,
+        1.5,
+        true,
+        true,
+        0
+      ],
+      [
+        5,
+        6,
+        1.5,
+        true,
+        true,
+        0
+      ],
+      [
+        6,
+        7,
+        1.5,
+        true,
+        true,
+        0
+      ],
+      [
+        7,
+        8,
+        1.5,
+        true,
+        true,
+        0
+      ],
+      [
+        8,
+        9,
+        1.0,
+        false,
+        false,
+        0
+      ],
+      [
+        5,
+        10,
+        1.5,
+        true,
+        true,
+        0
+      ],
+      [
+        10,
+        11,
+        1.0,
+        false,
+        false,
+        0
+      ],
+      [
+        10,
+        12,
+        1.5,
+        true,
+        true,
+        0
+      ],
+      [
+        12,
+        13,
+        2.0,
+        true,
+        false,
+        0
+      ],
+      [
+        12,
+        1,
+        1.5,
+        true,
+        true,
+        0
+      ],
+      [
+        8,
+        4,
+        1.5,
+        true,
+        true,
+        0
+      ]
+    ],
+    "areas": [
+      7.04767198267719,
+      4.567099647791355,
+      5.559266895052008,
+      4.794537184071822,
+      5.516700717616262,
+      5.647177220767728,
+      4.9839785209472085,
+      6.3273200747645415,
+      4.567099647791355,
+      7.04767198267719,
+      4.567099647791355,
+      7.04767198267719,
+      5.689743398203474,
+      4.794537184071822
+    ],
+    "smiles": "Cn1c(=O)c2c(ncn2C)n(C)c1=O",
+    "expected": {
+      "MaxEStateIndex": 11.672037037037038,
+      "MinEStateIndex": -0.35999999999999965,
+      "MaxAbsEStateIndex": 11.672037037037038,
+      "MinAbsEStateIndex": 0.3165740740740737,
+      "EState_VSA1": 0.0,
+      "EState_VSA2": 11.24901029325548,
+      "EState_VSA3": 11.16387793838399,
+      "EState_VSA4": 4.567099647791355,
+      "EState_VSA5": 17.942091705233086,
+      "EState_VSA6": 18.662443613145733,
+      "EState_VSA7": 0.0,
+      "EState_VSA8": 4.9839785209472085,
+      "EState_VSA9": 0.0,
+      "EState_VSA10": 9.589074368143644,
+      "EState_VSA11": 0.0,
+      "VSA_EState1": 4.039537037037037,
+      "VSA_EState2": 27.154448223733937,
+      "VSA_EState3": 0.0,
+      "VSA_EState4": 0.18009259259259403,
+      "VSA_EState5": 0.0,
+      "VSA_EState6": 0.0,
+      "VSA_EState7": 1.5193518518518518,
+      "VSA_EState8": 0.0,
+      "VSA_EState9": 4.773236961451247,
+      "VSA_EState10": 0.0,
+      "NumValenceElectrons": 74,
+      "HeavyAtomMolWt": 184.114
+    }
+  },
+  {
+    "atoms": [
+      [
+        6,
+        4,
+        0,
+        0,
+        3,
+        4,
+        false,
+        12.011
+      ],
+      [
+        6,
+        4,
+        0,
+        0,
+        2,
+        4,
+        false,
+        12.011
+      ],
+      [
+        7,
+        3,
+        0,
+        0,
+        0,
+        4,
+        false,
+        14.007
+      ],
+      [
+        6,
+        4,
+        0,
+        0,
+        2,
+        4,
+        false,
+        12.011
+      ],
+      [
+        6,
+        4,
+        0,
+        0,
+        3,
+        4,
+        false,
+        12.011
+      ],
+      [
+        6,
+        4,
+        0,
+        0,
+        2,
+        4,
+        false,
+        12.011
+      ],
+      [
+        6,
+        4,
+        0,
+        0,
+        3,
+        4,
+        false,
+        12.011
+      ]
+    ],
+    "bonds": [
+      [
+        0,
+        1,
+        1.0,
+        false,
+        false,
+        0
+      ],
+      [
+        1,
+        2,
+        1.0,
+        false,
+        false,
+        0
+      ],
+      [
+        2,
+        3,
+        1.0,
+        false,
+        false,
+        0
+      ],
+      [
+        3,
+        4,
+        1.0,
+        false,
+        false,
+        0
+      ],
+      [
+        2,
+        5,
+        1.0,
+        false,
+        false,
+        0
+      ],
+      [
+        5,
+        6,
+        1.0,
+        false,
+        false,
+        0
+      ]
+    ],
+    "areas": [
+      6.923737199690624,
+      6.544756405912575,
+      4.899909730850478,
+      6.544756405912575,
+      6.923737199690624,
+      6.544756405912575,
+      6.923737199690624
+    ],
+    "smiles": "CCN(CC)CC",
+    "expected": {
+      "MaxEStateIndex": 2.375,
+      "MinEStateIndex": 1.1875,
+      "MaxAbsEStateIndex": 2.375,
+      "MinAbsEStateIndex": 1.1875,
+      "EState_VSA1": 0.0,
+      "EState_VSA2": 0.0,
+      "EState_VSA3": 0.0,
+      "EState_VSA4": 0.0,
+      "EState_VSA5": 19.634269217737724,
+      "EState_VSA6": 0.0,
+      "EState_VSA7": 0.0,
+      "EState_VSA8": 25.67112132992235,
+      "EState_VSA9": 0.0,
+      "EState_VSA10": 0.0,
+      "EState_VSA11": 0.0,
+      "VSA_EState1": 0.0,
+      "VSA_EState2": 2.375,
+      "VSA_EState3": 0.0,
+      "VSA_EState4": 0.0,
+      "VSA_EState5": 0.0,
+      "VSA_EState6": 0.0,
+      "VSA_EState7": 0.0,
+      "VSA_EState8": 10.125,
+      "VSA_EState9": 0.0,
+      "VSA_EState10": 0.0,
+      "NumValenceElectrons": 44,
+      "HeavyAtomMolWt": 86.07299999999998
+    }
+  },
+  {
+    "atoms": [
+      [
+        7,
+        4,
+        1,
+        0,
+        4,
+        4,
+        false,
+        14.007
+      ]
+    ],
+    "bonds": [],
+    "areas": [
+      6.150546350318038
+    ],
+    "smiles": "[NH4+]",
+    "expected": {
+      "MaxEStateIndex": 0.0,
+      "MinEStateIndex": 0.0,
+      "MaxAbsEStateIndex": 0.0,
+      "MinAbsEStateIndex": 0.0,
+      "EState_VSA1": 0.0,
+      "EState_VSA2": 6.150546350318038,
+      "EState_VSA3": 0.0,
+      "EState_VSA4": 0.0,
+      "EState_VSA5": 0.0,
+      "EState_VSA6": 0.0,
+      "EState_VSA7": 0.0,
+      "EState_VSA8": 0.0,
+      "EState_VSA9": 0.0,
+      "EState_VSA10": 0.0,
+      "EState_VSA11": 0.0,
+      "VSA_EState1": 0.0,
+      "VSA_EState2": 0.0,
+      "VSA_EState3": 0.0,
+      "VSA_EState4": 0.0,
+      "VSA_EState5": 0.0,
+      "VSA_EState6": 0.0,
+      "VSA_EState7": 0.0,
+      "VSA_EState8": 0.0,
+      "VSA_EState9": 0.0,
+      "VSA_EState10": 0.0,
+      "NumValenceElectrons": 8,
+      "HeavyAtomMolWt": 14.007
+    }
+  },
+  {
+    "atoms": [
+      [
+        11,
+        0,
+        1,
+        0,
+        0,
+        1,
+        false,
+        22.99
+      ],
+      [
+        17,
+        0,
+        -1,
+        0,
+        0,
+        4,
+        false,
+        35.453
+      ]
+    ],
+    "bonds": [],
+    "areas": [
+      29.557286032607934,
+      12.407033161179976
+    ],
+    "smiles": "[Na+].[Cl-]",
+    "expected": {
+      "MaxEStateIndex": 0.0,
+      "MinEStateIndex": 0.0,
+      "MaxAbsEStateIndex": 0.0,
+      "MinAbsEStateIndex": 0.0,
+      "EState_VSA1": 0.0,
+      "EState_VSA2": 41.96431919378791,
+      "EState_VSA3": 0.0,
+      "EState_VSA4": 0.0,
+      "EState_VSA5": 0.0,
+      "EState_VSA6": 0.0,
+      "EState_VSA7": 0.0,
+      "EState_VSA8": 0.0,
+      "EState_VSA9": 0.0,
+      "EState_VSA10": 0.0,
+      "EState_VSA11": 0.0,
+      "VSA_EState1": 0.0,
+      "VSA_EState2": 0.0,
+      "VSA_EState3": 0.0,
+      "VSA_EState4": 0.0,
+      "VSA_EState5": 0.0,
+      "VSA_EState6": 0.0,
+      "VSA_EState7": 0.0,
+      "VSA_EState8": 0.0,
+      "VSA_EState9": 0.0,
+      "VSA_EState10": 0.0,
+      "NumValenceElectrons": 8,
+      "HeavyAtomMolWt": 58.443
+    }
+  },
+  {
+    "atoms": [
+      [
+        6,
+        4,
+        0,
+        0,
+        3,
+        4,
+        false,
+        12.011
+      ],
+      [
+        6,
+        4,
+        0,
+        2,
+        1,
+        4,
+        false,
+        12.011
+      ],
+      [
+        8,
+        2,
+        0,
+        0,
+        1,
+        4,
+        false,
+        15.999
+      ],
+      [
+        6,
+        3,
+        0,
+        0,
+        0,
+        3,
+        false,
+        12.011
+      ],
+      [
+        8,
+        1,
+        0,
+        0,
+        0,
+        3,
+        false,
+        15.999
+      ],
+      [
+        8,
+        2,
+        0,
+        0,
+        1,
+        3,
+        false,
+        15.999
+      ]
+    ],
+    "bonds": [
+      [
+        0,
+        1,
+        1.0,
+        false,
+        false,
+        0
+      ],
+      [
+        1,
+        2,
+        1.0,
+        false,
+        false,
+        0
+      ],
+      [
+        1,
+        3,
+        1.0,
+        false,
+        false,
+        0
+      ],
+      [
+        3,
+        4,
+        2.0,
+        true,
+        false,
+        0
+      ],
+      [
+        3,
+        5,
+        1.0,
+        true,
+        false,
+        0
+      ]
+    ],
+    "areas": [
+      6.923737199690624,
+      6.103966387748303,
+      5.106527394840706,
+      5.969305287951849,
+      4.794537184071822,
+      5.106527394840706
+    ],
+    "smiles": "C[C@H](O)C(=O)O",
+    "expected": {
+      "MaxEStateIndex": 9.449074074074074,
+      "MinEStateIndex": -1.231481481481482,
+      "MaxAbsEStateIndex": 9.449074074074074,
+      "MinAbsEStateIndex": 1.185185185185185,
+      "EState_VSA1": 12.073271675700152,
+      "EState_VSA2": 0.0,
+      "EState_VSA3": 0.0,
+      "EState_VSA4": 0.0,
+      "EState_VSA5": 6.923737199690624,
+      "EState_VSA6": 0.0,
+      "EState_VSA7": 0.0,
+      "EState_VSA8": 0.0,
+      "EState_VSA9": 10.213054789681411,
+      "EState_VSA10": 4.794537184071822,
+      "EState_VSA11": 0.0,
+      "VSA_EState1": 0.0,
+      "VSA_EState2": 9.449074074074074,
+      "VSA_EState3": 15.770833333333332,
+      "VSA_EState4": 0.0,
+      "VSA_EState5": -1.185185185185185,
+      "VSA_EState6": 0.0,
+      "VSA_EState7": -1.231481481481482,
+      "VSA_EState8": 1.1967592592592593,
+      "VSA_EState9": 0.0,
+      "VSA_EState10": 0.0,
+      "NumValenceElectrons": 36,
+      "HeavyAtomMolWt": 84.02999999999999
+    }
+  },
+  {
+    "atoms": [
+      [
+        6,
+        3,
+        0,
+        0,
+        1,
+        3,
+        true,
+        12.011
+      ],
+      [
+        6,
+        3,
+        0,
+        0,
+        1,
+        3,
+        true,
+        12.011
+      ],
+      [
+        6,
+        3,
+        0,
+        0,
+        1,
+        3,
+        true,
+        12.011
+      ],
+      [
+        6,
+        3,
+        0,
+        0,
+        1,
+        3,
+        true,
+        12.011
+      ],
+      [
+        6,
+        3,
+        0,
+        0,
+        1,
+        3,
+        true,
+        12.011
+      ],
+      [
+        6,
+        3,
+        0,
+        0,
+        1,
+        3,
+        true,
+        12.011
+      ]
+    ],
+    "bonds": [
+      [
+        0,
+        1,
+        1.5,
+        true,
+        true,
+        0
+      ],
+      [
+        1,
+        2,
+        1.5,
+        true,
+        true,
+        0
+      ],
+      [
+        2,
+        3,
+        1.5,
+        true,
+        true,
+        0
+      ],
+      [
+        3,
+        4,
+        1.5,
+        true,
+        true,
+        0
+      ],
+      [
+        4,
+        5,
+        1.5,
+        true,
+        true,
+        0
+      ],
+      [
+        5,
+        0,
+        1.5,
+        true,
+        true,
+        0
+      ]
+    ],
+    "areas": [
+      6.06636706846161,
+      6.06636706846161,
+      6.06636706846161,
+      6.06636706846161,
+      6.06636706846161,
+      6.06636706846161
+    ],
+    "smiles": "c1ccccc1",
+    "expected": {
+      "MaxEStateIndex": 2.0,
+      "MinEStateIndex": 2.0,
+      "MaxAbsEStateIndex": 2.0,
+      "MinAbsEStateIndex": 2.0,
+      "EState_VSA1": 0.0,
+      "EState_VSA2": 0.0,
+      "EState_VSA3": 0.0,
+      "EState_VSA4": 0.0,
+      "EState_VSA5": 0.0,
+      "EState_VSA6": 0.0,
+      "EState_VSA7": 36.39820241076966,
+      "EState_VSA8": 0.0,
+      "EState_VSA9": 0.0,
+      "EState_VSA10": 0.0,
+      "EState_VSA11": 0.0,
+      "VSA_EState1": 0.0,
+      "VSA_EState2": 0.0,
+      "VSA_EState3": 0.0,
+      "VSA_EState4": 0.0,
+      "VSA_EState5": 0.0,
+      "VSA_EState6": 12.0,
+      "VSA_EState7": 0.0,
+      "VSA_EState8": 0.0,
+      "VSA_EState9": 0.0,
+      "VSA_EState10": 0.0,
+      "NumValenceElectrons": 30,
+      "HeavyAtomMolWt": 72.06599999999999
+    }
+  },
+  {
+    "atoms": [
+      [
+        6,
+        4,
+        0,
+        0,
+        3,
+        4,
+        false,
+        12.011
+      ],
+      [
+        6,
+        3,
+        0,
+        0,
+        0,
+        3,
+        false,
+        12.011
+      ],
+      [
+        8,
+        1,
+        0,
+        0,
+        0,
+        3,
+        false,
+        15.999
+      ],
+      [
+        7,
+        3,
+        0,
+        0,
+        2,
+        3,
+        false,
+        14.007
+      ]
+    ],
+    "bonds": [
+      [
+        0,
+        1,
+        1.0,
+        false,
+        false,
+        0
+      ],
+      [
+        1,
+        2,
+        2.0,
+        true,
+        false,
+        0
+      ],
+      [
+        1,
+        3,
+        1.0,
+        true,
+        false,
+        0
+      ]
+    ],
+    "areas": [
+      6.923737199690624,
+      5.907179729351506,
+      4.794537184071822,
+      5.733667477162185
+    ],
+    "smiles": "CC(=O)N",
+    "expected": {
+      "MaxEStateIndex": 9.222222222222221,
+      "MinEStateIndex": -0.33333333333333304,
+      "MaxAbsEStateIndex": 9.222222222222221,
+      "MinAbsEStateIndex": 0.33333333333333304,
+      "EState_VSA1": 0.0,
+      "EState_VSA2": 5.907179729351506,
+      "EState_VSA3": 0.0,
+      "EState_VSA4": 0.0,
+      "EState_VSA5": 6.923737199690624,
+      "EState_VSA6": 0.0,
+      "EState_VSA7": 0.0,
+      "EState_VSA8": 5.733667477162185,
+      "EState_VSA9": 0.0,
+      "EState_VSA10": 4.794537184071822,
+      "EState_VSA11": 0.0,
+      "VSA_EState1": 0.0,
+      "VSA_EState2": 9.222222222222221,
+      "VSA_EState3": 0.0,
+      "VSA_EState4": 4.472222222222222,
+      "VSA_EState5": -0.33333333333333304,
+      "VSA_EState6": 0.0,
+      "VSA_EState7": 0.0,
+      "VSA_EState8": 1.3055555555555556,
+      "VSA_EState9": 0.0,
+      "VSA_EState10": 0.0,
+      "NumValenceElectrons": 24,
+      "HeavyAtomMolWt": 54.028
+    }
+  },
+  {
+    "atoms": [
+      [
+        8,
+        2,
+        0,
+        0,
+        2,
+        4,
+        false,
+        15.999
+      ]
+    ],
+    "bonds": [],
+    "areas": [
+      5.476191835881363
+    ],
+    "smiles": "O",
+    "expected": {
+      "MaxEStateIndex": 0.0,
+      "MinEStateIndex": 0.0,
+      "MaxAbsEStateIndex": 0.0,
+      "MinAbsEStateIndex": 0.0,
+      "EState_VSA1": 0.0,
+      "EState_VSA2": 5.476191835881363,
+      "EState_VSA3": 0.0,
+      "EState_VSA4": 0.0,
+      "EState_VSA5": 0.0,
+      "EState_VSA6": 0.0,
+      "EState_VSA7": 0.0,
+      "EState_VSA8": 0.0,
+      "EState_VSA9": 0.0,
+      "EState_VSA10": 0.0,
+      "EState_VSA11": 0.0,
+      "VSA_EState1": 0.0,
+      "VSA_EState2": 0.0,
+      "VSA_EState3": 0.0,
+      "VSA_EState4": 0.0,
+      "VSA_EState5": 0.0,
+      "VSA_EState6": 0.0,
+      "VSA_EState7": 0.0,
+      "VSA_EState8": 0.0,
+      "VSA_EState9": 0.0,
+      "VSA_EState10": 0.0,
+      "NumValenceElectrons": 8,
+      "HeavyAtomMolWt": 15.999
+    }
+  }
+]

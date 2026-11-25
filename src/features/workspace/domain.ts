@@ -1,3 +1,4 @@
+import { HERG_MODEL, hergInputReasons, validateHergResult, type HergResult } from "../herg/model";
 import { validateDockingRuns } from "../docking/model";
 import { parseMolecule } from "../../utils/storage";
 import { chemistryKey } from "../../engine/toolkit";
@@ -125,6 +126,14 @@ export function saveHepatic(data:WorkspaceData,versionId:string,graph:Molecule,s
   if(data.results.length>=5000)throw new Error("The saved-analysis limit is reached.");
   const next=structuredClone(data);next.results.push({id:idFactory(),versionId,structureKey:prediction.structureKey,method:"hepatic-well-stirred-v1",engine:HEPATIC_MODEL,createdAt:new Date().toISOString(),prediction});return next;
 }
+export function saveHerg(data:WorkspaceData,versionId:string,graph:Molecule,prediction:HergResult,idFactory=uuid){
+  const version=data.versions.find(v=>v.id===versionId);
+  if(!version||snapshotKey(version.graph)!==snapshotKey(graph)||hergInputReasons(graph).length)throw new Error("Save the supported molecule version before saving hERG results.");
+  validateHergResult(prediction,version.structureKey);
+  if(data.results.some(r=>r.method==="herg-admet-ai-v1"&&r.versionId===versionId&&canonicalJson(r.prediction)===canonicalJson(prediction)))return structuredClone(data);
+  if(data.results.length>=5000)throw new Error("The saved-analysis limit is reached.");
+  const next=structuredClone(data);next.results.push({id:idFactory(),versionId,structureKey:version.structureKey,method:"herg-admet-ai-v1",engine:HERG_MODEL,createdAt:new Date().toISOString(),prediction:structuredClone(prediction)});return next;
+}
 // Validate imported/recovered data before any write; never overwrite a corrupt workspace automatically.
 export function validateWorkspace(input: unknown, ownerId: string): WorkspaceData {
   if (!input || typeof input!=="object") throw new Error("Invalid workspace backup.");
@@ -155,6 +164,10 @@ export function validateWorkspace(input: unknown, ownerId: string): WorkspaceDat
   for(const r of d.results) {
     const v=d.versions.find(v=>v.id===r.versionId);
     if(!v||r.structureKey!==v.structureKey||!date(r.createdAt)||typeof r.engine!=="string"||!r.engine||r.engine.length>100) throw new Error("Invalid saved analysis provenance.");
+    if(r.method==="herg-admet-ai-v1"){
+      if(r.engine!==HERG_MODEL||hergInputReasons(v.graph).length)throw new Error("Invalid hERG model or unsupported saved structure.");
+      validateHergResult(r.prediction,v.structureKey);continue;
+    }
     if(r.method==="hepatic-well-stirred-v1"){
       if(r.engine!==HEPATIC_MODEL||canonicalJson(predictHepatic(v.graph,r.prediction?.settings))!==canonicalJson(r.prediction))throw new Error("Stored hepatic prediction does not match its input set, structure and model.");
       continue;

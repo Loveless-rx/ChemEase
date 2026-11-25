@@ -13,7 +13,7 @@ export function layoutReport(data:WorkspaceData,report:SavedReport,measure:Measu
   const flush=()=>{if(rows.length){doc.room(100);doc.paragraph(group,15,true,"#7655ad");doc.table(["Property / record","Recorded value"],rows,[.35,.65]);rows=[];}};
   for(const row of section.rows){
    const [label]=row;
-   const next=label.startsWith("Molecular weight")?"Physicochemical properties":label==="Screening source / method"?"Drug-likeness screening":label==="Alert source / method"?"Structural alerts":label==="Solubility result / model"?"Aqueous solubility prediction":label==="Skin result / model"?"Skin permeability prediction":label==="Hepatic prediction source"?"Hepatic clearance prediction":group;
+   const next=label.startsWith("Molecular weight")?"Physicochemical properties":label==="Screening source / method"?"Drug-likeness screening":label==="Alert source / method"?"Structural alerts":label==="Solubility result / model"?"Aqueous solubility prediction":label==="Skin result / model"?"Skin permeability prediction":label==="hERG prediction source"?"hERG blocker-class prediction":label==="Hepatic prediction source"?"Hepatic clearance prediction":group;
    if(next!==group){flush();group=next;}
    const display=/^-?\d+\.\d+(e[+-]?\d+)?$/i.test(row[1])&&Number.isFinite(Number(row[1]))?String(Number(Number(row[1]).toPrecision(9))):row[1];
    rows.push([label,display]);

@@ -1,0 +1,42 @@
+[
+  {
+    "smiles": "CCO",
+    "count": 1.0
+  },
+  {
+    "smiles": "CC(=O)Oc1ccccc1C(=O)O",
+    "count": 3.0
+  },
+  {
+    "smiles": "Cn1c(=O)c2c(ncn2C)n(C)c1=O",
+    "count": 6.0
+  },
+  {
+    "smiles": "CCN(CC)CC",
+    "count": 1.0
+  },
+  {
+    "smiles": "[NH4+]",
+    "count": 0.0
+  },
+  {
+    "smiles": "[Na+].[Cl-]",
+    "count": 0.0
+  },
+  {
+    "smiles": "C[C@H](O)C(=O)O",
+    "count": 2.0
+  },
+  {
+    "smiles": "c1ccccc1",
+    "count": 0.0
+  },
+  {
+    "smiles": "CC(=O)N",
+    "count": 1.0
+  },
+  {
+    "smiles": "O",
+    "count": 0.0
+  }
+]

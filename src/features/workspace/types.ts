@@ -63,7 +63,8 @@ export interface SavedStructuralAlerts {
 export interface SavedSolubility extends Omit<SavedDrugLikenessAnalysis,"method"|"screening"> {method:"esol-rdkit-v1";prediction:SolubilityResult}
 export interface SavedSkin extends Omit<SavedDrugLikenessAnalysis,"method"|"screening"> {method:"skin-pg-cdc-v1";prediction:SkinResult}
 export interface SavedHepatic {id:string;versionId:string;structureKey:string;method:"hepatic-well-stirred-v1";engine:string;createdAt:string;prediction:HepaticResult}
-export type SavedAnalysis=SavedDescriptorAnalysis | SavedDrugLikenessAnalysis | SavedExtendedScreening | SavedStructuralAlerts | SavedSolubility | SavedSkin | SavedHepatic;
+export interface SavedHerg {id:string;versionId:string;structureKey:string;method:"herg-admet-ai-v1";engine:string;createdAt:string;prediction:import("../herg/model").HergResult}
+export type SavedAnalysis=SavedDescriptorAnalysis | SavedDrugLikenessAnalysis | SavedExtendedScreening | SavedStructuralAlerts | SavedSolubility | SavedSkin | SavedHepatic | SavedHerg;
 export interface ActiveSelection {
   projectId: string | null;
   moleculeId: string | null;

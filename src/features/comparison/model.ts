@@ -1,3 +1,4 @@
+import { hergRows } from "../herg/model";
 import type { WorkspaceData, MoleculeVersion, SavedDescriptorAnalysis } from "../workspace/types";
 import {brandPlotSvg} from "../exports/branding";
 import { allRuleMethods } from "../drugLikeness/extendedRules";
@@ -14,6 +15,7 @@ export interface ComparisonColumn {
   alerts?:Extract<WorkspaceData["results"][number],{method:"structural-alerts-v1"}>;
   solubility?:Extract<WorkspaceData["results"][number],{method:"esol-rdkit-v1"}>;
   hepatic?:Extract<WorkspaceData["results"][number],{method:"hepatic-well-stirred-v1"}>;
+  herg?:Extract<WorkspaceData["results"][number],{method:"herg-admet-ai-v1"}>;
   skin?:Extract<WorkspaceData["results"][number],{method:"skin-pg-cdc-v1"}>;
 }
 const latest=<T extends {id:string;createdAt:string}>(rows:T[])=>[...rows].sort((a,b)=>b.createdAt.localeCompare(a.createdAt)||a.id.localeCompare(b.id));
@@ -32,11 +34,12 @@ export function comparisonColumns(data:WorkspaceData,selections:ComparisonSelect
     const solubility=source?latest(data.results.filter((r):r is NonNullable<ComparisonColumn["solubility"]>=>r.method==="esol-rdkit-v1"&&r.descriptorResultId===source.id&&r.versionId===version.id&&r.structureKey===version.structureKey&&r.engine===source.engine))[0]:undefined;
     const skin=source?latest(data.results.filter((r):r is NonNullable<ComparisonColumn["skin"]>=>r.method==="skin-pg-cdc-v1"&&r.descriptorResultId===source.id&&r.versionId===version.id&&r.structureKey===version.structureKey&&r.engine===source.engine))[0]:undefined;
     const hepatic=latest(data.results.filter((r):r is NonNullable<ComparisonColumn["hepatic"]>=>r.method==="hepatic-well-stirred-v1"&&r.versionId===version.id&&r.structureKey===version.structureKey))[0];
-    return {version,project:data.projects.find(p=>p.id===record?.projectId)?.name??"Saved project",sources,source,screening,alerts,solubility,skin,hepatic};
+    const herg=latest(data.results.filter((r):r is NonNullable<ComparisonColumn["herg"]>=>r.method==="herg-admet-ai-v1"&&r.versionId===version.id&&r.structureKey===version.structureKey))[0];
+    return {version,project:data.projects.find(p=>p.id===record?.projectId)?.name??"Saved project",sources,source,screening,alerts,solubility,skin,hepatic,herg};
   });
 }
 export const comparisonProperties={
-  weight:{label:"Molecular weight",unit:"g/mol"},logP:{label:"LogP · Wildman–Crippen estimate",unit:""},tpsa:{label:"TPSA",unit:"Å²"},
+  weight:{label:"Molecular weight",unit:"g/mol"},logP:{label:"LogP · Wildman–Crippen estimate",unit:""},tpsa:{label:"TPSA",unit:"Ų"},
   donors:{label:"Hydrogen bond donors",unit:""},acceptors:{label:"Hydrogen bond acceptors",unit:""},rotatable:{label:"Rotatable bonds · strict",unit:""},
   molarRefractivity:{label:"Molar refractivity · estimate",unit:"cm³/mol"},charge:{label:"Formal charge",unit:""},rings:{label:"Ring count · RDKit",unit:""},heavyAtoms:{label:"Heavy atom count",unit:""},
 } as const;
@@ -58,9 +61,12 @@ const cell=(value:unknown)=>`"${(typeof value==="number"?String(value):String(va
 export function solubilityText(column:ComparisonColumn){const prediction=column.solubility?.prediction;return !prediction?"Not calculated":prediction.status!=="predicted"?`Not evaluable: ${prediction.reasons.join("; ")}`:`${prediction.logS} log10 mol/L`;}
 export function skinText(column:ComparisonColumn){const p=column.skin?.prediction;return !p?"Not calculated":p.status!=="predicted"?`Not evaluable: ${p.reasons.join("; ")}`:`${p.logKpCmHour} log10 Kp (cm/h); entered LogKow ${p.settings.logKow} (${p.settings.evidence})`;}
 export function hepaticText(c:ComparisonColumn){const p=c.hepatic?.prediction;return !p?"Not calculated":p.status!=="predicted"?`Not evaluable: ${p.reasons.join("; ")}`:`${p.clearance} L/h; ${p.settings.context} (${p.settings.evidence})`;}
+export function hergText(c:ComparisonColumn){return c.herg?`${c.herg.prediction.score} blocker-class score (0–1)` : "Not calculated";}
 export function comparisonCsv(columns:ComparisonColumn[]) {
   const row=(label:string,values:unknown[])=>[label,...values];
   const rows:unknown[][]=[row("Molecule",columns.map(c=>c.version.graph.metadata.name)),row("Project",columns.map(c=>c.project)),row("Saved version",columns.map(c=>c.version.number)),row("Version ID",columns.map(c=>c.version.id)),row("Descriptor result ID",columns.map(c=>c.source?.id??"Not calculated")),row("Descriptor method",columns.map(c=>c.source?.method??"Not calculated")),row("Descriptor engine",columns.map(c=>c.source?.engine??"Not calculated")),row("Descriptor calculated at",columns.map(c=>c.source?.createdAt??"Not calculated")),row("SMILES",columns.map(c=>c.source?.descriptors.smiles??"Not calculated")),row("Formula",columns.map(c=>c.source?.local.formula??"Not calculated"))];
+  rows.push(row("hERG blocker-class score",columns.map(hergText)),row("hERG result ID",columns.map(c=>c.herg?.id??"Not calculated")));
+  for(const label of columns.flatMap(c=>c.herg?hergRows(c.herg.prediction).map(r=>r[0]):[]).filter((x,i,a)=>a.indexOf(x)===i))rows.push(row(label,columns.map(c=>c.herg?hergRows(c.herg.prediction).find(r=>r[0]===label)?.[1]??"Not calculated":"Not calculated")));
   for(const [key,p] of Object.entries(comparisonProperties))rows.push(row(`${p.label}${p.unit?` (${p.unit})`:""}`,columns.map(c=>descriptorValue(c,key as ComparisonProperty)??"Not calculated")));
   for(const [id,rule] of Object.entries(allRuleMethods))rows.push(row(rule.name,columns.map(c=>ruleText(c,id as keyof typeof allRuleMethods))));
   rows.push(row("Screening result ID",columns.map(c=>c.screening?.id??"Not calculated")),row("Screening method",columns.map(c=>c.screening?.method??"Not calculated")),row("Screening rules version",columns.map(c=>c.screening?.screening.rulesVersion??"Not calculated")),row("Screening saved at",columns.map(c=>c.screening?.createdAt??"Not calculated")));

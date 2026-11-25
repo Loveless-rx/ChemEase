@@ -1,7 +1,8 @@
+import type { HergResult } from "../herg/model";
 import { create } from "zustand";
 import type { Molecule } from "../../models/Molecule";
 import type { BoundToolkitResult } from "./descriptorCache";
-import { addProject, emptyWorkspace, saveVersion, saveAnalysis, saveExtendedDrugLikeness, saveStructuralAlerts, saveSolubility, saveSkin, saveHepatic, validateWorkspace } from "./domain";
+import { addProject, emptyWorkspace, saveVersion, saveAnalysis, saveExtendedDrugLikeness, saveStructuralAlerts, saveSolubility, saveSkin, saveHepatic, saveHerg, validateWorkspace } from "./domain";
 import type { HepaticSettings } from "../hepatic/model";
 import type { SkinSettings } from "../skin/model";
 import type { AlertResult } from "../medicinalChemistry/analysis";
@@ -29,6 +30,7 @@ export function createWorkspaceStore(repository: WorkspaceRepository) {
     saveSolubility:(versionId:string,graph:Molecule,descriptors:BoundToolkitResult)=>Promise<void>;
     saveSkin:(versionId:string,graph:Molecule,descriptors:BoundToolkitResult,settings:SkinSettings)=>Promise<void>;
     saveHepatic:(versionId:string,graph:Molecule,settings:HepaticSettings)=>Promise<void>;
+    saveHerg:(versionId:string,graph:Molecule,result:HergResult)=>Promise<void>;
     restore:(input:unknown)=>Promise<void>;
   }>((set,get)=>({
     data:emptyWorkspace(repository.ownerId),ready:false,writable:false,pending:0,error:null,
@@ -89,6 +91,7 @@ export function createWorkspaceStore(repository: WorkspaceRepository) {
     saveSolubility:async(versionId,graph,descriptors)=>{await get().transact(data=>saveSolubility(data,versionId,graph,descriptors));},
     saveSkin:async(versionId,graph,descriptors,settings)=>{await get().transact(data=>saveSkin(data,versionId,graph,descriptors,settings));},
     saveHepatic:async(versionId,graph,settings)=>{const capturedGraph=structuredClone(graph),capturedSettings=structuredClone(settings);await get().transact(data=>saveHepatic(data,versionId,capturedGraph,capturedSettings));},
+    saveHerg:async(versionId,graph,result)=>{const capturedGraph=structuredClone(graph),capturedResult=structuredClone(result);await get().transact(data=>saveHerg(data,versionId,capturedGraph,capturedResult));},
     restore:async input=>{
       const data=validateWorkspace(structuredClone(input),repository.ownerId);
       await get().transact(()=>data);

@@ -29,3 +29,5 @@
 
 .ws-symbol{padding:8px;overflow:hidden}.ws-symbol .brand-mark{width:30px;height:30px;max-width:100%;max-height:100%}.ws-theme-toggle{width:42px;height:42px;min-width:42px;flex-shrink:0;display:grid;place-items:center;padding:0;border-radius:10px}
 @media(max-width:650px){.ws-header{gap:8px}.ws-theme-toggle{width:38px;min-width:38px;height:42px}.ws-mobile-navigation select{max-width:145px}.ws-save{margin-left:0}}
+
+.ws-rail nav a .ws-module-icon{display:block;width:23px;height:23px;flex-shrink:0;max-width:none;background:currentColor;mask-size:contain;mask-position:center;mask-repeat:no-repeat;-webkit-mask-size:contain;-webkit-mask-position:center;-webkit-mask-repeat:no-repeat;transition:color .18s ease}

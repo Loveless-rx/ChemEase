@@ -1,0 +1,55 @@
+{
+  "commit": "9c8430862b2afd997ff1d314b30bda4418fa9b33",
+  "files": [
+    {
+      "path": "admet_ai/admet_model.py",
+      "bytes": 13201,
+      "sha256": "d4a3397ae069a1bc831019d51313763bfaa4050a03931a0a7b2945e0492c95cd"
+    },
+    {
+      "path": "admet_ai/resources/data/admet.csv",
+      "bytes": 8921,
+      "sha256": "9108b20d7164a9ba7c4d9c2d4f343cbaac68d63369f1af560e218ca703bc22a5"
+    },
+    {
+      "path": "scripts/compute_rdkit_features.py",
+      "bytes": 1134,
+      "sha256": "088fe56a2a6951ffb1cda6e7e8de93a4350a18f23fadc2281ce5d51af57479e5"
+    },
+    {
+      "path": "requirements.txt",
+      "bytes": 206,
+      "sha256": "81dd4c2871263a36103e318a6bb407d96690c8a702e47bc4bf8f608607678ce4"
+    },
+    {
+      "path": "LICENSE.txt",
+      "bytes": 1069,
+      "sha256": "47aa1773668b111d8ca2d44d3707a5f7cb82092236193c922614c4d5868e3057"
+    },
+    {
+      "path": "admet_ai/resources/models/admet_classification/model_0.pt",
+      "bytes": 1705141,
+      "sha256": "48ed42c3ec284b027dbc054ceae76b0520eb9aff8bf0b3e37b26a446ee537137"
+    },
+    {
+      "path": "admet_ai/resources/models/admet_classification/model_1.pt",
+      "bytes": 1705141,
+      "sha256": "52a6bdac71c851ea8325c4860e913d3ed79017dd03b3d40116481dd6e1a48433"
+    },
+    {
+      "path": "admet_ai/resources/models/admet_classification/model_2.pt",
+      "bytes": 1705141,
+      "sha256": "28be5980c28b2618da25fa6dbabc7f92ede130c675c66b75b259d4beb2d449cb"
+    },
+    {
+      "path": "admet_ai/resources/models/admet_classification/model_3.pt",
+      "bytes": 1705141,
+      "sha256": "6a34383cd726e51aa8f87ba3d65debba448a43ffee9b1f8dfdaf42d034b7b187"
+    },
+    {
+      "path": "admet_ai/resources/models/admet_classification/model_4.pt",
+      "bytes": 1705141,
+      "sha256": "766dffd5317e575752758444eccca96181d50a9cd47eb5faf0b46b5081b23c0c"
+    }
+  ]
+}

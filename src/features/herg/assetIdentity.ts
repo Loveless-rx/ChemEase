@@ -1,0 +1,15 @@
+export const HERG_ASSETS = {
+  "parameters.json": "4119c2e5af9b096db9eeafa9c2e22f23191c460517749df227106cea200293d7",
+  "weights.bin": "420858fb869abb0d0aebd5d84cdad66ee902b2746d0821759ceff1d23c5b5226",
+  "chemistry/RDKit_minimal.js": "3db6ff9ad6696dd3048216db54dd48b6151a1b1649c9acc745d7fec3b33a98ed",
+  "chemistry/RDKit_minimal.wasm": "3503f689d8a591a2f494add9b992c759581db744c9d2698e0b8253290dc344b2",
+  "chemistry/SHA256SUMS": "8046ae1bd6b32e433c58639a6992bc762c4f4940c51b7fd87c22fdf9dda18fdf",
+  "normalization/numpy-1.26.4-cp312-cp312-pyodide_2024_0_wasm32.whl": "4a2f5303a88a0747c5e6c80701e0ff4ff5667e487c0c9f9c73875e4d88f4cf9a",
+  "normalization/openblas-0.3.26.zip": "3c0afcaaabec774f5fa739b908ae08672eacf3c8fe265328da2d632a04ba3cd3",
+  "normalization/pyodide-lock.json": "cd50b49de944c579045e122fe8628b31f9ce446379f032f36c05e273d38766e0",
+  "normalization/pyodide.asm.js": "919560652ed3dad3707cb3a394785da1e046fb13dc0defa162058ff230cb7eed",
+  "normalization/pyodide.asm.wasm": "b7e66a19427a55010ac3367c1b6c64b893f9826f783412945fdf0c3337f3bc94",
+  "normalization/pyodide.js": "c0069107621d5b942a659e737a12e774cc0451feaa2256f475d72e071d844ec7",
+  "normalization/python_stdlib.zip": "72894522b791858b9d613ac786b951d8b5094035dcf376313ea24a466810f336",
+  "normalization/scipy-1.12.0-cp312-cp312-pyodide_2024_0_wasm32.whl": "1a081410432367ee43f52a280961df4ba7e9bb65d8b9862b3cd2e3727e84d873"
+} as const;

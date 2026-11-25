@@ -1,0 +1,37 @@
+{
+  "browser-feature-parity": {
+    "runtime": "2023.03.3",
+    "checks": 2000,
+    "failures": []
+  },
+  "broad-browser-feature-parity": {
+    "runtime": "2023.03.3",
+    "checks": 13600,
+    "failures": []
+  },
+  "browser-end-to-end-parity": {
+    "rdkit": "2023.03.3",
+    "loadMs": 5068.420000016689,
+    "inferenceMs": 7916.620000004768,
+    "maximumError": 2.697336576318321e-08,
+    "maximumFeatureError": 0
+  },
+  "broad-browser-end-to-end-parity": {
+    "rdkit": "2023.03.3",
+    "loadMs": 4614.459999978542,
+    "inferenceMs": 29502.375,
+    "maximumError": 7.142190980302665e-08,
+    "maximumFeatureError": 0
+  },
+  "product-ui-check": {
+    "desktopPrediction": true,
+    "phoneEmulationPrediction": true,
+    "reloadPreserved": true,
+    "guestDownloadBlocked": true,
+    "horizontalOverflow": false,
+    "pageErrors": [],
+    "predictionOrigins": [
+      "http://localhost:4173"
+    ]
+  }
+}

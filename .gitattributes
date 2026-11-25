@@ -7,3 +7,6 @@
 
 # Preserve the published crystallographic reference checksum on every platform.
 /docs/fixtures/*.sdf -text
+
+# Scientific runtime hashes must survive Windows and Linux checkout unchanged.
+/public/herg/** -text
