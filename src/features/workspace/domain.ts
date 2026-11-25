@@ -1,3 +1,4 @@
+import {validateSimilaritySearch} from "../similarity/model";
 import { HERG_MODEL, hergInputReasons, validateHergResult, type HergResult } from "../herg/model";
 import { validateDockingRuns } from "../docking/model";
 import { parseMolecule } from "../../utils/storage";
@@ -207,6 +208,10 @@ export function validateWorkspace(input: unknown, ownerId: string): WorkspaceDat
   if(d.reports!==undefined){
     if(!Array.isArray(d.reports)||d.reports.length>100||new Set(d.reports.map(r=>r?.id)).size!==d.reports.length)throw new Error("Invalid saved report list.");
     for(const report of d.reports)validateReport(d,report);
+  }
+  if(d.similaritySearches!==undefined){
+    if(!Array.isArray(d.similaritySearches)||d.similaritySearches.length>20||new Set(d.similaritySearches.map(r=>r?.id)).size!==d.similaritySearches.length)throw new Error("Invalid saved similarity searches.");
+    for(const search of d.similaritySearches)validateSimilaritySearch(search);
   }
   if(d.dockingRuns!==undefined)validateDockingRuns(d.dockingRuns,d);
   if(!a||typeof a!=="object"||![a.projectId,a.moleculeId,a.versionId].every(x=>x===null||typeof x==="string")) throw new Error("Invalid active selection.");

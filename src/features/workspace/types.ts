@@ -82,6 +82,7 @@ export interface WorkspaceData {
   draft: Molecule | null;
   reports?: SavedReport[];
   dockingRuns?: SavedDockingRun[];
+  similaritySearches?: import("../similarity/model").SimilaritySearch[];
 }
 export interface WorkspaceRepository {
   readonly ownerId: string;

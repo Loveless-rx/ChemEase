@@ -5,7 +5,7 @@ export function mergeGuestWorkspace(target:WorkspaceData,guest:WorkspaceData):Wo
   if(target.ownerId==="local-device"||guest.ownerId!=="local-device")throw new Error("Choose an account before importing guest work.");
   validateWorkspace(guest,"local-device");
   const next=structuredClone(target);
-  for(const key of ["projects","molecules","versions","results","reports","dockingRuns"] as const){
+  for(const key of ["projects","molecules","versions","results","reports","dockingRuns","similaritySearches"] as const){
     const existing=next[key]??[],incoming=guest[key]??[];
     const ids=new Set(existing.map(r=>r.id));
     if(incoming.some(r=>ids.has(r.id)))throw new Error("Some guest records are already in this account. Import stopped to avoid duplicate or overwritten work.");

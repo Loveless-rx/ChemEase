@@ -1,6 +1,6 @@
-export const workspaceRoutes=["home","editor","docking","projects","library","properties","drug-likeness","medicinal-chemistry","visualizations","comparison","batch","reports","solubility","admet","hepatic-clearance"] as const;
+export const workspaceRoutes=["home","editor","similarity","docking","projects","library","properties","drug-likeness","medicinal-chemistry","visualizations","comparison","batch","reports","solubility","admet","hepatic-clearance"] as const;
 export type WorkspaceRoute=typeof workspaceRoutes[number];
-export const routeLabels:Record<WorkspaceRoute,string>={home:"Home",editor:"Editor",projects:"Projects",library:"Library",properties:"Properties","drug-likeness":"Drug-likeness","medicinal-chemistry":"Alerts",visualizations:"Visualizations",comparison:"Comparison",batch:"Batch",reports:"Reports",solubility:"Solubility",admet:"ADMET","hepatic-clearance":"Hepatic clearance",docking:"Docking"};
+export const routeLabels:Record<WorkspaceRoute,string>={similarity:"Similarity",home:"Home",editor:"Editor",projects:"Projects",library:"Library",properties:"Properties","drug-likeness":"Drug-likeness","medicinal-chemistry":"Alerts",visualizations:"Visualizations",comparison:"Comparison",batch:"Batch",reports:"Reports",solubility:"Solubility",admet:"ADMET","hepatic-clearance":"Hepatic clearance",docking:"Docking"};
 export function parseRoute(hash:string):WorkspaceRoute {
   const value=hash.replace(/^#\/?/,"");
   return workspaceRoutes.includes(value as WorkspaceRoute)?value as WorkspaceRoute:"home";
